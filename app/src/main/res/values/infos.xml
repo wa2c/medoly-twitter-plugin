@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+	<!-- App Infos -->
+	<string name="app_name">Twitter Plugin For Medoly</string>
+	<string name="base_app_name">Medoly</string>
+	<string name="domain_name">wa2c.com</string>
+	<string name="app_description">MedolyからTwitterにメッセージを投稿します。</string>
+	<string name="app_mail_name">medoly</string>
+	<string name="app_mail_domain">wa2c.com</string>
+	<string name="app_author">wa2c</string>
+	<string name="app_market">market://details?id=com.wa2c.android.medoly.plugin.action.twitter</string>
+	<string name="app_market_web">https://play.google.com/store/apps/details?id=com.wa2c.android.medoly.plugin.action.twitter</string>
+	<string name="twitter_callback_url">medoly://plugin_twitter</string>
+
+	<!-- Library  -->
+	<string-array name="abount_library_names">
+		<item>Twitter4j</item>
+	</string-array>
+	<string-array name="abount_library_urls">
+		<item>http://twitter4j.org/</item>
+	</string-array>
+
+
+	<!-- Preferences -->
+	<string name="prefkey_operation_play_now_enabled">operation_play_now_enabled</string>
+	<string name="prefkey_operation_play_start_enabled">operation_play_start_enabled</string>
+	<!-- Settings Screen -->
+	<string name="prefkey_about">about</string>
+
+</resources>

@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.wa2c.android.medoly.plugin.action.twitter"
+    android:versionCode="1"
+    android:versionName="1.0">
+
+    <uses-sdk
+        android:minSdkVersion="13"
+        android:targetSdkVersion="15" />
+
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+
+    <application
+        android:allowBackup="true"
+        android:description="@string/app_description"
+        android:icon="@drawable/ic_launcher"
+        android:label="@string/app_name"
+        android:theme="@style/AppTheme">
+        <activity
+            android:name=".MainActivity"
+            android:label="@string/app_name"
+            android:launchMode="singleTask">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data
+                    android:host="plugin_twitter"
+                    android:scheme="medoly" />
+            </intent-filter>
+        </activity>
+
+        <activity
+            android:name=".SettingsActivity"
+            android:label="@string/title_activity_settings"
+            android:launchMode="singleTask"/>
+
+        <receiver android:name=".PluginReceiver">
+            <intent-filter>
+                <action android:name="com.wa2c.android.medoly.plugin.action.ACTION_MEDIA" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="com.wa2c.android.medoly.plugin.category.TYPE_POST_MESSAGE" />
+                <category android:name="com.wa2c.android.medoly.plugin.category.OPERATION_PLAY_NOW" />
+                <category android:name="com.wa2c.android.medoly.plugin.category.OPERATION_PLAY_START" />
+            </intent-filter>
+        </receiver>
+    </application>
+
+</manifest>
