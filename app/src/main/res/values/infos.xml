@@ -21,10 +21,17 @@
 		<item>http://twitter4j.org/</item>
 	</string-array>
 
+	<string name="format_content_default">%MEDIA_TITLE% - %MEDIA_ARTIST% (%MEDIA_ALBUM%) #NowPlaying</string>
 
 	<!-- Preferences -->
+	<string name="prefkey_content_format">content_format</string>
+	<string name="prefkey_content_album_art">content_album_art</string>
+
 	<string name="prefkey_operation_play_now_enabled">operation_play_now_enabled</string>
 	<string name="prefkey_operation_play_start_enabled">operation_play_start_enabled</string>
+	<string name="prefkey_previous_media_enabled">previous_media_enabled</string>
+	<string name="prefkey_trim_before_empty_enabled">trim_before_empty_enabled</string>
+
 	<!-- Settings Screen -->
 	<string name="prefkey_about">about</string>
 

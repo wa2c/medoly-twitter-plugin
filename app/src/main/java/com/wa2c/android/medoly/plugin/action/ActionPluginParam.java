@@ -300,7 +300,7 @@ public class ActionPluginParam {
 		private String keyName;
 
 		/** 名称を取得。 */
-		public String getNameId(Context context) {
+		public String getName(Context context) {
 			return context.getString(nameId);
 		}
 		/** タプロパティのキー名を取得。 */

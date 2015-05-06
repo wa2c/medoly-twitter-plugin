@@ -7,9 +7,9 @@ import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.preference.PreferenceManager;
 import android.text.TextUtils;
-import android.widget.Toast;
 
 import com.wa2c.android.medoly.plugin.action.ActionPluginParam;
+import com.wa2c.android.medoly.plugin.action.Logger;
 
 import java.io.File;
 import java.io.Serializable;
@@ -28,8 +28,13 @@ import twitter4j.TwitterException;
  */
 public class PluginReceiver extends BroadcastReceiver {
 
+    /** ツイート文字数。 */
+    private static final int MESSAGE_LENGTH = 140; // Twitter文字数
+    /** 画像URLの文字数 */
+    private static final int IMAGE_URL_LENGTH = 24; // 23 + 1 (space)
+
     /** 値マップのキー。 */
-    private final String PLUGIN_VALUE_KEY  = "value_map";
+    private static final String PLUGIN_VALUE_KEY  = "value_map";
     /** 前回のファイルパス設定キー。 */
     private static final String PREFKEY_PREVIOUS_MEDIA_PATH = "previous_media_path";
 
@@ -47,7 +52,6 @@ public class PluginReceiver extends BroadcastReceiver {
      * @param intent インテント。
      */
     @Override
-    @SuppressWarnings("unchecked")
     public void onReceive(Context context, Intent intent) {
         this.context = context;
         this.sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
@@ -57,12 +61,12 @@ public class PluginReceiver extends BroadcastReceiver {
        if (categories.contains(ActionPluginParam.PluginOperationCategory.OPERATION_PLAY_START.getCategoryValue())) {
            // 再生開始
            if (this.sharedPreferences.getBoolean(context.getString(R.string.prefkey_operation_play_start_enabled), false)) {
-               preparePost(intent);
+               post(intent);
            }
         } else if (categories.contains(ActionPluginParam.PluginOperationCategory.OPERATION_PLAY_NOW.getCategoryValue())) {
            // 再生中
            if (this.sharedPreferences.getBoolean(context.getString(R.string.prefkey_operation_play_now_enabled), true)) {
-               preparePost(intent);
+               post(intent);
            }
        }
     }
@@ -71,74 +75,122 @@ public class PluginReceiver extends BroadcastReceiver {
      * 投稿前準備。
      * @param intent インテント。
      */
-    private void preparePost(Intent intent) {
+    @SuppressWarnings("unchecked")
+    private void post(Intent intent) {
         Serializable serializable = intent.getSerializableExtra(PLUGIN_VALUE_KEY);
         if (serializable != null) {
-            post((HashMap<String, String>) serializable);
+            HashMap<String, String> propertyMap = (HashMap<String, String>) serializable;
+
+            String filePath = propertyMap.get(ActionPluginParam.MediaProperty.FOLDER_PATH.getKeyName()) + propertyMap.get(ActionPluginParam.MediaProperty.FILE_NAME.getKeyName());
+            String previousMediaPath = sharedPreferences.getString(PREFKEY_PREVIOUS_MEDIA_PATH, "");
+            boolean previousMediaEnabled = sharedPreferences.getBoolean(context.getString(R.string.prefkey_previous_media_enabled), false);
+            if (!TextUtils.isEmpty(filePath) && !TextUtils.isEmpty(previousMediaPath) && filePath.equals(previousMediaPath) && previousMediaEnabled) {
+                // 前回と同じメディアは無視
+                return;
+            }
+
+           // post((HashMap<String, String>) serializable);
+           (new AsyncPostTask(propertyMap)).execute();
+           sharedPreferences.edit().putString(PREFKEY_PREVIOUS_MEDIA_PATH, filePath).apply();
         }
     }
 
     /**
-     * 投稿。
-     * @param propertyMap プロパティ情報。
+     * 投稿タスク。
      */
-    private void post(Map<String, String> propertyMap) {
-        String filePath = propertyMap.get(ActionPluginParam.MediaProperty.FOLDER_PATH.getKeyName() + ActionPluginParam.MediaProperty.FILE_NAME.getKeyName());
-        String previousMediaPath = sharedPreferences.getString(PREFKEY_PREVIOUS_MEDIA_PATH, "");
+    private class AsyncPostTask extends AsyncTask<String, Void, Boolean> {
+        /** プロパティマップ。 */
+        private Map<String, String> propertyMap;
 
-        if (!TextUtils.isEmpty(filePath) && !TextUtils.isEmpty(previousMediaPath) && filePath.equals(previousMediaPath)) {
-            // 前回と同じメディアは無視
-            return;
+        public AsyncPostTask(Map<String, String> propertyMap) {
+            this.propertyMap = propertyMap;
         }
 
-        final String title = propertyMap.get(ActionPluginParam.MediaProperty.TITLE.getKeyName());
-        final String album = propertyMap.get(ActionPluginParam.MediaProperty.ALBUM.getKeyName());
-        final String artist = propertyMap.get(ActionPluginParam.MediaProperty.ARTIST.getKeyName());
-        final String lyrics = propertyMap.get(ActionPluginParam.LyricsProperty.LYRICS.getKeyName());
-        final String albumArt = propertyMap.get(ActionPluginParam.AlbumArtProperty.FOLDER_PATH.getKeyName()) + propertyMap.get(ActionPluginParam.AlbumArtProperty.FILE_NAME.getKeyName());
+        @Override
+        protected Boolean doInBackground(String... params) {
+            try {
+                String albumArtPath = propertyMap.get(ActionPluginParam.AlbumArtProperty.FOLDER_PATH.getKeyName()) + propertyMap.get(ActionPluginParam.AlbumArtProperty.FILE_NAME.getKeyName());
+                String format = sharedPreferences.getString(context.getString(R.string.prefkey_content_format), context.getString(R.string.format_content_default));
+                boolean isTrim = sharedPreferences.getBoolean(context.getString(R.string.prefkey_trim_before_empty_enabled), true);
 
-        String message = title + " - " + artist + " " + album + " " + lyrics;
+                String message = format;
+                for (ActionPluginParam.MediaProperty property : ActionPluginParam.MediaProperty.values()) {
+                    String keyName = property.getKeyName();
+                    if (!propertyMap.containsKey(keyName)) continue;
+                    String val = propertyMap.get(keyName);
 
-        sharedPreferences.edit().putString(PREFKEY_PREVIOUS_MEDIA_PATH, filePath).apply();
-
-
-        AsyncTask<String, Void, Boolean> task = new AsyncTask<String, Void, Boolean>() {
-            @Override
-            protected Boolean doInBackground(String... params) {
-                try {
-                    if (!TextUtils.isEmpty(albumArt)) {
-                        File f = new File(albumArt);
-
-                        String message = params[0];
-                        message = message.substring(0, 100) + "...";
-                        if (f.exists()) {
-                            twitter.updateStatus(new StatusUpdate(message).media(f));
-                        } else {
-                            twitter.updateStatus(message);
-                            return true;
-                        }
+                    if (!TextUtils.isEmpty(val)) {
+                        message = message.replaceAll("%" + keyName + "%", val);
+                    } else {
+                        if (isTrim)
+                            message = message.replaceAll("\\w*%" + keyName + "%", "");
                     }
-
-                    return true;
-                } catch (TwitterException e) {
-                    e.printStackTrace();
-                    return false;
                 }
-            }
 
-            @Override
-            protected void onPostExecute(Boolean result) {
-                if (result) {
-                    AppUtils.showToast(context, R.string.message_post_completed);
+                for (ActionPluginParam.AlbumArtProperty property : ActionPluginParam.AlbumArtProperty.values()) {
+                    String keyName = property.getKeyName();
+                    if (!propertyMap.containsKey(keyName)) continue;
+                    String val = propertyMap.get(keyName);
+
+                    if (!TextUtils.isEmpty(val)) {
+                        message = message.replaceAll("%" + keyName + "%", val);
+                    } else {
+                        if (isTrim)
+                            message = message.replaceAll("\\w*%" + keyName + "%", "");
+                    }
+                }
+
+                for (ActionPluginParam.LyricsProperty property : ActionPluginParam.LyricsProperty.values()) {
+                    String keyName = property.getKeyName();
+                    if (!propertyMap.containsKey(keyName)) continue;
+                    String val = propertyMap.get(keyName);
+
+                    if (!TextUtils.isEmpty(val)) {
+                        message = message.replaceAll("%" + keyName + "%", val);
+                    } else {
+                        if (isTrim)
+                            message = message.replaceAll("\\w*%" + keyName + "%", "");
+                    }
+                }
+
+                File f = null;
+                if (sharedPreferences.getBoolean(context.getString(R.string.prefkey_content_album_art), true) && !TextUtils.isEmpty(albumArtPath)) {
+                    f = new File(albumArtPath);
+                    if (!f.exists()) {
+                        f = null;
+                   }
+                }
+
+                if (f != null) {
+                    int length = MESSAGE_LENGTH - IMAGE_URL_LENGTH - 4;
+                    if (message.length() > length) {
+                        message = message.substring(0, length) + "... ";
+                    }
+                    twitter.updateStatus(new StatusUpdate(message).media(f));
                 } else {
-                    AppUtils.showToast(context, R.string.message_post_failed);
+                    int length = MESSAGE_LENGTH - 4;
+                    if (message.length() > length) {
+                        message = message.substring(0, length) + "... ";
+                    }
+                    twitter.updateStatus(message);
                 }
 
-//                // 終了
-//                stopService(new Intent(PostService.this, PostService.class));
+                return true;
+            } catch (TwitterException e) {
+                Logger.e(e);
+                return false;
             }
-        };
-        task.execute(message);
+        }
+
+        @Override
+        protected void onPostExecute(Boolean result) {
+            if (result) {
+                AppUtils.showToast(context, R.string.message_post_completed);
+            } else {
+                AppUtils.showToast(context, R.string.message_post_failed);
+            }
+        }
     }
+
 
 }

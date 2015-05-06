@@ -1,13 +1,7 @@
 package com.wa2c.android.medoly.plugin.action.twitter;
 
-import java.util.HashMap;
-import java.util.LinkedHashMap;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
 import android.app.ActionBar;
 import android.app.AlertDialog;
-import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
@@ -15,35 +9,39 @@ import android.content.pm.PackageManager.NameNotFoundException;
 import android.os.Bundle;
 import android.preference.EditTextPreference;
 import android.preference.ListPreference;
+import android.preference.MultiSelectListPreference;
 import android.preference.Preference;
 import android.preference.PreferenceActivity;
 import android.preference.PreferenceCategory;
 import android.preference.PreferenceFragment;
 import android.preference.PreferenceScreen;
 import android.text.Html;
+import android.text.InputType;
 import android.text.TextUtils;
 import android.text.method.LinkMovementMethod;
 import android.text.util.Linkify;
 import android.view.Gravity;
-import android.view.LayoutInflater;
-import android.view.Menu;
+import android.view.MenuItem;
+import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+
+import com.wa2c.android.medoly.plugin.action.Logger;
+
+import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.Set;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 /**
  * 設定画面のアクティビティ。
  */
 public class SettingsActivity extends PreferenceActivity {
 
-	/** アクションバー。 */
-	private ActionBar actionBar;
-	/** サマリの長さマップ。 */
-	private static final HashMap<Preference, Integer> summaryLengthMap = new LinkedHashMap<Preference, Integer>();
-
-
-
 	/**
-	 * onCreateイベント処理。
+	 * onCreate event.
 	 */
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -51,19 +49,27 @@ public class SettingsActivity extends PreferenceActivity {
 		getFragmentManager().beginTransaction().replace(android.R.id.content, new SettingsFragment()).commit();
 
 		// アクションバー
-		actionBar = getActionBar();
-		actionBar.setDisplayShowHomeEnabled(true);
-		actionBar.setDisplayHomeAsUpEnabled(true);
-		actionBar.setDisplayShowTitleEnabled(true);
-		actionBar.setTitle(R.string.title_activity_settings);
+		ActionBar actionBar = getActionBar();
+		if (actionBar != null) {
+			actionBar.setDisplayShowHomeEnabled(true);
+			actionBar.setDisplayHomeAsUpEnabled(true);
+			actionBar.setDisplayShowTitleEnabled(true);
+			actionBar.setTitle(R.string.title_activity_settings);
+		}
 	}
 
 	/**
-	 * onPrepareOptionsMenuイベント処理。
+	 * onOptionsItemSelected event.
 	 */
 	@Override
-	public boolean onPrepareOptionsMenu(Menu menu) {
-		return super.onPrepareOptionsMenu(menu);
+	public boolean onOptionsItemSelected(MenuItem item) {
+		switch (item.getItemId()) {
+			case android.R.id.home:
+				finish();
+				return true;
+		}
+
+		return super.onOptionsItemSelected(item);
 	}
 
 
@@ -73,8 +79,11 @@ public class SettingsActivity extends PreferenceActivity {
 	 */
 	public static class SettingsFragment extends PreferenceFragment {
 
+		/** サマリの長さマップ。 */
+		private static final HashMap<Preference, Integer> summaryLengthMap = new LinkedHashMap<>();
+
 		/**
-		 * onCreateイベント処理。
+		 * onCreate event.
 		 */
 		@Override
 		public void onCreate(Bundle savedInstanceState) {
@@ -83,22 +92,40 @@ public class SettingsActivity extends PreferenceActivity {
 
 			initSummary(getPreferenceScreen());
 		}
+		/**
+		 * onResume event.
+		 */
+		@Override
+		public void onResume() {
+			super.onResume();
+			getPreferenceScreen().getSharedPreferences().registerOnSharedPreferenceChangeListener(listener);
+		}
+
+		/**
+		 * onPause event.
+		 */
+		@Override
+		public void onPause() {
+			super.onPause();
+			getPreferenceScreen().getSharedPreferences().unregisterOnSharedPreferenceChangeListener(listener);
+		}
+
 
 
 		/**
-		 * About.
+		 * 設定選択処理。
 		 */
 		private Preference.OnPreferenceClickListener aboutPreferenceClickListener = new Preference.OnPreferenceClickListener() {
 			@Override
 			public boolean onPreferenceClick(Preference preference) {
-				LayoutInflater layoutInflater = (LayoutInflater)getActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-				RelativeLayout layoutView = (RelativeLayout)layoutInflater.inflate(R.layout.layout_about, null);
+				RelativeLayout layoutView =  (RelativeLayout)ViewGroup.inflate(getActivity(), R.layout.layout_about, null);
 
 				// Version
 				try {
 					PackageInfo packageInfo = getActivity().getPackageManager().getPackageInfo( getActivity().getPackageName(), PackageManager.GET_ACTIVITIES);
 					((TextView)layoutView.findViewById(R.id.aboutAppVersionTextView)).setText("Ver. " + packageInfo.versionName);
-				} catch (NameNotFoundException e1) {
+				} catch (NameNotFoundException e) {
+					Logger.d(e);
 				}
 
 				// Developer
@@ -126,7 +153,7 @@ public class SettingsActivity extends PreferenceActivity {
 				String[] libraryUrls = getResources().getStringArray(R.array.abount_library_urls);
 
 				for (int i = 0; i < libraryNames.length; i++) {
-					TextView libTextView = null;
+					TextView libTextView;
 					LinearLayout libraryLayout = (LinearLayout) layoutView.findViewById(R.id.abountLibraryLayout);
 					libTextView = new TextView(getActivity());
 					libTextView.setMovementMethod(LinkMovementMethod.getInstance());
@@ -146,8 +173,6 @@ public class SettingsActivity extends PreferenceActivity {
 				return true;
 			}
 		};
-
-
 
 		/**
 		 * サマリを初期化する。
@@ -176,7 +201,7 @@ public class SettingsActivity extends PreferenceActivity {
 				for (int i = 0; i < ps.getPreferenceCount(); i++) {
 					initSummary(ps.getPreference(i));
 				}
-			}else {
+			} else {
 				updatePrefSummary(p);
 			}
 		}
@@ -199,30 +224,55 @@ public class SettingsActivity extends PreferenceActivity {
 				ListPreference pref = (ListPreference) p;
 				pref.setValue(p.getSharedPreferences().getString(pref.getKey(), "")); // 一度値を更新
 				p.setSummary(summary.subSequence(0, summaryLengthMap.get(p)) + getString(R.string.settings_summary_current_value, pref.getEntry()));
+			} else if (p instanceof MultiSelectListPreference) {
+				// MultiSelectListPreference
+				MultiSelectListPreference pref = (MultiSelectListPreference) p;
+				Set<String> stringSet = pref.getSharedPreferences().getStringSet(pref.getKey(), null);
+				String text = "";
+				if (stringSet != null && stringSet.size() > 0) {
+					pref.setValues(stringSet); // 一度値を更新
+					StringBuilder builder = new StringBuilder();
+					for (int i = 0; i < pref.getEntries().length; i++) {
+						if (stringSet.contains(pref.getEntryValues()[i])) {
+							builder.append(pref.getEntries()[i]).append(",");
+						}
+					}
+					if (builder.length() > 0) {
+						text = builder.substring(0, builder.length() - 1); // 末尾のカンマ削除
+					}
+				}
+				p.setSummary(summary.subSequence(0, summaryLengthMap.get(p)) + getString(R.string.settings_summary_current_value, text));
 			} else if (p instanceof EditTextPreference) {
 				// EditTextPreference
 				EditTextPreference pref = (EditTextPreference) p;
 				String text = p.getSharedPreferences().getString(pref.getKey(), ""); // 値が更新されない場合があるので、pref.getText() は使用しない
+
+				// 数値型の補正
+				int inputType = pref.getEditText().getInputType();
+				try {
+					if ( (inputType & InputType.TYPE_CLASS_NUMBER) > 0) {
+						if ((inputType & InputType.TYPE_NUMBER_FLAG_DECIMAL) > 0) {
+							// 小数
+							float val = Float.valueOf(text);
+							if ((inputType & InputType.TYPE_NUMBER_FLAG_SIGNED) == 0 && val < 0) {
+								val = 0;
+							}
+							text = String.valueOf(val);
+						} else {
+							// 整数
+							int val = Integer.valueOf(text);
+							if ((inputType & InputType.TYPE_NUMBER_FLAG_SIGNED) == 0 && val < 0) {
+								val = 0;
+							}
+							text = String.valueOf(val);
+						}
+					}
+				} catch (NumberFormatException e) {
+					text = "0";
+				}
+				pref.setText(text); // 一度値を更新
 				p.setSummary(summary.subSequence(0, summaryLengthMap.get(p)) + getString(R.string.settings_summary_current_value, text));
 			}
-		}
-
-		/**
-		 * onResumeイベント処理。
-		 */
-		@Override
-		public void onResume() {
-			super.onResume();
-			getPreferenceScreen().getSharedPreferences().registerOnSharedPreferenceChangeListener(listener);
-		}
-
-		/**
-		 * onPauseイベント処理。
-		 */
-		@Override
-		public void onPause() {
-			super.onPause();
-			getPreferenceScreen().getSharedPreferences().unregisterOnSharedPreferenceChangeListener(listener);
 		}
 
 		/**

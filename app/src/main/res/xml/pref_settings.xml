@@ -2,7 +2,6 @@
 <PreferenceScreen xmlns:custom="http://schemas.android.com/apk/res-auto"
 	xmlns:android="http://schemas.android.com/apk/res/android" >
 
-
 	<CheckBoxPreference
 		android:defaultValue="true"
 		android:key="@string/prefkey_operation_play_now_enabled"
@@ -14,6 +13,17 @@
 		android:summary="@string/pref_summary_operation_play_start_enabled"
 		android:title="@string/pref_title_operation_play_start_enabled" />
 
+	<CheckBoxPreference
+		android:defaultValue="false"
+		android:key="@string/prefkey_previous_media_enabled"
+		android:summary="@string/pref_summary_previous_media_enabled"
+		android:title="@string/pref_title_previous_media_enabled" />
+
+	<CheckBoxPreference
+		android:defaultValue="true"
+		android:key="@string/prefkey_trim_before_empty_enabled"
+		android:summary="@string/pref_summary_trim_before_empty_enabled"
+		android:title="@string/pref_title_trim_before_empty_enabled" />
 
 	<Preference
 		android:key="@string/prefkey_about"

@@ -8,6 +8,14 @@
 	<string name="title_activity_tweet">TweetActivity</string>
 	<string name="title_activity_settings">Setting</string>
 
+
+	<string name="label_insert">挿入</string>
+	<string name="label_default">初期設定</string>
+
+	<string name="label_edit_title">メッセージ編集</string>
+	<string name="label_edit_insert_album_art">アルバムアート追加</string>
+
+
 		<string name="classLabel">ついーと！</string>
 		<string name="classDescription">Twitterに投稿します</string>
 
@@ -17,6 +25,7 @@
 	<string name="message_oauth_completed">認証が完了しました。</string>
 	<string name="message_oauth_failed">認証に失敗しました。</string>
 
+	<string name="error_dialog_dissmissed">ダイアログ操作に失敗しました。再度ダイアログを開いてください。</string>
 
 	<!-- Preferences -->
 	<!--
@@ -24,11 +33,14 @@
 	<string name="pref_screen_other">Other</string>
 	-->
 
-	<string name="pref_title_operation_play_now_enabled">再生中イベント実行</string>
+	<string name="pref_title_operation_play_now_enabled">再生中イベント</string>
 	<string name="pref_summary_operation_play_now_enabled">メディア再生中のイベントを実行します。</string>
-	<string name="pref_title_operation_play_start_enabled">再生開始イベント実行</string>
+	<string name="pref_title_operation_play_start_enabled">再生開始イベント</string>
 	<string name="pref_summary_operation_play_start_enabled">メディア再生開始のイベントを実行します。</string>
-
+	<string name="pref_title_previous_media_enabled">前回メディア実行</string>
+	<string name="pref_summary_previous_media_enabled">前回イベント実行済みの同一メディアに対しても、イベントを実行します。</string>
+	<string name="pref_title_trim_before_empty_enabled">空項目直前の空白を削除</string>
+	<string name="pref_summary_trim_before_empty_enabled">挿入項目が空白の場合、直前の空白を削除します。</string>
 
 	<!-- Other  -->
 	<string name="pref_title_about">About</string>

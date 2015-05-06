@@ -1,0 +1,50 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+    android:layout_height="match_parent" android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    tools:context="com.wa2c.android.medoly.plugin.action.twitter.EditActivity">
+
+    <TextView android:text="@string/label_edit_title" android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/titleTextView" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:id="@+id/contentEditText"
+        android:layout_below="@+id/titleTextView"
+        android:layout_alignParentLeft="true"
+        android:inputType="textNoSuggestions|textMultiLine"
+        android:layout_alignParentRight="true"
+        android:lines="6"
+        android:gravity="top|left" />
+
+    <Button
+        android:layout_width="@dimen/main_button_width"
+        android:layout_height="wrap_content"
+        android:text="@string/label_insert"
+        android:id="@+id/insertButton"
+        android:layout_below="@+id/insertAlbumArtCheckBox"
+        android:layout_alignParentLeft="true" />
+
+    <Button
+        android:layout_width="@dimen/main_button_width"
+        android:layout_height="wrap_content"
+        android:text="@string/label_default"
+        android:id="@+id/initializeButton"
+        android:layout_below="@+id/insertAlbumArtCheckBox"
+        android:layout_alignParentRight="true" />
+
+    <CheckBox
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/label_edit_insert_album_art"
+        android:id="@+id/insertAlbumArtCheckBox"
+        android:layout_below="@+id/contentEditText"
+        android:layout_alignParentLeft="true"
+        android:checked="false" />
+
+</RelativeLayout>

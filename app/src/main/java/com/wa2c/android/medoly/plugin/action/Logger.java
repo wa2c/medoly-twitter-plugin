@@ -1,4 +1,4 @@
-package com.wa2c.android.medoly.plugin.common;
+package com.wa2c.android.medoly.plugin.action;
 
 import android.content.Context;
 import android.content.SharedPreferences;
