@@ -8,19 +8,19 @@
 	tools:ignore="MergeRootFrame" >
 
 	<Button
+	    android:id="@+id/twitterOAuthButton"
+	    android:layout_width="@dimen/main_button_width"
+	    android:layout_height="wrap_content"
+	    android:layout_gravity="center_horizontal"
+	    android:text="Twitter認証"
+		android:layout_margin="@dimen/main_button_margin" />
+
+	<Button
 		android:layout_width="@dimen/main_button_width"
 		android:layout_height="wrap_content"
 		android:text="編集"
 		android:id="@+id/editButton"
 		android:layout_gravity="center_horizontal"
-		android:layout_margin="@dimen/main_button_margin" />
-
-	<Button
-	    android:id="@+id/twitterOAuthButton"
-	    android:layout_width="@dimen/main_button_width"
-	    android:layout_height="wrap_content"
-	    android:layout_gravity="center"
-	    android:text="Twitter認証"
 		android:layout_margin="@dimen/main_button_margin" />
 
 	<Button

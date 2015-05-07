@@ -21,7 +21,7 @@
 		<item>http://twitter4j.org/</item>
 	</string-array>
 
-	<string name="format_content_default">%MEDIA_TITLE% - %MEDIA_ARTIST% (%MEDIA_ALBUM%) #NowPlaying</string>
+	<string name="format_content_default">%MEDIA_TITLE% - %MEDIA_ARTIST% / %MEDIA_ALBUM% #NowPlaying</string>
 
 	<!-- Preferences -->
 	<string name="prefkey_content_format">content_format</string>

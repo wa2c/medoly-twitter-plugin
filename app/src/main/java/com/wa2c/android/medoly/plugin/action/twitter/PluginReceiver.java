@@ -14,8 +14,11 @@ import com.wa2c.android.medoly.plugin.action.Logger;
 import java.io.File;
 import java.io.Serializable;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import twitter4j.StatusUpdate;
 import twitter4j.Twitter;
@@ -106,6 +109,8 @@ public class PluginReceiver extends BroadcastReceiver {
             this.propertyMap = propertyMap;
         }
 
+        //private final String TAG_EXP = "(^|[^%])(%%)*%([^%]+)%(%%)*([^%]|$)";
+        private final String TAG_EXP = "%([^%]+)%"; // メタタグ
         @Override
         protected Boolean doInBackground(String... params) {
             try {
@@ -114,11 +119,22 @@ public class PluginReceiver extends BroadcastReceiver {
                 boolean isTrim = sharedPreferences.getBoolean(context.getString(R.string.prefkey_trim_before_empty_enabled), true);
 
                 String message = format;
+                Matcher matcher = Pattern.compile(TAG_EXP, Pattern.MULTILINE).matcher(format);
+
+                // フォーマットに含まれるキーを取得
+                HashSet<String> propertyKeySet = new HashSet<>();
+                while (matcher.find()) {
+                    if (matcher.groupCount() > 0) {
+                        propertyKeySet.add(matcher.group(1));
+                    }
+                }
+
+                // メディア
                 for (ActionPluginParam.MediaProperty property : ActionPluginParam.MediaProperty.values()) {
                     String keyName = property.getKeyName();
-                    if (!propertyMap.containsKey(keyName)) continue;
+                    if (!propertyKeySet.contains(keyName))
+                        continue;
                     String val = propertyMap.get(keyName);
-
                     if (!TextUtils.isEmpty(val)) {
                         message = message.replaceAll("%" + keyName + "%", val);
                     } else {
@@ -127,11 +143,12 @@ public class PluginReceiver extends BroadcastReceiver {
                     }
                 }
 
+                // アルバムアート
                 for (ActionPluginParam.AlbumArtProperty property : ActionPluginParam.AlbumArtProperty.values()) {
                     String keyName = property.getKeyName();
-                    if (!propertyMap.containsKey(keyName)) continue;
+                    if (!propertyKeySet.contains(keyName))
+                        continue;
                     String val = propertyMap.get(keyName);
-
                     if (!TextUtils.isEmpty(val)) {
                         message = message.replaceAll("%" + keyName + "%", val);
                     } else {
@@ -140,11 +157,12 @@ public class PluginReceiver extends BroadcastReceiver {
                     }
                 }
 
+                // 歌詞
                 for (ActionPluginParam.LyricsProperty property : ActionPluginParam.LyricsProperty.values()) {
                     String keyName = property.getKeyName();
-                    if (!propertyMap.containsKey(keyName)) continue;
+                    if (!propertyKeySet.contains(keyName))
+                        continue;
                     String val = propertyMap.get(keyName);
-
                     if (!TextUtils.isEmpty(val)) {
                         message = message.replaceAll("%" + keyName + "%", val);
                     } else {
@@ -152,6 +170,45 @@ public class PluginReceiver extends BroadcastReceiver {
                             message = message.replaceAll("\\w*%" + keyName + "%", "");
                     }
                 }
+
+//                for (ActionPluginParam.MediaProperty property : ActionPluginParam.MediaProperty.values()) {
+//                    String keyName = property.getKeyName();
+//                    if (!propertyMap.containsKey(keyName)) continue;
+//                    String val = propertyMap.get(keyName);
+//
+//                    if (!TextUtils.isEmpty(val)) {
+//                        message = message.replaceAll("%" + keyName + "%", val);
+//                    } else {
+//                        if (isTrim)
+//                            message = message.replaceAll("\\w*%" + keyName + "%", "");
+//                    }
+//                }
+//
+//                for (ActionPluginParam.AlbumArtProperty property : ActionPluginParam.AlbumArtProperty.values()) {
+//                    String keyName = property.getKeyName();
+//                    if (!propertyMap.containsKey(keyName)) continue;
+//                    String val = propertyMap.get(keyName);
+//
+//                    if (!TextUtils.isEmpty(val)) {
+//                        message = message.replaceAll("%" + keyName + "%", val);
+//                    } else {
+//                        if (isTrim)
+//                            message = message.replaceAll("\\w*%" + keyName + "%", "");
+//                    }
+//                }
+//
+//                for (ActionPluginParam.LyricsProperty property : ActionPluginParam.LyricsProperty.values()) {
+//                    String keyName = property.getKeyName();
+//                    if (!propertyMap.containsKey(keyName)) continue;
+//                    String val = propertyMap.get(keyName);
+//
+//                    if (!TextUtils.isEmpty(val)) {
+//                        message = message.replaceAll("%" + keyName + "%", val);
+//                    } else {
+//                        if (isTrim)
+//                            message = message.replaceAll("\\w*%" + keyName + "%", "");
+//                    }
+//                }
 
                 File f = null;
                 if (sharedPreferences.getBoolean(context.getString(R.string.prefkey_content_album_art), true) && !TextUtils.isEmpty(albumArtPath)) {

@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="項目"
+            android:id="@+id/propertyPriorityTitle1TextView"
+            android:layout_weight="0.41"
+            android:lines="1" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="省略可"
+            android:id="@+id/propertyPriorityTitle2TextView"
+            android:lines="1" />
+    </LinearLayout>
+
+    <com.mobeta.android.dslv.DragSortListView
+        android:id="@+id/propertyPriorityListView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fastScrollEnabled="true" >
+    </com.mobeta.android.dslv.DragSortListView>
+
+</LinearLayout>

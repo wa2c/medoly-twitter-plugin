@@ -19,6 +19,7 @@ import android.widget.Toast;
 
 import com.wa2c.android.medoly.plugin.action.twitter.dialog.ConfirmDialogFragment;
 import com.wa2c.android.medoly.plugin.action.twitter.dialog.InsertPropertyDialogFragment;
+import com.wa2c.android.medoly.plugin.action.twitter.dialog.PropertyPriorityDialogFragment;
 
 
 public class EditActivity extends Activity {
@@ -63,15 +64,44 @@ public class EditActivity extends Activity {
                 dialogFragment.setOnItemSelectListener(new InsertPropertyDialogFragment.ItemSelectListener() {
                     @Override
                     public void onItemSelect(String insertString) {
-                        int start = contentEditText.getSelectionStart();
-                        int end = contentEditText.getSelectionEnd();
+                        int index1 = contentEditText.getSelectionStart();
+                        int index2 = contentEditText.getSelectionEnd();
+                        int start = Math.min(index1, index2);
+                        int end = Math.min(index1, index2);
                         Editable editable = contentEditText.getText();
-                        editable.replace(Math.min(start, end), Math.max(start, end), insertString);
+                        if (start > 0 && editable.charAt(start - 1) != ' ') {
+                            insertString = " " + insertString; // スペース挿入
+                        }
+                        editable.replace(start, end, insertString);
                     }
                 });
                 dialogFragment.show(EditActivity.this);
             }
         });
+
+        // 優先度
+        findViewById(R.id.priorityButton).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(final View v) {
+                PropertyPriorityDialogFragment dialogFragment = PropertyPriorityDialogFragment.newInstance();
+//                dialogFragment.setOnItemSelectListener(new InsertPropertyDialogFragment.ItemSelectListener() {
+//                    @Override
+//                    public void onItemSelect(String insertString) {
+//                        int index1 = contentEditText.getSelectionStart();
+//                        int index2 = contentEditText.getSelectionEnd();
+//                        int start = Math.min(index1, index2);
+//                        int end = Math.min(index1, index2);
+//                        Editable editable = contentEditText.getText();
+//                        if (start > 0 && editable.charAt(Math.min(start, end) - 1) == ' ') {
+//                            insertString = " " + insertString; // スペース挿入
+//                        }
+//                        editable.replace(start, end, insertString);
+//                    }
+//                });
+                dialogFragment.show(EditActivity.this);
+            }
+        });
+
 
         // 初期化
         findViewById(R.id.initializeButton).setOnClickListener(new View.OnClickListener() {
@@ -81,8 +111,10 @@ public class EditActivity extends Activity {
                 dialogFragment.setClickListener(new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        if (which == DialogInterface.BUTTON_POSITIVE)
+                        if (which == DialogInterface.BUTTON_POSITIVE) {
                             contentEditText.setText(getString(R.string.format_content_default));
+                            insertAlbumArtCheckBox.setChecked(true);
+                        }
                     }
                 });
                 dialogFragment.show(EditActivity.this);

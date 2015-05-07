@@ -23,7 +23,7 @@
         android:gravity="top|left" />
 
     <Button
-        android:layout_width="@dimen/main_button_width"
+        android:layout_width="@dimen/edit_button_width"
         android:layout_height="wrap_content"
         android:text="@string/label_insert"
         android:id="@+id/insertButton"
@@ -31,7 +31,7 @@
         android:layout_alignParentLeft="true" />
 
     <Button
-        android:layout_width="@dimen/main_button_width"
+        android:layout_width="@dimen/edit_button_width"
         android:layout_height="wrap_content"
         android:text="@string/label_default"
         android:id="@+id/initializeButton"
@@ -46,5 +46,13 @@
         android:layout_below="@+id/contentEditText"
         android:layout_alignParentLeft="true"
         android:checked="false" />
+
+    <Button
+        android:layout_width="@dimen/edit_button_width"
+        android:layout_height="wrap_content"
+        android:text="@string/label_priority"
+        android:id="@+id/priorityButton"
+        android:layout_alignTop="@+id/insertButton"
+        android:layout_centerHorizontal="true" />
 
 </RelativeLayout>

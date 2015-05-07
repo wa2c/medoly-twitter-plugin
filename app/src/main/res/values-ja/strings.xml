@@ -11,6 +11,7 @@
 
 	<string name="label_insert">挿入</string>
 	<string name="label_default">初期設定</string>
+	<string name="label_priority">優先度</string>
 
 	<string name="label_edit_title">メッセージ編集</string>
 	<string name="label_edit_insert_album_art">アルバムアート追加</string>

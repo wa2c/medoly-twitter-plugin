@@ -10,6 +10,7 @@
 
 	<string name="label_insert">Insert</string>
 	<string name="label_default">Default</string>
+	<string name="label_priority">Priority</string>
 
 	<string name="label_edit_title">Edit Message</string>
 	<string name="label_edit_insert_album_art">Insert album art.</string>
