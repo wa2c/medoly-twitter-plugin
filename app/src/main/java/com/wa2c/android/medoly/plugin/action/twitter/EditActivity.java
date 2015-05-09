@@ -84,20 +84,12 @@ public class EditActivity extends Activity {
             @Override
             public void onClick(final View v) {
                 PropertyPriorityDialogFragment dialogFragment = PropertyPriorityDialogFragment.newInstance();
-//                dialogFragment.setOnItemSelectListener(new InsertPropertyDialogFragment.ItemSelectListener() {
-//                    @Override
-//                    public void onItemSelect(String insertString) {
-//                        int index1 = contentEditText.getSelectionStart();
-//                        int index2 = contentEditText.getSelectionEnd();
-//                        int start = Math.min(index1, index2);
-//                        int end = Math.min(index1, index2);
-//                        Editable editable = contentEditText.getText();
-//                        if (start > 0 && editable.charAt(Math.min(start, end) - 1) == ' ') {
-//                            insertString = " " + insertString; // スペース挿入
-//                        }
-//                        editable.replace(start, end, insertString);
-//                    }
-//                });
+                dialogFragment.setClickListener(new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+
+                    }
+                });
                 dialogFragment.show(EditActivity.this);
             }
         });
@@ -107,7 +99,7 @@ public class EditActivity extends Activity {
         findViewById(R.id.initializeButton).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(final View v) {
-                ConfirmDialogFragment dialogFragment = ConfirmDialogFragment.newInstance("確認", "確認");
+                ConfirmDialogFragment dialogFragment = ConfirmDialogFragment.newInstance(getString(R.string.message_confirm_initialize_format), getString(R.string.label_confirm));
                 dialogFragment.setClickListener(new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {

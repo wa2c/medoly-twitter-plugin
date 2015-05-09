@@ -149,8 +149,8 @@ public class SettingsActivity extends PreferenceActivity {
 				((TextView)layoutView.findViewById(R.id.aboutEmailTextView)).setText(getString(R.string.app_mail_name) + "@" + getString(R.string.app_mail_domain));
 
 				// Library
-				String[] libraryNames = getResources().getStringArray(R.array.abount_library_names);
-				String[] libraryUrls = getResources().getStringArray(R.array.abount_library_urls);
+				String[] libraryNames = getResources().getStringArray(R.array.about_library_names);
+				String[] libraryUrls = getResources().getStringArray(R.array.about_library_urls);
 
 				for (int i = 0; i < libraryNames.length; i++) {
 					TextView libTextView;

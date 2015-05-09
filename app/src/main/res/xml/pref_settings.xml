@@ -25,6 +25,18 @@
 		android:summary="@string/pref_summary_trim_before_empty_enabled"
 		android:title="@string/pref_title_trim_before_empty_enabled" />
 
+	<CheckBoxPreference
+		android:defaultValue="false"
+		android:key="@string/prefkey_tweet_success_message_show"
+		android:summary="@string/pref_summary_tweet_success_message_show"
+		android:title="@string/pref_title_tweet_success_message_show" />
+
+	<CheckBoxPreference
+		android:defaultValue="true"
+		android:key="@string/prefkey_tweet_failure_message_show"
+		android:summary="@string/pref_summary_tweet_failure_message_show"
+		android:title="@string/pref_title_tweet_failure_message_show" />
+
 	<Preference
 		android:key="@string/prefkey_about"
 		android:title="@string/pref_title_about" />

@@ -2,32 +2,40 @@
 <resources>
 
 
-	<string name="hello_world">Hello world!</string>
-	<string name="action_settings">Settings</string>
-	<string name="title_activity_twitter_oauth">TwitterOAuthActivity</string>
-	<string name="title_activity_tweet">TweetActivity</string>
+	<!-- Package -->
+	<string name="classLabel">ついーと！</string>
+	<string name="classDescription">Twitterに投稿します</string>
+
+
+	<!-- App -->
+	<string name="title_activity_edit">Message Edit</string>
 	<string name="title_activity_settings">Setting</string>
 
 	<string name="label_insert">Insert</string>
 	<string name="label_default">Default</string>
 	<string name="label_priority">Priority</string>
+	<string name="label_confirm">Confirm</string>
 
-	<string name="label_edit_title">Edit Message</string>
-	<string name="label_edit_insert_album_art">Insert album art.</string>
-
-
-	<string name="classLabel">ついーと！</string>
-		<string name="classDescription">Twitterに投稿します</string>
-
-
+	<!-- Twitter -->
 	<string name="message_post_completed">Tweet completed.</string>
 	<string name="message_post_failed">Tweet failed.</string>
-
 	<string name="message_oauth_completed">OAuth completed.</string>
 	<string name="message_oauth_failed">OAuth failed.</string>
 
 
-	<string name="error_dialog_dissmissed">Open the dialog again.</string>
+
+	<!--  Edit Activity -->
+	<string name="label_edit_title">Edit Message</string>
+	<string name="label_edit_insert_album_art">Insert album art.</string>
+	<string name="label_dialog_insert_property_title">Insert Property</string>
+	<string name="label_dialog_property_priority_title">Sorting Item Priority</string>
+	<string name="label_dialog_property_priority_title1">View  Item</string>
+	<string name="label_dialog_property_priority_title2">Omissible</string>
+	<string name="message_initialize_priority">Priority initialized.</string>
+	<string name="message_confirm_initialize_format">Initialize current message.</string>
+
+	<!-- Settings Activity -->
+	<string name="settings_summary_current_value">[Current Value: %1$s]</string>
 
 	<!-- Preferences -->
 	<string name="pref_title_operation_play_now_enabled">Run At Media Playing</string>
@@ -38,21 +46,18 @@
 	<string name="pref_summary_previous_media_enabled">Enable to run the event for the same media that has run the event already last time.</string>
 	<string name="pref_title_trim_before_empty_enabled">Trim Before Whitespace</string>
 	<string name="pref_summary_trim_before_empty_enabled">Trim the whitespace in front of the empty item.</string>
-	<!-- Other  -->
 	<string name="pref_title_start_media_scan">Media Scanning</string>
 	<string name="pref_summary_start_media_scan">Scan media files.</string>
+	<string name="pref_title_tweet_success_message_show">Show Success Message</string>
+	<string name="pref_summary_tweet_success_message_show">Show the message when tweet succeeded.</string>
+	<string name="pref_title_tweet_failure_message_show">Show Failure Message</string>
+	<string name="pref_summary_tweet_failure_message_show">Show the message when tweet failed. </string>
 	<string name="pref_title_about">About</string>
 	<string name="pref_summary_about">About</string>
 
-	<string name="error_no_token_class">There is no "Token" class.</string>
-
-	<!-- Settings Screen Title -->
-	<string name="pref_title_screen_other">Other</string>
-
-	<!-- Settings Activity -->
-	<string name="settings_summary_current_value">[Current Value: %1$s]</string>
-    <string name="title_activity_edit">EditActivity</string>
 
 
+	<!-- System -->
+	<string name="error_dialog_dismissed">Open the dialog again.</string>
 
 </resources>

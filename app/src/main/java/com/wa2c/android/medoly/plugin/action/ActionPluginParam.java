@@ -74,25 +74,154 @@ public class ActionPluginParam {
 	//
 
 	/**
-	 * 再生キューのプロパティ情報。
+	 * メディアのプロパティ情報。
 	 */
-	public enum QueueProperty {
-		CURRENT_POSITION(R.string.queue_current_position),
-		/** 現在の再生曲No。 */
-		CURRENT_NO(R.string.queue_current_no),
-		/** 合計再生曲数。 */
-		TOTAL_COUNT(R.string.queue_total_count),
-		/** 再生済曲数。 */
-		PLAYED_COUNT(R.string.queue_played_count),
-		/** 合計再生時間。 */
-		TOTAL_TIME(R.string.queue_total_time),
-		/** 再生済時間。 */
-		PLAYED_TIME(R.string.queue_played_time);
+	public enum MediaProperty {
+		/** タイトル。 */
+		TITLE                        ( R.string.media_title                        , true  ),
+
+		/** アーティスト。 */
+		ARTIST                       ( R.string.media_artist                       , true  ),
+		/** オリジナルアーティスト。 */
+		ORIGINAL_ARTIST              ( R.string.media_original_artist              , true  ),
+		/** アルバムアーティスト。 */
+		ALBUM_ARTIST                 ( R.string.media_album_artist                 , true  ),
+
+		/** アルバム。 */
+		ALBUM                        ( R.string.media_album                        , true  ),
+		/** オリジナルアルバム。 */
+		ORIGINAL_ALBUM               ( R.string.media_original_album               , true  ),
+
+		/** ジャンル。 */
+		GENRE                        ( R.string.media_genre                        , true  ),
+		/** ムード。 */
+		MOOD                         ( R.string.media_mood                         , true  ),
+		/** 機会。 */
+		OCCASION                     ( R.string.media_occasion                     , true  ),
+
+		/** 年。 */
+		YEAR                         ( R.string.media_year                         , false ),
+		/** オリジナル年。 */
+		ORIGINAL_YEAR                ( R.string.media_original_year                , false ),
+
+		/** 作曲者。 */
+		COMPOSER                     ( R.string.media_composer                     , true  ),
+		/** 編曲者。 */
+		ARRANGER                     ( R.string.media_arranger                     , true  ),
+		/** 作詞者。 */
+		LYRICIST                     ( R.string.media_lyricist                     , true  ),
+		/** オリジナル作詞者。 */
+		ORIGINAL_LYRICIST            ( R.string.media_original_lyricist            , true  ),
+		/** 指揮者  */
+		CONDUCTOR                    ( R.string.media_conductor                    , true  ),
+		/** プロデューサ。 */
+		PRODUCER                     ( R.string.media_producer                     , true  ),
+		/** エンジニア。 */
+		ENGINEER                     ( R.string.media_engineer                     , true  ),
+		/** エンコーダ。 */
+		ENCODER                      ( R.string.media_encoder                      , true  ),
+		/** ミキサ。 */
+		MIXER                        ( R.string.media_mixer                        , true  ),
+		/** DJミキサ。 */
+		DJMIXER                      ( R.string.media_djmixer                      , true  ),
+		/** リミキサ。 */
+		REMIXER                      ( R.string.media_remixer                      , true  ),
+
+		/** レーベル。 */
+		RECORD_LABEL                 ( R.string.media_record_label                 , true  ),
+		/** メディア。 */
+		MEDIA                        ( R.string.media_media                        , false ),
+		/** ディスクNo。 */
+		DISC                         ( R.string.media_disc                         , false ),
+		/** ディスク合計。 */
+		DISC_TOTAL                   ( R.string.media_disc_total                   , false ),
+		/** トラックNo。 */
+		TRACK                        ( R.string.media_track                        , false ),
+		/** トラック合計。 */
+		TRACK_TOTAL                  ( R.string.media_track_total                  , false ),
+
+		/** コメント。 */
+		COMMENT                      ( R.string.media_comment                      , true  ),
+
+		/** ループ開始。 */
+		LOOP_START                   ( R.string.media_loop                         , false ),
+		/** ループの長さ。  */
+		LOOP_LENGTH                  ( R.string.media_loop                         , false ),
+		/** テンポ。 */
+		TEMPO                        ( R.string.media_tempo                        , false ),
+		/** BPM。 */
+		BPM                          ( R.string.media_bpm                          , false ),
+		/** FBPM。 */
+		FBPM                         ( R.string.media_fbpm                         , false ),
+
+		/** 品質。 */
+		QUALITY                      ( R.string.media_quality                      , false ),
+		/** レーティング。  */
+		RATING                       ( R.string.media_rating                       , false ),
+
+		/** 言語。 */
+		LANGUAGE                     ( R.string.media_language                     , false ),
+		/** スクリプト。 */
+		SCRIPT                       ( R.string.media_script                       , false ),
+
+		/** タグ。 */
+		TAGS                         ( R.string.media_tags                         , false ),
+		/** キー。 */
+		KEY                          ( R.string.media_key                          , false ),
+
+		/** Amazon ID。 */
+		AMAZON_ID                    ( R.string.media_amazon_id                    , false ),
+		/** Catalog ID。 */
+		CATALOG_NO                   ( R.string.media_catalog_no                   , false ),
+		/** ISRC */
+		ISRC                         ( R.string.media_isrc                         , false ),
+
+		// URI
+		URL_OFFICIAL_RELEASE_SITE    ( R.string.media_url_official_release_site    , false ),
+		URL_OFFICIAL_ARTIST_SITE     ( R.string.media_url_official_artist_site     , false ),
+		URL_LYRICS_SITE              ( R.string.media_url_lyrics_site              , false ),
+
+		// Wikipedia URI
+		URL_WIKIPEDIA_RELEASE_SITE   ( R.string.media_url_wikipedia_release_site   , false),
+		URL_WIKIPEDIA_ARTIST_SITE    ( R.string.media_url_wikipedia_artist_site    , false),
+
+		// Discogs URI
+		URL_DISCOGS_RELEASE_SITE     ( R.string.media_url_discogs_release_site     , false ),
+		URL_DISCOGS_ARTIST_SITE      ( R.string.media_url_discogs_artist_site      , false ),
+
+		// Music Brainz Information
+		MUSICBRAINZ_RELEASEID        ( R.string.media_musicbrainz_releaseid        , false ),
+		MUSICBRAINZ_ARTISTID         ( R.string.media_musicbrainz_artistid         , false ),
+		MUSICBRAINZ_RELEASEARTISTID  ( R.string.media_musicbrainz_releaseartistid  , false ),
+		MUSICBRAINZ_RELEASE_GROUP_ID ( R.string.media_musicbrainz_release_group_id , false ),
+		MUSICBRAINZ_DISC_ID          ( R.string.media_musicbrainz_disc_id          , false ),
+		MUSICBRAINZ_TRACK_ID         ( R.string.media_musicbrainz_track_id         , false ),
+		MUSICBRAINZ_WORK_ID          ( R.string.media_musicbrainz_work_id          , false ),
+		MUSICBRAINZ_RELEASE_STATUS   ( R.string.media_musicbrainz_release_status   , false ),
+		MUSICBRAINZ_RELEASE_TYPE     ( R.string.media_musicbrainz_release_type     , false ),
+		MUSICBRAINZ_RELEASE_COUNTRY  ( R.string.media_musicbrainz_release_country  , false ),
+
+		MUSICIP_ID                   ( R.string.media_musicip_id                   , false),
+
+
+		/** MIMEタイプ。 */
+		MIME_TYP                     ( R.string.mime_type                          , false ),
+		/** フォルダパス。 */
+		FOLDER_PATH                  ( R.string.folder_path                        , true  ),
+		/** ファイル名。 */
+		FILE_NAME                    ( R.string.file_name                          , true  ),
+		/** データサイズ。 */
+		DATA_SIZE                    ( R.string.data_size                          , false ),
+		/** 更新日時。 */
+		LAST_MODIFIED                ( R.string.last_modified                      , true  );
+
 
 		/** 名称のID。 */
 		private int nameId;
 		/** プロパティのキー名。 */
 		private String keyName;
+		/** 省略可否。 */
+		private boolean omissible;
 
 		/** 名称を取得。 */
 		public String getName(Context context) {
@@ -102,175 +231,16 @@ public class ActionPluginParam {
 		public String getKeyName() {
 			return keyName;
 		}
-
-		/** コンストラクタ。 */
-		QueueProperty(int nameId) {
-			this.nameId = nameId;
-			this.keyName = "QUEUE_" + this.name();
-		}
-	}
-
-	/**
-	 * メディアのプロパティ情報。
-	 */
-	public enum MediaProperty {
-		/** タイトル。 */
-		TITLE                        ( R.string.media_title                        ),
-
-		/** アーティスト。 */
-		ARTIST                       ( R.string.media_artist                       ),
-		/** オリジナルアーティスト。 */
-		ORIGINAL_ARTIST              ( R.string.media_original_artist              ),
-		/** アルバムアーティスト。 */
-		ALBUM_ARTIST                 ( R.string.media_album_artist                 ),
-
-		/** アルバム。 */
-		ALBUM                        ( R.string.media_album                        ),
-		/** オリジナルアルバム。 */
-		ORIGINAL_ALBUM               ( R.string.media_original_album               ),
-
-		/** ジャンル。 */
-		GENRE                        ( R.string.media_genre                        ),
-		/** ムード。 */
-		MOOD                         ( R.string.media_mood                         ),
-		/** 機会。 */
-		OCCASION                     ( R.string.media_occasion                     ),
-
-		/** 年。 */
-		YEAR                         ( R.string.media_year                         ),
-		/** オリジナル年。 */
-		ORIGINAL_YEAR                ( R.string.media_original_year                ),
-
-		/** 作曲者。 */
-		COMPOSER                     ( R.string.media_composer                     ),
-		/** 編曲者。 */
-		ARRANGER                     ( R.string.media_arranger                     ),
-		/** 作詞者。 */
-		LYRICIST                     ( R.string.media_lyricist                     ),
-		/** オリジナル作詞者。 */
-		ORIGINAL_LYRICIST            ( R.string.media_original_lyricist            ),
-		/** 指揮者  */
-		CONDUCTOR                    ( R.string.media_conductor                    ),
-		/** プロデューサ。 */
-		PRODUCER                     ( R.string.media_producer                     ),
-		/** エンジニア。 */
-		ENGINEER                     ( R.string.media_engineer                     ),
-		/** エンコーダ。 */
-		ENCODER                      ( R.string.media_encoder                      ),
-		/** ミキサ。 */
-		MIXER                        ( R.string.media_mixer                        ),
-		/** DJミキサ。 */
-		DJMIXER                      ( R.string.media_djmixer                      ),
-		/** リミキサ。 */
-		REMIXER                      ( R.string.media_remixer                      ),
-
-		/** レーベル。 */
-		RECORD_LABEL                 ( R.string.media_record_label                 ),
-		/** メディア。 */
-		MEDIA                        ( R.string.media_media                        ),
-		/** ディスクNo。 */
-		DISC                         ( R.string.media_disc                         ),
-		/** ディスク合計。 */
-		DISC_TOTAL                   ( R.string.media_disc_total                   ),
-		/** トラックNo。 */
-		TRACK                        ( R.string.media_track                        ),
-		/** トラック合計。 */
-		TRACK_TOTAL                  ( R.string.media_track_total                  ),
-
-		/** コメント。 */
-		COMMENT                      ( R.string.media_comment                      ),
-
-		/** ループ開始。 */
-		LOOP_START                   ( R.string.media_loop                         ),
-		/** ループの長さ。  */
-		LOOP_LENGTH                  ( R.string.media_loop                         ),
-		/** テンポ。 */
-		TEMPO                        ( R.string.media_tempo                        ),
-		/** BPM。 */
-		BPM                          ( R.string.media_bpm                          ),
-		/** FBPM。 */
-		FBPM                         ( R.string.media_fbpm                         ),
-
-		/** 品質。 */
-		QUALITY                      ( R.string.media_quality                      ),
-		/** レーティング。  */
-		RATING                       ( R.string.media_rating                       ),
-
-		/** 言語。 */
-		LANGUAGE                     ( R.string.media_language                     ),
-		/** スクリプト。 */
-		SCRIPT                       ( R.string.media_script                       ),
-
-		/** タグ。 */
-		TAGS                         ( R.string.media_tags                         ),
-		/** キー。 */
-		KEY                          ( R.string.media_key                          ),
-
-		/** Amazon ID。 */
-		AMAZON_ID                    ( R.string.media_amazon_id                    ),
-		/** Catalog ID。 */
-		CATALOG_NO                   ( R.string.media_catalog_no                   ),
-		/** ISRC */
-		ISRC                         ( R.string.media_isrc                         ),
-
-		// URI
-		URL_OFFICIAL_RELEASE_SITE    ( R.string.media_url_official_release_site    ),
-		URL_OFFICIAL_ARTIST_SITE     ( R.string.media_url_official_artist_site     ),
-		URL_LYRICS_SITE              ( R.string.media_url_lyrics_site              ),
-
-		// Wikipedia URI
-		URL_WIKIPEDIA_RELEASE_SITE   ( R.string.media_url_wikipedia_release_site   ),
-		URL_WIKIPEDIA_ARTIST_SITE    ( R.string.media_url_wikipedia_artist_site    ),
-
-		// Discogs URI
-		URL_DISCOGS_RELEASE_SITE     ( R.string.media_url_discogs_release_site     ),
-		URL_DISCOGS_ARTIST_SITE      ( R.string.media_url_discogs_artist_site      ),
-
-		// Music Brainz Information
-		MUSICBRAINZ_RELEASEID        ( R.string.media_musicbrainz_releaseid        ),
-		MUSICBRAINZ_ARTISTID         ( R.string.media_musicbrainz_artistid         ),
-		MUSICBRAINZ_RELEASEARTISTID  ( R.string.media_musicbrainz_releaseartistid  ),
-		MUSICBRAINZ_RELEASE_GROUP_ID ( R.string.media_musicbrainz_release_group_id ),
-		MUSICBRAINZ_DISC_ID          ( R.string.media_musicbrainz_disc_id          ),
-		MUSICBRAINZ_TRACK_ID         ( R.string.media_musicbrainz_track_id         ),
-		MUSICBRAINZ_WORK_ID          ( R.string.media_musicbrainz_work_id          ),
-		MUSICBRAINZ_RELEASE_STATUS   ( R.string.media_musicbrainz_release_status   ),
-		MUSICBRAINZ_RELEASE_TYPE     ( R.string.media_musicbrainz_release_type     ),
-		MUSICBRAINZ_RELEASE_COUNTRY  ( R.string.media_musicbrainz_release_country  ),
-
-		MUSICIP_ID                   ( R.string.media_musicip_id                   ),
-
-
-		/** MIMEタイプ。 */
-		MIME_TYP                     ( R.string.mime_type                          ),
-		/** フォルダパス。 */
-		FOLDER_PATH                  ( R.string.folder_path                        ),
-		/** ファイル名。 */
-		FILE_NAME                    ( R.string.file_name                          ),
-		/** データサイズ。 */
-		DATA_SIZE                    ( R.string.data_size                          ),
-		/** 更新日時。 */
-		LAST_MODIFIED                ( R.string.last_modified                      );
-
-
-		/** 名称のID。 */
-		private int nameId;
-		/** プロパティのキー名。 */
-		private String propertyKey;
-
-		/** 名称を取得。 */
-		public String getName(Context context) {
-			return context.getString(nameId);
-		}
-		/** プロパティのキー名を取得。 */
-		public String getKeyName() {
-			return propertyKey;
+		/** 省略可否を取得。 */
+		public boolean getOmissible() {
+			return omissible;
 		}
 
 		/** コンストラクタ。 */
-		MediaProperty(int nameId) {
+		MediaProperty(int nameId, boolean omissible) {
 			this.nameId = nameId;
-			this.propertyKey = "MEDIA_" + this.name();
+			this.keyName = "MEDIA_" + this.name();
+			this.omissible = omissible;
 		}
 	}
 
@@ -279,75 +249,27 @@ public class ActionPluginParam {
 	 */
 	public enum AlbumArtProperty {
 		/** リソース種別。 */
-		RESOURCE_TYPE ( R.string.album_art_resource_type ),
+		RESOURCE_TYPE ( R.string.album_art_resource_type , true  ),
 		/** 画像サイズ。 */
-		IMAGE_SIZE    ( R.string.album_art_resolution    ),
+		IMAGE_SIZE    ( R.string.album_art_resolution    , false ),
 
 		/** MIMEタイプ。 */
-		MIME_TYPE     ( R.string.mime_type               ),
+		MIME_TYPE     ( R.string.mime_type               , false ),
 		/** フォルダパス。 */
-		FOLDER_PATH   ( R.string.folder_path             ),
+		FOLDER_PATH   ( R.string.folder_path             , true  ),
 		/** ファイル名。 */
-		FILE_NAME     ( R.string.file_name               ),
+		FILE_NAME     ( R.string.file_name               , true  ),
 		/** データサイズ。 */
-		DATA_SIZE     ( R.string.data_size               ),
+		DATA_SIZE     ( R.string.data_size               , false ),
 		/** 更新日時。 */
-		LAST_MODIFIED ( R.string.last_modified           );
+		LAST_MODIFIED ( R.string.last_modified           , true  );
 
 		/** 名称のID。 */
 		private int nameId;
 		/** プロパティのキー名。 */
 		private String keyName;
-
-		/** 名称を取得。 */
-		public String getName(Context context) {
-			return context.getString(nameId);
-		}
-		/** タプロパティのキー名を取得。 */
-		public String getKeyName() {
-			return keyName;
-		}
-
-		/** コンストラクタ。 */
-		AlbumArtProperty(int nameId) {
-			this.nameId = nameId;
-			this.keyName = "ALBUM_ART_" + this.name();
-		}
-	}
-
-	/**
-	 * 歌詞のプロパティ情報。
-	 */
-	public enum LyricsProperty {
-		/** 歌詞。 */
-		LYRICS             ( R.string.lyrics_lyrics             ),
-
-		/** リソース種別。 */
-		RESOURCE_TYPE      ( R.string.lyrics_resource_type      ),
-		/** フォーマット種別。 */
-		FORMAT_TYPE        ( R.string.lyrics_format_type        ),
-		/** 同期種別。 */
-		SYNC_TYPE          ( R.string.lyrics_sync_type          ),
-		/** オフセット時間(ms)。 */
-		OFFSET_TIME        ( R.string.lyrics_offset_time        ),
-		/** 文字コード別。 */
-		CHARACTER_ENCODING ( R.string.lyrics_character_encoding ),
-
-		/** MIME Type */
-		MIME_TYPE          ( R.string.mime_type                 ),
-		/** フォルダパス。 */
-		FOLDER_PATH        ( R.string.folder_path               ),
-		/** ファイル名。 */
-		FILE_NAME          ( R.string.file_name                 ),
-		/** データサイズ。 */
-		DATA_SIZE          ( R.string.data_size                 ),
-		/** 更新日時。 */
-		LAST_MODIFIED      ( R.string.last_modified             );
-
-		/** 名称のID。 */
-		private int nameId;
-		/** プロパティのキー名。 */
-		private String keyName;
+		/** 省略可否。 */
+		private boolean omissible;
 
 		/** 名称を取得。 */
 		public String getName(Context context) {
@@ -357,12 +279,121 @@ public class ActionPluginParam {
 		public String getKeyName() {
 			return keyName;
 		}
+		/** 省略可否を取得。 */
+		public boolean getOmissible() {
+			return omissible;
+		}
+
 
 		/** コンストラクタ。 */
-		LyricsProperty(int nameId) {
+		AlbumArtProperty(int nameId, boolean omissible) {
 			this.nameId = nameId;
-			this.keyName = "LYRICS_" + this.name();
+			this.keyName = "ALBUM_ART_" + this.name();
+			this.omissible = omissible;
 		}
 	}
+
+	/**
+	 * 歌詞のプロパティ情報。
+	 */
+	public enum LyricsProperty {
+		/** 歌詞。 */
+		LYRICS             ( R.string.lyrics_lyrics             , true  ),
+
+		/** リソース種別。 */
+		RESOURCE_TYPE      ( R.string.lyrics_resource_type      , true  ),
+		/** フォーマット種別。 */
+		FORMAT_TYPE        ( R.string.lyrics_format_type        , true  ),
+		/** 同期種別。 */
+		SYNC_TYPE          ( R.string.lyrics_sync_type          , true  ),
+		/** オフセット時間(ms)。 */
+		OFFSET_TIME        ( R.string.lyrics_offset_time        , false ),
+		/** 文字コード別。 */
+		CHARACTER_ENCODING ( R.string.lyrics_character_encoding , false ),
+
+		/** MIME Type */
+		MIME_TYPE          ( R.string.mime_type                 , false ),
+		/** フォルダパス。 */
+		FOLDER_PATH        ( R.string.folder_path               , true  ),
+		/** ファイル名。 */
+		FILE_NAME          ( R.string.file_name                 , true  ),
+		/** データサイズ。 */
+		DATA_SIZE          ( R.string.data_size                 , false ),
+		/** 更新日時。 */
+		LAST_MODIFIED      ( R.string.last_modified             , true  );
+
+		/** 名称のID。 */
+		private int nameId;
+		/** プロパティのキー名。 */
+		private String keyName;
+		/** 省略可否。 */
+		private boolean omissible;
+
+		/** 名称を取得。 */
+		public String getName(Context context) {
+			return context.getString(nameId);
+		}
+		/** プロパティのキー名を取得。 */
+		public String getKeyName() {
+			return keyName;
+		}
+		/** 省略可否を取得。 */
+		public boolean getOmissible() {
+			return omissible;
+		}
+
+		/** コンストラクタ。 */
+		LyricsProperty(int nameId, boolean omissible) {
+			this.nameId = nameId;
+			this.keyName = "LYRICS_" + this.name();
+			this.omissible = omissible;
+		}
+	}
+
+	/**
+	 * 再生キューのプロパティ情報。
+	 */
+	public enum QueueProperty {
+		CURRENT_POSITION ( R.string.queue_current_position, false ),
+		/** 現在の再生曲No。 */
+		CURRENT_NO       ( R.string.queue_current_no      , false ),
+		/** 合計再生曲数。 */
+		TOTAL_COUNT      ( R.string.queue_total_count     , false ),
+		/** 再生済曲数。 */
+		PLAYED_COUNT     ( R.string.queue_played_count    , false ),
+		/** 合計再生時間。 */
+		TOTAL_TIME       ( R.string.queue_total_time      , false ),
+		/** 再生済時間。 */
+		PLAYED_TIME      ( R.string.queue_played_time     , false ),
+		/** ループ回数。 */
+		LOOP_COUNT       ( R.string.queue_loop_count      , false );
+
+		/** 名称のID。 */
+		private int nameId;
+		/** プロパティのキー名。 */
+		private String keyName;
+		/** 省略可否。 */
+		private boolean omissible;
+
+		/** 名称を取得。 */
+		public String getName(Context context) {
+			return context.getString(nameId);
+		}
+		/** プロパティのキー名を取得。 */
+		public String getKeyName() {
+			return keyName;
+		}
+		/** 省略可否を取得。 */
+		public boolean getOmissible() {
+			return omissible;
+		}
+		/** コンストラクタ。 */
+		QueueProperty(int nameId, boolean omissible) {
+			this.nameId = nameId;
+			this.keyName = "QUEUE_" + this.name();
+			this.omissible = omissible;
+		}
+	}
+
 
 }

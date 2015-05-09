@@ -3,28 +3,23 @@ package com.wa2c.android.medoly.plugin.action.twitter.dialog;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
-import android.content.Context;
+import android.content.DialogInterface;
 import android.os.Bundle;
-import android.util.SparseBooleanArray;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.ViewGroup.LayoutParams;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
-import android.widget.CheckedTextView;
+import android.widget.CompoundButton;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.ListView;
 import android.widget.TextView;
 
 import com.mobeta.android.dslv.DragSortController;
 import com.mobeta.android.dslv.DragSortListView;
-import com.wa2c.android.medoly.plugin.action.ActionPluginParam;
+import com.wa2c.android.medoly.plugin.action.twitter.AppUtils;
+import com.wa2c.android.medoly.plugin.action.twitter.PropertyItem;
 import com.wa2c.android.medoly.plugin.action.twitter.R;
 
 import java.util.ArrayList;
-import java.util.EventListener;
 
 
 public class PropertyPriorityDialogFragment extends AbstractDialogFragment {
@@ -58,31 +53,18 @@ public class PropertyPriorityDialogFragment extends AbstractDialogFragment {
 		final Activity context = getActivity();
 		final View content = View.inflate(getActivity(), R.layout.dialog_property_priority, null);
 
-
-		for (ActionPluginParam.MediaProperty p : ActionPluginParam.MediaProperty.values()) {
-			PropertyItem item = new PropertyItem();
-			item.propertyKey = p.getKeyName();
-			item.propertyName = getString(R.string.media) + " - " +  p.getName(context);
-			itemList.add(item);
-		}
-
-		for (ActionPluginParam.AlbumArtProperty p : ActionPluginParam.AlbumArtProperty.values()) {
-			PropertyItem item = new PropertyItem();
-			item.propertyKey = p.getKeyName();
-			item.propertyName = getString(R.string.album_art) + " - " +  p.getName(context);
-			itemList.add(item);
-		}
-
-		for (ActionPluginParam.LyricsProperty p : ActionPluginParam.LyricsProperty.values()) {
-			PropertyItem item = new PropertyItem();
-			item.propertyKey = p.getKeyName();
-			item.propertyName = getString(R.string.lyrics) + " - " +  p.getName(context);
-			itemList.add(item);
-		}
+		// 読込み
+		itemList.addAll(PropertyItem.loadPropertyPriority(context));
 
 		sortListView = (DragSortListView)content.findViewById(R.id.propertyPriorityListView);
 		sortListView.setChoiceMode(DragSortListView.CHOICE_MODE_MULTIPLE);
 		sortListView.setAdapter(new ArrayAdapter<PropertyItem>(getActivity(), R.layout.layout_property_priority_item, itemList) {
+
+			@Override
+			public boolean isEnabled(int position) {
+				return false;
+			}
+
 			// 表示設定
 			@Override
 			public View getView(int position, View convertView, ViewGroup parent) {
@@ -94,11 +76,19 @@ public class PropertyPriorityDialogFragment extends AbstractDialogFragment {
 					holder = new ListItemViewHolder();
 					holder.TitleTextView = (TextView)convertView.findViewById(R.id.propertyItemTitle);
 					holder.DragImageView = (ImageView)convertView.findViewById(R.id.propertyItemImageView);
-					holder.AbbbrCheckBox = (CheckBox)convertView.findViewById(R.id.propertyItemCheckBox);
+					holder.OmissibleCheckBox = (CheckBox)convertView.findViewById(R.id.propertyItemCheckBox);
 					convertView.setTag(holder);
 				} else {
 					holder = (ListItemViewHolder) convertView.getTag();
 				}
+
+				holder.OmissibleCheckBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+					@Override
+					public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+						item.omissible = isChecked;
+					}
+				});
+				holder.OmissibleCheckBox.setChecked(item.omissible);
 
 				holder.TitleTextView.setText(item.propertyName);
 				return convertView;
@@ -108,7 +98,7 @@ public class PropertyPriorityDialogFragment extends AbstractDialogFragment {
 			class ListItemViewHolder {
 				public TextView TitleTextView;
 				public ImageView DragImageView;
-				public CheckBox AbbbrCheckBox;
+				public CheckBox OmissibleCheckBox;
 			}
 		});
 
@@ -123,13 +113,6 @@ public class PropertyPriorityDialogFragment extends AbstractDialogFragment {
 		sortListView.setDragEnabled(true);
 		sortListView.setFloatViewManager(controller);
 		sortListView.setOnTouchListener(controller);
-//		sortListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-//			@Override
-//			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-//				SparseBooleanArray checked = sortListView.getCheckedItemPositions();
-//				sortOrderList.get(position).setDesc(checked.valueAt(position));
-//			}
-//		});
 		sortListView.setDropListener(new DragSortListView.DropListener() {
 			// ドラッグ&ドロップ
 			@Override
@@ -143,10 +126,19 @@ public class PropertyPriorityDialogFragment extends AbstractDialogFragment {
 
 		// ダイアログ作成
 		AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-		builder.setTitle("test");
+		builder.setTitle(R.string.label_dialog_property_priority_title);
 		builder.setView(content);
-		builder.setPositiveButton(android.R.string.ok, clickListener);
-		builder.setNegativeButton(android.R.string.cancel, clickListener);
+
+
+		DialogInterface.OnClickListener listener = new DialogInterface.OnClickListener() {
+			@Override
+			public void onClick(DialogInterface dialog, int which) {
+				onClickButton(dialog, which);
+			}
+		};
+		builder.setPositiveButton(android.R.string.ok, listener);
+		builder.setNeutralButton(R.string.label_default, listener);
+		builder.setNegativeButton(android.R.string.cancel, listener);
 
 		// キャンセルボタン
 		builder.setNegativeButton(android.R.string.cancel, null);
@@ -154,13 +146,17 @@ public class PropertyPriorityDialogFragment extends AbstractDialogFragment {
 		return  builder.create();
 	}
 
+	@Override
+	protected void onClickButton(DialogInterface dialog, int which, boolean close) {
+		if (which == DialogInterface.BUTTON_POSITIVE) {
+			// 決定
+			PropertyItem.savePropertyPriority(getActivity(), itemList);
+		} else if (which == DialogInterface.BUTTON_NEUTRAL) {
+			// 初期化
+			PropertyItem.savePropertyPriority(getActivity(), PropertyItem.getDefaultPropertyPriority(getActivity()));
+			AppUtils.showToast(getActivity(), R.string.message_initialize_priority);
+		}
 
-	/**
-	 * プレイリスト項目。
-	 */
-	public class PropertyItem {
-		public String propertyKey;
-		public String propertyName;
+		super.onClickButton(dialog, which, close);
 	}
-
 }

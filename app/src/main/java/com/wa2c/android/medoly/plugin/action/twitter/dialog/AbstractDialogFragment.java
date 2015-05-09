@@ -33,7 +33,7 @@ public abstract class AbstractDialogFragment extends DialogFragment {
 	 */
 	public void show(Activity activity) {
 		if (activity == null) {
-			Toast.makeText(getActivity(), R.string.error_dialog_dissmissed, Toast.LENGTH_SHORT).show();
+			Toast.makeText(getActivity(), R.string.error_dialog_dismissed, Toast.LENGTH_SHORT).show();
 			return;
 		}
 
@@ -52,7 +52,7 @@ public abstract class AbstractDialogFragment extends DialogFragment {
 	 */
 	public void show(Fragment fragment) {
 		if (fragment == null) {
-			Toast.makeText(getActivity(), R.string.error_dialog_dissmissed, Toast.LENGTH_SHORT).show();
+			Toast.makeText(getActivity(), R.string.error_dialog_dismissed, Toast.LENGTH_SHORT).show();
 			return;
 		}
 
@@ -110,7 +110,7 @@ public abstract class AbstractDialogFragment extends DialogFragment {
 
 
 	/** クリックのリスナ。 */
-	protected DialogInterface.OnClickListener clickListener;
+	protected DialogInterface.OnClickListener clickListener = null;
 
 	/**
 	 * クリックのリスナを設定する。
@@ -140,7 +140,6 @@ public abstract class AbstractDialogFragment extends DialogFragment {
 			clickListener.onClick(dialog, which);
 			if (close) dialog.dismiss();
 		} else {
-			Toast.makeText(getActivity(), R.string.error_dialog_dissmissed, Toast.LENGTH_SHORT).show();
 			if (dialog != null && close) dialog.cancel();
 		}
 	}

@@ -14,10 +14,10 @@
 	<string name="twitter_callback_url">medoly://plugin_twitter</string>
 
 	<!-- Library  -->
-	<string-array name="abount_library_names">
+	<string-array name="about_library_names">
 		<item>Twitter4j</item>
 	</string-array>
-	<string-array name="abount_library_urls">
+	<string-array name="about_library_urls">
 		<item>http://twitter4j.org/</item>
 	</string-array>
 
@@ -31,6 +31,8 @@
 	<string name="prefkey_operation_play_start_enabled">operation_play_start_enabled</string>
 	<string name="prefkey_previous_media_enabled">previous_media_enabled</string>
 	<string name="prefkey_trim_before_empty_enabled">trim_before_empty_enabled</string>
+	<string name="prefkey_tweet_success_message_show">tweet_success_message_show</string>
+	<string name="prefkey_tweet_failure_message_show">tweet_failure_message_show</string>
 
 	<!-- Settings Screen -->
 	<string name="prefkey_about">about</string>

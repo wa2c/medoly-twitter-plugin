@@ -1,18 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-	<string name="queue">Queue</string>
 	<string name="media">Media</string>
 	<string name="album_art">Album Art</string>
 	<string name="lyrics">Lyrics</string>
+	<string name="queue">Queue</string>
 
-	<!-- Queue Property -->
-	<string name="queue_current_position">Current Position</string>
-	<string name="queue_current_no">Current No</string>
-	<string name="queue_total_count">Total Count</string>
-	<string name="queue_played_count">Played Count</string>
-	<string name="queue_total_time">Total Time</string>
-	<string name="queue_played_time">Played Time</string>
+	<!-- Common Property -->
+	<string name="mime_type">MIME Type</string>
+	<string name="folder_path">Folder Path</string>
+	<string name="file_name">File Name</string>
+	<string name="data_size">Data Size</string>
+	<string name="last_modified">Last Modified</string>
 
 	<!-- Media Property -->
 	<string name="media_title">Title</string>
@@ -101,11 +100,13 @@
 	<string name="lyrics_offset_time">Offset Time</string>
 	<string name="lyrics_character_encoding">Character Encoding</string>
 
-	<!-- Common Property -->
-	<string name="mime_type">MIME Type</string>
-	<string name="folder_path">Folder Path</string>
-	<string name="file_name">File Name</string>
-	<string name="data_size">Data Size</string>
-	<string name="last_modified">Last Modified</string>
+	<!-- Queue Property -->
+	<string name="queue_current_position">Current Position</string>
+	<string name="queue_current_no">Current No</string>
+	<string name="queue_total_count">Total Count</string>
+	<string name="queue_played_count">Played Count</string>
+	<string name="queue_total_time">Total Time</string>
+	<string name="queue_played_time">Played Time</string>
+	<string name="queue_loop_count">Loop Count</string>
 
 </resources>

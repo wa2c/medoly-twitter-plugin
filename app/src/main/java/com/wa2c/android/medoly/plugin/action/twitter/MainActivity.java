@@ -128,12 +128,12 @@ public class MainActivity extends Activity {
 			protected void onPostExecute(AccessToken accessToken) {
 				if (accessToken != null) {
 					// 認証成功
-					AppUtils.showToast(MainActivity.this, R.string.message_oauth_completed);
+					AppUtils.showToast(MainActivity.this, R.string.message_oauth_success);
 					// 認証情報を保存
 					TwitterUtils.storeAccessToken(MainActivity.this, accessToken);
 				} else {
 					// 認証失敗
-					AppUtils.showToast(MainActivity.this, R.string.message_oauth_failed);
+					AppUtils.showToast(MainActivity.this, R.string.message_oauth_failure);
 				}
 			}
 		};

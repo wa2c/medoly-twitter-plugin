@@ -6,23 +6,26 @@
     <LinearLayout
         android:orientation="horizontal"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal">
+        android:layout_height="32dp">
 
         <TextView
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="項目"
+            android:layout_height="match_parent"
+            android:text="@string/label_dialog_property_priority_title1"
             android:id="@+id/propertyPriorityTitle1TextView"
             android:layout_weight="0.41"
-            android:lines="1" />
+            android:lines="1"
+            android:paddingLeft="8dp"
+            android:paddingRight="8dp"
+            android:gravity="center_vertical" />
 
         <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="省略可"
+            android:layout_width="64dp"
+            android:layout_height="match_parent"
+            android:text="@string/label_dialog_property_priority_title2"
             android:id="@+id/propertyPriorityTitle2TextView"
-            android:lines="1" />
+            android:lines="1"
+            android:gravity="center" />
     </LinearLayout>
 
     <com.mobeta.android.dslv.DragSortListView

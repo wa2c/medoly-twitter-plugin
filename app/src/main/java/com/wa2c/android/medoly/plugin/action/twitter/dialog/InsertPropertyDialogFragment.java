@@ -15,6 +15,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.wa2c.android.medoly.plugin.action.ActionPluginParam;
+import com.wa2c.android.medoly.plugin.action.twitter.PropertyItem;
 import com.wa2c.android.medoly.plugin.action.twitter.R;
 
 import java.util.ArrayList;
@@ -91,8 +92,7 @@ public class InsertPropertyDialogFragment extends AbstractDialogFragment {
 
 		// ダイアログ
 		AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-		//builder.setTitle(R.string.title_main_control_playlist);
-		builder.setTitle("aaaaa");
+		builder.setTitle(R.string.label_dialog_insert_property_title);
 		builder.setView(listLayout);
 
 		// キャンセルボタン
@@ -105,14 +105,6 @@ public class InsertPropertyDialogFragment extends AbstractDialogFragment {
 	 * 項目リスト。
 	 */
 	private final ArrayList<PropertyItem> itemList = new ArrayList<>();
-
-	/**
-	 * プレイリスト項目。
-	 */
-	public class PropertyItem {
-		public String propertyKey;
-		public String propertyName;
-	}
 
 	/**
 	 * リストアダプタ。

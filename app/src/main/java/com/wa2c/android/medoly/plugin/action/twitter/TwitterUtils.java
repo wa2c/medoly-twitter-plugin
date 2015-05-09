@@ -8,6 +8,8 @@ import android.widget.Toast;
 
 import com.wa2c.android.medoly.plugin.action.Logger;
 
+import java.lang.reflect.InvocationTargetException;
+
 import twitter4j.Twitter;
 import twitter4j.TwitterFactory;
 import twitter4j.auth.AccessToken;
@@ -36,7 +38,7 @@ public class TwitterUtils {
 			t2 = String.valueOf(cl.getMethod("getConsumerSecret", para).invoke(null, context.getString(R.string.base_app_name) + "__" + context.getString(R.string.domain_name)));
 		} catch (Exception e) {
 			Logger.e(e);
-			Toast.makeText(context, R.string.error_no_token_class, Toast.LENGTH_SHORT).show();
+			AppUtils.showToast(context, "There is no Token class.");
 		}
 
 		// キー未取得
