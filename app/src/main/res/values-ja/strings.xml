@@ -52,6 +52,8 @@
 	<string name="pref_summary_previous_media_enabled">前回イベント実行済みの同一メディアに対しても、イベントを実行します。</string>
 	<string name="pref_title_trim_before_empty_enabled">空項目直前の空白を削除</string>
 	<string name="pref_summary_trim_before_empty_enabled">挿入項目が空白の場合、直前の空白を削除します。</string>
+	<string name="pref_title_omit_newline">改行で省略</string>
+	<string name="pref_summary_omit_newline">改行文字を含むテキストを省略する際、改行文字の位置で省略します。</string>
 	<string name="pref_title_tweet_success_message_show">成功メッセージ表示</string>
 	<string name="pref_summary_tweet_success_message_show">ツイートに成功した際にメッセージを表示します。</string>
 	<string name="pref_title_tweet_failure_message_show">失敗メッセージ表示</string>

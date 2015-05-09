@@ -26,6 +26,12 @@
 		android:title="@string/pref_title_trim_before_empty_enabled" />
 
 	<CheckBoxPreference
+		android:defaultValue="true"
+		android:key="@string/prefkey_omit_newline"
+		android:summary="@string/pref_summary_omit_newline"
+		android:title="@string/pref_title_omit_newline" />
+
+	<CheckBoxPreference
 		android:defaultValue="false"
 		android:key="@string/prefkey_tweet_success_message_show"
 		android:summary="@string/pref_summary_tweet_success_message_show"

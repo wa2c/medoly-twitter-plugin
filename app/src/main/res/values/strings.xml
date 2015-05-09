@@ -46,8 +46,8 @@
 	<string name="pref_summary_previous_media_enabled">Enable to run the event for the same media that has run the event already last time.</string>
 	<string name="pref_title_trim_before_empty_enabled">Trim Before Whitespace</string>
 	<string name="pref_summary_trim_before_empty_enabled">Trim the whitespace in front of the empty item.</string>
-	<string name="pref_title_start_media_scan">Media Scanning</string>
-	<string name="pref_summary_start_media_scan">Scan media files.</string>
+	<string name="pref_title_omit_newline">Omit At Newline</string>
+	<string name="pref_summary_omit_newline">When omit the text which contains newlines, omit at a newline position.</string>
 	<string name="pref_title_tweet_success_message_show">Show Success Message</string>
 	<string name="pref_summary_tweet_success_message_show">Show the message when tweet succeeded.</string>
 	<string name="pref_title_tweet_failure_message_show">Show Failure Message</string>

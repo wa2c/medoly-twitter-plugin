@@ -115,137 +115,40 @@ public class PluginReceiver extends BroadcastReceiver {
         @Override
         protected Boolean doInBackground(String... params) {
             try {
-                String albumArtPath = propertyMap.get(ActionPluginParam.AlbumArtProperty.FOLDER_PATH.getKeyName()) + propertyMap.get(ActionPluginParam.AlbumArtProperty.FILE_NAME.getKeyName());
-
-//                String format = sharedPreferences.getString(context.getString(R.string.prefkey_content_format), context.getString(R.string.format_content_default));
-//                boolean isTrim = sharedPreferences.getBoolean(context.getString(R.string.prefkey_trim_before_empty_enabled), true);
-
-                File f = null;
-                if (sharedPreferences.getBoolean(context.getString(R.string.prefkey_content_album_art), true) && !TextUtils.isEmpty(albumArtPath)) {
-                    f = new File(albumArtPath);
-                    if (!f.exists()) {
-                        f = null;
+                // アルバムアート有無
+                File albumArtFile = null;
+                if (sharedPreferences.getBoolean(context.getString(R.string.prefkey_content_album_art), true)) {
+                    String albumArtPath = propertyMap.get(ActionPluginParam.AlbumArtProperty.FOLDER_PATH.getKeyName()) + propertyMap.get(ActionPluginParam.AlbumArtProperty.FILE_NAME.getKeyName());
+                    if (!TextUtils.isEmpty(albumArtPath)) {
+                        albumArtFile = new File(albumArtPath);
+                        if (!albumArtFile.exists()) {
+                            albumArtFile = null;
+                        }
                     }
                 }
 
-                int messageMax = (f == null) ? MESSAGE_LENGTH : MESSAGE_LENGTH - IMAGE_URL_LENGTH;
-
-
-//                // フォーマットに含まれているタグ取得
-//                HashSet<String> propertyKeySet = new HashSet<>();
-//                Matcher matcher = Pattern.compile(TAG_EXP, Pattern.MULTILINE).matcher(format);
-//                while (matcher.find()) {
-//                    if (matcher.groupCount() > 0) {
-//                        propertyKeySet.add(matcher.group(1));
-//                    }
-//                }
-//
-//                // フォーマットの内容を置換え
-//                int textCount = format.replaceAll(TAG_EXP, "").length();
-//
-//                String message = format;
-//                List<PropertyItem> priorityList = PropertyItem.loadPropertyPriority(context);
-//                for (PropertyItem item : priorityList) {
-//                    if (!propertyKeySet.contains(item.propertyKey))
-//                        continue;
-//
-//                    String replaceText = "";
-//                    if (propertyMap.containsKey(item.propertyKey))
-//                        replaceText = propertyMap.get(item.propertyKey);
-//
-//                    String tempText;
-//                    if (!TextUtils.isEmpty(replaceText)) {
-//                        tempText = message.replaceAll("%" + item.propertyKey + "%", replaceText);
-//                    } else {
-//                        if (isTrim)
-//                            tempText = message.replaceAll("\\w*%" + item.propertyKey + "%", "");
-//                    }
-//
-//                    if ()
-//
-//                    message = tempText;
-//                   // String tempText =  message.replaceFirst("%" + item.propertyKey + "%", replaceText);
-//
-//
-//
-//
-//
-////                    String keyName = item.propertyKey;
-////                    String val = propertyMap.get(keyName);
-////                    if (!TextUtils.isEmpty(val)) {
-////                        message = message.replaceAll("%" + keyName + "%", val);
-////                    } else {
-////                        if (isTrim)
-////                            message = message.replaceAll("\\w*%" + keyName + "%", "");
-////                    }
-//
-//                }
-
-
-
-
-//                // メディア
-//                for (ActionPluginParam.MediaProperty property : ActionPluginParam.MediaProperty.values()) {
-//                    String keyName = property.getKeyName();
-//                    if (!propertyKeySet.contains(keyName))
-//                        continue;
-//                    String val = propertyMap.get(keyName);
-//                    if (!TextUtils.isEmpty(val)) {
-//                        message = message.replaceAll("%" + keyName + "%", val);
-//                    } else {
-//                        if (isTrim)
-//                            message = message.replaceAll("\\w*%" + keyName + "%", "");
-//                    }
-//                }
-//
-//                // アルバムアート
-//                for (ActionPluginParam.AlbumArtProperty property : ActionPluginParam.AlbumArtProperty.values()) {
-//                    String keyName = property.getKeyName();
-//                    if (!propertyKeySet.contains(keyName))
-//                        continue;
-//                    String val = propertyMap.get(keyName);
-//                    if (!TextUtils.isEmpty(val)) {
-//                        message = message.replaceAll("%" + keyName + "%", val);
-//                    } else {
-//                        if (isTrim)
-//                            message = message.replaceAll("\\w*%" + keyName + "%", "");
-//                    }
-//                }
-//
-//                // 歌詞
-//                for (ActionPluginParam.LyricsProperty property : ActionPluginParam.LyricsProperty.values()) {
-//                    String keyName = property.getKeyName();
-//                    if (!propertyKeySet.contains(keyName))
-//                        continue;
-//                    String val = propertyMap.get(keyName);
-//                    if (!TextUtils.isEmpty(val)) {
-//                        message = message.replaceAll("%" + keyName + "%", val);
-//                    } else {
-//                        if (isTrim)
-//                            message = message.replaceAll("\\w*%" + keyName + "%", "");
-//                    }
-//                }
-
+                // メッセージ取得
+                int messageMax = (albumArtFile == null) ? MESSAGE_LENGTH : MESSAGE_LENGTH - IMAGE_URL_LENGTH;
                 String message = getMessage(messageMax);
                 if (TextUtils.isEmpty(message)) {
                     return false;
                 }
 
+                twitter.updateStatus(new StatusUpdate(message).media(albumArtFile));
 
-
-                if (f != null) {
-//                    int length = MESSAGE_LENGTH - IMAGE_URL_LENGTH - 4;
-//                    if (message.length() > length) {
-//                        message = message.substring(0, length) + "... ";
-//                    }
-                    twitter.updateStatus(new StatusUpdate(message).media(f));
-                } else {
-//                    int length = MESSAGE_LENGTH - 4;
-//                    if (message.length() > length) {
-//                        message = message.substring(0, length) + "... ";
-//                    }
-                    twitter.updateStatus(message);
-                }
+//                if (albumArtFile != null) {
+////                    int length = MESSAGE_LENGTH - IMAGE_URL_LENGTH - 4;
+////                    if (message.length() > length) {
+////                        message = message.substring(0, length) + "... ";
+////                    }
+//                    twitter.updateStatus(new StatusUpdate(message).media(albumArtFile));
+//                } else {
+////                    int length = MESSAGE_LENGTH - 4;
+////                    if (message.length() > length) {
+////                        message = message.substring(0, length) + "... ";
+////                    }
+//                    twitter.updateStatus(message);
+//                }
 
                 return true;
             } catch (TwitterException e) {
@@ -276,7 +179,7 @@ public class PluginReceiver extends BroadcastReceiver {
             }
 
             // フォーマットの内容を置換え
-            String tempText = format.replaceAll((isTrim ? "\\w*" : "")  + TAG_EXP, "");
+            String tempText = format.replaceAll(TAG_EXP, "");
             int textCount = tempText.length();
             if (textCount > messageMax) {
                 // 置換え無しで文字数オーバー
@@ -284,105 +187,59 @@ public class PluginReceiver extends BroadcastReceiver {
             }
 
             // 優先度の高い順に置換え
-            String message = format;
+            String outputMessage = format;
             boolean replaceComplete = false;
             List<PropertyItem> priorityList = PropertyItem.loadPropertyPriority(context);
             for (PropertyItem propertyItem : priorityList) {
                 if (!propertyKeySet.contains(propertyItem.propertyKey))
                     continue;
 
+                // 置換えテキスト取得
                 String replaceText = "";
                 if (propertyMap.containsKey(propertyItem.propertyKey))
                     replaceText = propertyMap.get(propertyItem.propertyKey);
 
+                // 検索
                 Matcher matcher;
                 if (replaceComplete || TextUtils.isEmpty(replaceText) && isTrim) {
-                    matcher = Pattern.compile("(\\w*)%" + propertyItem.propertyKey + "%").matcher(message); // タグ削除
+                    matcher = Pattern.compile("(\\w*)%" + propertyItem.propertyKey + "%").matcher(outputMessage); // タグ削除
                 } else {
-                    matcher = Pattern.compile("%" + propertyItem.propertyKey + "%").matcher(message); // タグ残す
+                    matcher = Pattern.compile("%" + propertyItem.propertyKey + "%").matcher(outputMessage); // タグ置換
                 }
 
                 while (matcher.find()) {
-                    if (matcher.groupCount() > 0) {
+                    if (replaceComplete || TextUtils.isEmpty(replaceText) && isTrim) {
                         // タグを削除する
+                        outputMessage = matcher.replaceFirst("");
                         textCount -= matcher.group(1).length();
                     } else {
-                        int remain = messageMax - textCount - replaceText.length();
+                        int remain = messageMax - textCount;
 
-                        if (remain > 0) {
+                        if (remain >= replaceText.length()) {
                             // 文字数内に収まる
-                            message = matcher.replaceFirst(replaceText);
+                            outputMessage = matcher.replaceFirst(replaceText);
                             textCount += replaceText.length();
                         } else {
-                            remain *= -1;
                             // 文字数内に収まらない
-                            if (propertyItem.omissible && (remain >= 4)) {
+                            if (propertyItem.omissible && remain > 4) {
                                 // 省略
-                                replaceText = replaceText.substring(0, messageMax - textCount - 4) + "... ";
-                                message = matcher.replaceFirst(replaceText);
+                                replaceText = replaceText.substring(0, remain - 4) + "... ";
+                                int newlineIndex = replaceText.lastIndexOf("\n");
+                                if (sharedPreferences.getBoolean(context.getString(R.string.prefkey_omit_newline), true) && newlineIndex > 0) {
+                                    replaceText = replaceText.substring(0, newlineIndex) + "... ";
+                                }
+                                outputMessage = matcher.replaceFirst(replaceText);
+                                textCount += replaceText.length();
                             } else {
-                                // 削除
-                                message = matcher.replaceFirst("");
+                                outputMessage = matcher.replaceAll("");
                             }
                             replaceComplete = true; // 完了
                         }
                     }
-
-
-
-//                    afterText = matcher.replaceFirst(replaceText);
-//
-//                    int matchCount = matcher.end() -  matcher.start();
-//                    int
-//
-//                    tempText = message.replaceAll((isTrim ? "\\w*" : "")  + TAG_EXP, "");
-//                    int textCount = tempText.length();
-//                    if (textCount > messageMax) {
-//                        // 文字数オーバー
-//                        return tempText.substring(0, messageMax - 4) + "... ";
-//                    }
-//
-//                    if (matcher.groupCount() > 0) {
-//
-//                    }
                 }
-
-
-
-//                String afterText = "";
-//                if (TextUtils.isEmpty(replaceText) && isTrim) {
-//                    afterText = message.replaceAll("\\w*%" + item.propertyKey + "%", "");
-//                } else {
-//                    afterText = message.replaceAll("%" + item.propertyKey + "%", replaceText);
-//                }
-//
-//                tempText = afterText.replaceAll((isTrim ? "\\w*" : "")  + TAG_EXP, "");
-//                if (tempText.length() > messageMax) {
-//                    return message;
-//                }
-
-
-               // message = afterText;
-                // String tempText =  message.replaceFirst("%" + item.propertyKey + "%", replaceText);
-
-
-
-
-
-//                    String keyName = item.propertyKey;
-//                    String val = propertyMap.get(keyName);
-//                    if (!TextUtils.isEmpty(val)) {
-//                        message = message.replaceAll("%" + keyName + "%", val);
-//                    } else {
-//                        if (isTrim)
-//                            message = message.replaceAll("\\w*%" + keyName + "%", "");
-//                    }
-
-
-
             }
 
-            return message;
+            return outputMessage;
         }
 
 
