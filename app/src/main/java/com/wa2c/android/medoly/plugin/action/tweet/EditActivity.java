@@ -1,25 +1,21 @@
-package com.wa2c.android.medoly.plugin.action.twitter;
+package com.wa2c.android.medoly.plugin.action.tweet;
 
 import android.app.ActionBar;
 import android.app.Activity;
-import android.app.Dialog;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.text.Editable;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
-import android.widget.Toast;
 
-import com.wa2c.android.medoly.plugin.action.twitter.dialog.ConfirmDialogFragment;
-import com.wa2c.android.medoly.plugin.action.twitter.dialog.InsertPropertyDialogFragment;
-import com.wa2c.android.medoly.plugin.action.twitter.dialog.PropertyPriorityDialogFragment;
+import com.wa2c.android.medoly.plugin.action.tweet.dialog.ConfirmDialogFragment;
+import com.wa2c.android.medoly.plugin.action.tweet.dialog.InsertPropertyDialogFragment;
+import com.wa2c.android.medoly.plugin.action.tweet.dialog.PropertyPriorityDialogFragment;
 
 
 public class EditActivity extends Activity {

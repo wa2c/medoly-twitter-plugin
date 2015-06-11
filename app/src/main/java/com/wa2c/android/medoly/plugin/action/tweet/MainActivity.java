@@ -1,12 +1,15 @@
-package com.wa2c.android.medoly.plugin.action.twitter;
+package com.wa2c.android.medoly.plugin.action.tweet;
 
 import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
+import android.widget.TextView;
 
+import com.wa2c.android.medoly.plugin.action.ActionPluginParam;
 import com.wa2c.android.medoly.plugin.action.Logger;
 
 import twitter4j.Twitter;
@@ -35,19 +38,21 @@ public class MainActivity extends Activity {
 		callbackURL = getString(R.string.twitter_callback_url);
 		twitter = TwitterUtils.getTwitterInstance(this);
 
-		// 編集
-		findViewById(R.id.editButton).setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				startActivity(new Intent(MainActivity.this, EditActivity.class));
-			}
-		});
+
 
 		// Twitter認証
 		findViewById(R.id.twitterOAuthButton).setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
 				startAuthorize();
+			}
+		});
+
+		// 編集
+		findViewById(R.id.editButton).setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				startActivity(new Intent(MainActivity.this, EditActivity.class));
 			}
 		});
 
@@ -58,6 +63,24 @@ public class MainActivity extends Activity {
 				startActivity(new Intent(MainActivity.this, SettingsActivity.class));
 			}
 		});
+
+		// Medoly起動
+		final Intent launchIntent =  getPackageManager().getLaunchIntentForPackage(ActionPluginParam.MEDOLY_PACKAGE);
+		findViewById(R.id.launchMedolyButton).setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				if (launchIntent != null) startActivity(launchIntent);
+			}
+		});
+		if (launchIntent == null) {
+			findViewById(R.id.launchMedolyButton).setVisibility(View.GONE);
+			findViewById(R.id.noMedolyTextView).setVisibility(View.VISIBLE);
+		} else {
+			findViewById(R.id.launchMedolyButton).setVisibility(View.VISIBLE);
+			findViewById(R.id.noMedolyTextView).setVisibility(View.GONE);
+		}
+
+		updateAuthMesage();
 	}
 
 	@Override
@@ -67,6 +90,17 @@ public class MainActivity extends Activity {
 		completeAuthorize(intent);
 	}
 
+	/**
+	 * 認証状態のメッセージを更新する。
+	 */
+	private void updateAuthMesage() {
+		AccessToken token = TwitterUtils.loadAccessToken(this);
+		if (token != null) {
+			((TextView)findViewById(R.id.twitterAuthTextView)).setText(getString(R.string.message_account_auth));
+		} else {
+			((TextView)findViewById(R.id.twitterAuthTextView)).setText(getString(R.string.message_account_not_auth));
+		}
+	}
 
 
 	/**
@@ -93,7 +127,7 @@ public class MainActivity extends Activity {
 					Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
 					startActivity(intent);
 				} else {
-					AppUtils.showToast(MainActivity.this, R.string.message_oauth_completed);
+					AppUtils.showToast(MainActivity.this, R.string.message_auth_failure);
 				}
 			}
 		};
@@ -116,10 +150,12 @@ public class MainActivity extends Activity {
 		AsyncTask<String, Void, AccessToken> task = new AsyncTask<String, Void, AccessToken>() {
 			@Override
 			protected AccessToken doInBackground(String... params) {
-				try {
-					return twitter.getOAuthAccessToken(requestToken, params[0]);
-				} catch (TwitterException e) {
-					e.printStackTrace();
+				if (params != null && params.length > 0 && !TextUtils.isEmpty(params[0])) {
+					try {
+						return twitter.getOAuthAccessToken(requestToken, params[0]);
+					} catch (TwitterException e) {
+						e.printStackTrace();
+					}
 				}
 				return null;
 			}
@@ -128,13 +164,15 @@ public class MainActivity extends Activity {
 			protected void onPostExecute(AccessToken accessToken) {
 				if (accessToken != null) {
 					// 認証成功
-					AppUtils.showToast(MainActivity.this, R.string.message_oauth_success);
+					AppUtils.showToast(MainActivity.this, R.string.message_auth_success);
 					// 認証情報を保存
 					TwitterUtils.storeAccessToken(MainActivity.this, accessToken);
 				} else {
 					// 認証失敗
-					AppUtils.showToast(MainActivity.this, R.string.message_oauth_failure);
+					AppUtils.showToast(MainActivity.this, R.string.message_auth_failure);
+					TwitterUtils.storeAccessToken(MainActivity.this, null);
 				}
+				updateAuthMesage();
 			}
 		};
 		task.execute(verifier);

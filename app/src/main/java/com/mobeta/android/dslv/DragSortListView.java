@@ -38,13 +38,12 @@ import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AbsListView;
 import android.widget.BaseAdapter;
 import android.widget.Checkable;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 
-import com.wa2c.android.medoly.plugin.action.twitter.R;
+import com.wa2c.android.medoly.plugin.action.tweet.R;
 
 import java.io.File;
 import java.io.FileWriter;

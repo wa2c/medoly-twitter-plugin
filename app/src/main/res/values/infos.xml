@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
+<resources
+	xmlns:tools="http://schemas.android.com/tools"
+	tools:ignore="MissingTranslation">
 
 	<!-- App Infos -->
-	<string name="app_name">Twitter Plugin For Medoly</string>
+	<string name="app_name">Medoly Twitter Plugin</string>
 	<string name="base_app_name">Medoly</string>
 	<string name="domain_name">wa2c.com</string>
-	<string name="app_description">MedolyからTwitterにメッセージを投稿します。</string>
 	<string name="app_mail_name">medoly</string>
 	<string name="app_mail_domain">wa2c.com</string>
 	<string name="app_author">wa2c</string>
@@ -16,9 +17,11 @@
 	<!-- Library  -->
 	<string-array name="about_library_names">
 		<item>Twitter4j</item>
+		<item>DragSortListView</item>
 	</string-array>
 	<string-array name="about_library_urls">
 		<item>http://twitter4j.org/</item>
+		<item>https://github.com/bauerca/drag-sort-listview</item>
 	</string-array>
 
 	<string name="format_content_default">%MEDIA_TITLE% - %MEDIA_ARTIST% / %MEDIA_ALBUM% #NowPlaying</string>
@@ -34,8 +37,7 @@
 	<string name="prefkey_omit_newline">omit_newline</string>
 	<string name="prefkey_tweet_success_message_show">tweet_success_message_show</string>
 	<string name="prefkey_tweet_failure_message_show">tweet_failure_message_show</string>
-
-	<!-- Settings Screen -->
+	<string name="prefkey_application_details">application_details</string>
 	<string name="prefkey_about">about</string>
 
 </resources>

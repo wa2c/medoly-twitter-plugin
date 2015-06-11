@@ -34,15 +34,19 @@
 	<CheckBoxPreference
 		android:defaultValue="false"
 		android:key="@string/prefkey_tweet_success_message_show"
-		android:summary="@string/pref_summary_tweet_success_message_show"
-		android:title="@string/pref_title_tweet_success_message_show" />
+		android:summary="@string/pref_summary_post_success_message_show"
+		android:title="@string/pref_title_post_success_message_show" />
 
 	<CheckBoxPreference
 		android:defaultValue="true"
 		android:key="@string/prefkey_tweet_failure_message_show"
-		android:summary="@string/pref_summary_tweet_failure_message_show"
-		android:title="@string/pref_title_tweet_failure_message_show" />
+		android:summary="@string/pref_summary_post_failure_message_show"
+		android:title="@string/pref_title_post_failure_message_show" />
 
+	<Preference
+		android:key="@string/prefkey_application_details"
+		android:summary="@string/pref_summary_application_details"
+		android:title="@string/pref_title_application_details" />
 	<Preference
 		android:key="@string/prefkey_about"
 		android:title="@string/pref_title_about" />

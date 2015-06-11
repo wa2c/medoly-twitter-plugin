@@ -1,11 +1,13 @@
-package com.wa2c.android.medoly.plugin.action.twitter;
+package com.wa2c.android.medoly.plugin.action.tweet;
 
 import android.app.ActionBar;
 import android.app.AlertDialog;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.PackageManager.NameNotFoundException;
+import android.net.Uri;
 import android.os.Bundle;
 import android.preference.EditTextPreference;
 import android.preference.ListPreference;
@@ -15,6 +17,7 @@ import android.preference.PreferenceActivity;
 import android.preference.PreferenceCategory;
 import android.preference.PreferenceFragment;
 import android.preference.PreferenceScreen;
+import android.provider.Settings;
 import android.text.Html;
 import android.text.InputType;
 import android.text.TextUtils;
@@ -22,7 +25,7 @@ import android.text.method.LinkMovementMethod;
 import android.text.util.Linkify;
 import android.view.Gravity;
 import android.view.MenuItem;
-import android.view.ViewGroup;
+import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -90,6 +93,11 @@ public class SettingsActivity extends PreferenceActivity {
 			super.onCreate(savedInstanceState);
 			addPreferencesFromResource(R.xml.pref_settings);
 
+			// アプリ情報
+			findPreference(getString(R.string.prefkey_application_details)).setOnPreferenceClickListener(applicationDetailsPreferenceClickListener);
+			// About
+			findPreference(getString(R.string.prefkey_about)).setOnPreferenceClickListener(aboutPreferenceClickListener);
+
 			initSummary(getPreferenceScreen());
 		}
 		/**
@@ -113,19 +121,32 @@ public class SettingsActivity extends PreferenceActivity {
 
 
 		/**
-		 * 設定選択処理。
+		 * アプリ情報。
+		 */
+		private Preference.OnPreferenceClickListener applicationDetailsPreferenceClickListener = new Preference.OnPreferenceClickListener() {
+			@Override
+			public boolean onPreferenceClick(Preference preference) {
+				Intent intent = new Intent();
+				intent.setAction(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
+				intent.setData(Uri.parse("package:" + getActivity().getPackageName()));
+				startActivity(intent);
+				return true;
+			}
+		};
+		/**
+		 * About.
 		 */
 		private Preference.OnPreferenceClickListener aboutPreferenceClickListener = new Preference.OnPreferenceClickListener() {
 			@Override
 			public boolean onPreferenceClick(Preference preference) {
-				RelativeLayout layoutView =  (RelativeLayout)ViewGroup.inflate(getActivity(), R.layout.layout_about, null);
+				RelativeLayout layoutView = (RelativeLayout) View.inflate(getActivity(), R.layout.layout_about, null);
 
 				// Version
 				try {
 					PackageInfo packageInfo = getActivity().getPackageManager().getPackageInfo( getActivity().getPackageName(), PackageManager.GET_ACTIVITIES);
 					((TextView)layoutView.findViewById(R.id.aboutAppVersionTextView)).setText("Ver. " + packageInfo.versionName);
 				} catch (NameNotFoundException e) {
-					Logger.d(e);
+					Logger.e(e);
 				}
 
 				// Developer

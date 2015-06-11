@@ -2,29 +2,33 @@ package com.wa2c.android.medoly.plugin.action;
 
 import android.content.Context;
 
-import com.wa2c.android.medoly.plugin.action.twitter.R;
+import com.wa2c.android.medoly.plugin.action.tweet.R;
 
 public class ActionPluginParam {
 
-	//
-	// Plugin
-	//
+	/** Medoly package. */
+	public static String MEDOLY_PACKAGE = "com.wa2c.android.medoly";
 
-	/**
-	 * プラグインアクション。
-	 */
+	/** Action. */
 	public static final String PLUGIN_ACTION = "com.wa2c.android.medoly.plugin.action.ACTION_MEDIA";
+	/** 値マップのキー。 */
+	public static final String PLUGIN_VALUE_KEY  = "value_map";
+	/** イベントキー。 */
+	public static final String PLUGIN_EVENT_KEY = "is_event";
+
+
 
 	/** プラグイン種別カテゴリ */
 	public enum PluginTypeCategory {
 		/** メッセージ通知。 */
-		TYPE_POST_MESSAGE,
-		/** アルバムアートダウンロード。 */
-		TYPE_GET_ALBUM_ART,
-		/** 歌詞ダウンロード。 */
-		TYPE_GET_LYRICS,
-		/** メディア編集。 */
-		TYPE_EDIT_MEDIA;
+		TYPE_POST_MESSAGE;
+// 未実装
+//		/** プロパティ取得。 */
+//		TYPE_GET_PROPERTY,
+//		/** アルバムアート取得。 */
+//		TYPE_GET_ALBUM_ART,
+//		/** 歌詞取得。 */
+//		TYPE_GET_LYRICS;
 
 		/** コンストラクタ。 */
 		PluginTypeCategory() {
@@ -51,6 +55,8 @@ public class ActionPluginParam {
 		OPERATION_PLAY_NOW,
 		/** 再生停止。 */
 		OPERATION_PLAY_STOP,
+		/** 再生完了。 */
+		OPERATION_PLAY_COMPLETE,
 		/** メディア終了。 */
 		OPERATION_MEDIA_CLOSE;
 
@@ -126,9 +132,11 @@ public class ActionPluginParam {
 		DJMIXER                      ( R.string.media_djmixer                      , true  ),
 		/** リミキサ。 */
 		REMIXER                      ( R.string.media_remixer                      , true  ),
-
 		/** レーベル。 */
 		RECORD_LABEL                 ( R.string.media_record_label                 , true  ),
+		/** コメント。 */
+		COMMENT                      ( R.string.media_comment                      , true  ),
+
 		/** メディア。 */
 		MEDIA                        ( R.string.media_media                        , false ),
 		/** ディスクNo。 */
@@ -140,8 +148,18 @@ public class ActionPluginParam {
 		/** トラック合計。 */
 		TRACK_TOTAL                  ( R.string.media_track_total                  , false ),
 
-		/** コメント。 */
-		COMMENT                      ( R.string.media_comment                      , true  ),
+		/** 音声フォーマット。 */
+		FORMAT                       ( R.string.media_bit_rate                     , false ),
+		/** 音声エンコード種別。 */
+		ENCODING_TYPE                ( R.string.media_encoding_type                , false ),
+		/** ビットレート。 */
+		BIT_RATE                     ( R.string.media_bit_rate                     , false ),
+		/** サンプリングレート。 */
+		SAMPLE_RATE                  ( R.string.media_sample_rate                  , false ),
+		/** 音声チャンネル数。 */
+		CHANNELS                     ( R.string.media_channels                     , false ),
+		/** 音声の長さ(ms)。 */
+		DURATION                     ( R.string.media_duration                     , false ),
 
 		/** ループ開始。 */
 		LOOP_START                   ( R.string.media_loop                         , false ),
@@ -190,9 +208,9 @@ public class ActionPluginParam {
 		URL_DISCOGS_ARTIST_SITE      ( R.string.media_url_discogs_artist_site      , false ),
 
 		// Music Brainz Information
-		MUSICBRAINZ_RELEASEID        ( R.string.media_musicbrainz_releaseid        , false ),
-		MUSICBRAINZ_ARTISTID         ( R.string.media_musicbrainz_artistid         , false ),
-		MUSICBRAINZ_RELEASEARTISTID  ( R.string.media_musicbrainz_releaseartistid  , false ),
+		MUSICBRAINZ_RELEASEID        ( R.string.media_musicbrainz_release_id, false ),
+		MUSICBRAINZ_ARTISTID         ( R.string.media_musicbrainz_artist_id, false ),
+		MUSICBRAINZ_RELEASEARTISTID  ( R.string.media_musicbrainz_release_artist_id, false ),
 		MUSICBRAINZ_RELEASE_GROUP_ID ( R.string.media_musicbrainz_release_group_id , false ),
 		MUSICBRAINZ_DISC_ID          ( R.string.media_musicbrainz_disc_id          , false ),
 		MUSICBRAINZ_TRACK_ID         ( R.string.media_musicbrainz_track_id         , false ),
@@ -394,6 +412,5 @@ public class ActionPluginParam {
 			this.omissible = omissible;
 		}
 	}
-
 
 }

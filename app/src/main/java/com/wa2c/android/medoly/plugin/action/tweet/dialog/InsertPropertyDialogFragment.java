@@ -1,4 +1,4 @@
-package com.wa2c.android.medoly.plugin.action.twitter.dialog;
+package com.wa2c.android.medoly.plugin.action.tweet.dialog;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -14,9 +14,8 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import com.wa2c.android.medoly.plugin.action.ActionPluginParam;
-import com.wa2c.android.medoly.plugin.action.twitter.PropertyItem;
-import com.wa2c.android.medoly.plugin.action.twitter.R;
+import com.wa2c.android.medoly.plugin.action.tweet.PropertyItem;
+import com.wa2c.android.medoly.plugin.action.tweet.R;
 
 import java.util.ArrayList;
 import java.util.EventListener;
@@ -45,26 +44,8 @@ public class InsertPropertyDialogFragment extends AbstractDialogFragment {
 	public Dialog onCreateDialog(Bundle savedInstanceState) {
 		final Activity context = getActivity();
 
-		for (ActionPluginParam.MediaProperty p : ActionPluginParam.MediaProperty.values()) {
-			PropertyItem item = new PropertyItem();
-			item.propertyKey = p.getKeyName();
-			item.propertyName = getString(R.string.media) + " - " +  p.getName(context);
-			itemList.add(item);
-		}
-
-		for (ActionPluginParam.AlbumArtProperty p : ActionPluginParam.AlbumArtProperty.values()) {
-			PropertyItem item = new PropertyItem();
-			item.propertyKey = p.getKeyName();
-			item.propertyName = getString(R.string.album_art) + " - " +  p.getName(context);
-			itemList.add(item);
-		}
-
-		for (ActionPluginParam.LyricsProperty p : ActionPluginParam.LyricsProperty.values()) {
-			PropertyItem item = new PropertyItem();
-			item.propertyKey = p.getKeyName();
-			item.propertyName = getString(R.string.lyrics) + " - " +  p.getName(context);
-			itemList.add(item);
-		}
+		// 再生キュー
+		itemList.addAll(PropertyItem.getDefaultPropertyPriority(context));
 
 		// リストアダプタ
 		final PropertytListAdapter adapter = new PropertytListAdapter(context, itemList);

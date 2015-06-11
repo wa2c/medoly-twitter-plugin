@@ -1,4 +1,4 @@
-package com.wa2c.android.medoly.plugin.action.twitter.dialog;
+package com.wa2c.android.medoly.plugin.action.tweet.dialog;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -15,9 +15,9 @@ import android.widget.TextView;
 
 import com.mobeta.android.dslv.DragSortController;
 import com.mobeta.android.dslv.DragSortListView;
-import com.wa2c.android.medoly.plugin.action.twitter.AppUtils;
-import com.wa2c.android.medoly.plugin.action.twitter.PropertyItem;
-import com.wa2c.android.medoly.plugin.action.twitter.R;
+import com.wa2c.android.medoly.plugin.action.tweet.AppUtils;
+import com.wa2c.android.medoly.plugin.action.tweet.PropertyItem;
+import com.wa2c.android.medoly.plugin.action.tweet.R;
 
 import java.util.ArrayList;
 

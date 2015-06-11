@@ -1,14 +1,11 @@
-package com.wa2c.android.medoly.plugin.action.twitter;
+package com.wa2c.android.medoly.plugin.action.tweet;
 
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.text.TextUtils;
-import android.widget.Toast;
 
 import com.wa2c.android.medoly.plugin.action.Logger;
-
-import java.lang.reflect.InvocationTargetException;
 
 import twitter4j.Twitter;
 import twitter4j.TwitterFactory;
@@ -28,17 +25,17 @@ public class TwitterUtils {
 	 */
 	@SuppressWarnings("unchecked")
 	public static Twitter getTwitterInstance(Context context) {
-		String t1 = null;
-		String t2 = null;
+		String t1;
+		String t2;
 
 		try {
-			Class cl = Class.forName(TwitterUtils.class.getPackage().getName() + ".Token");
-			Class para[] = new Class[] { String.class };
-			t1 = String.valueOf(cl.getMethod("getConsumerKey", para).invoke(null, context.getString(R.string.base_app_name) + "__" + context.getString(R.string.domain_name)));
-			t2 = String.valueOf(cl.getMethod("getConsumerSecret", para).invoke(null, context.getString(R.string.base_app_name) + "__" + context.getString(R.string.domain_name)));
+			String k = context.getString(R.string.base_app_name) + "__" + context.getString(R.string.domain_name);
+			t1 = Token.getConsumerKey(k);
+			t2 = Token.getConsumerSecret(k);
 		} catch (Exception e) {
 			Logger.e(e);
 			AppUtils.showToast(context, "There is no Token class.");
+			return null;
 		}
 
 		// キー未取得
@@ -65,8 +62,13 @@ public class TwitterUtils {
 	public static void storeAccessToken(Context context, AccessToken accessToken) {
 		SharedPreferences preferences = context.getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE);
 		Editor editor = preferences.edit();
-		editor.putString(TOKEN, accessToken.getToken()).apply();
-		editor.putString(TOKEN_SECRET, accessToken.getTokenSecret()).apply();
+		if (accessToken != null) {
+			editor.putString(TOKEN, accessToken.getToken()).apply();
+			editor.putString(TOKEN_SECRET, accessToken.getTokenSecret()).apply();
+		} else {
+			editor.remove(TOKEN).apply();
+			editor.remove(TOKEN_SECRET).apply();
+		}
 	}
 
 	/**
@@ -79,7 +81,7 @@ public class TwitterUtils {
 		SharedPreferences preferences = context.getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE);
 		String token = preferences.getString(TOKEN, null);
 		String tokenSecret = preferences.getString(TOKEN_SECRET, null);
-		if (token != null && tokenSecret != null) {
+		if (!TextUtils.isEmpty(token) && !TextUtils.isEmpty(tokenSecret)) {
 			return new AccessToken(token, tokenSecret);
 		} else {
 			return null;

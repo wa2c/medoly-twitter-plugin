@@ -4,8 +4,8 @@
 	<dimen name="activity_horizontal_margin">16dp</dimen>
 	<dimen name="activity_vertical_margin">16dp</dimen>
 
-	<dimen name="main_button_margin">16dp</dimen>
-	<dimen name="main_button_width">128dp</dimen>
+	<dimen name="main_button_margin">8dp</dimen>
+	<dimen name="main_button_width">160dp</dimen>
 	<dimen name="edit_button_width">96dp</dimen>
 
 	<dimen name="list_item_size">48dp</dimen>

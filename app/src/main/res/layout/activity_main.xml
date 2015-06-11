@@ -1,35 +1,81 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-	xmlns:tools="http://schemas.android.com/tools"
-	android:id="@+id/container"
-	android:layout_width="match_parent"
-	android:orientation="vertical"
-	android:layout_height="match_parent"
-	tools:context="com.wa2c.android.medoly.plugin.action.twitter.MainActivity"
-	tools:ignore="MergeRootFrame" >
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/container"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.wa2c.android.medoly.plugin.action.tweet.MainActivity"
+    tools:ignore="MergeRootFrame">
 
-	<Button
-	    android:id="@+id/twitterOAuthButton"
-	    android:layout_width="@dimen/main_button_width"
-	    android:layout_height="wrap_content"
-	    android:layout_gravity="center_horizontal"
-	    android:text="Twitter認証"
-		android:layout_margin="@dimen/main_button_margin" />
+    <ScrollView
+        android:id="@+id/scrollView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
-	<Button
-		android:layout_width="@dimen/main_button_width"
-		android:layout_height="wrap_content"
-		android:text="編集"
-		android:id="@+id/editButton"
-		android:layout_gravity="center_horizontal"
-		android:layout_margin="@dimen/main_button_margin" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
 
-	<Button
-	    android:id="@+id/settingsButton"
-	    android:layout_width="@dimen/main_button_width"
-	    android:layout_height="wrap_content"
-	    android:layout_gravity="center"
-	    android:text="設定"
-		android:layout_margin="@dimen/main_button_margin" />
+            <Button
+                android:id="@+id/twitterOAuthButton"
+                android:layout_width="@dimen/main_button_width"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_margin="@dimen/main_button_margin"
+                android:text="@string/label_button_account_auth" />
 
-</LinearLayout>
+            <Button
+                android:id="@+id/editButton"
+                android:layout_width="@dimen/main_button_width"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_margin="@dimen/main_button_margin"
+                android:text="@string/label_button_edit" />
+
+            <Button
+                android:id="@+id/settingsButton"
+                android:layout_width="@dimen/main_button_width"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_margin="@dimen/main_button_margin"
+                android:text="@string/label_button_settings" />
+
+            <Button
+                android:id="@+id/launchMedolyButton"
+                android:layout_width="@dimen/main_button_width"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_margin="@dimen/main_button_margin"
+                android:text="@string/label_button_launch_medoly" />
+
+            <TextView
+                android:id="@+id/noMedolyTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:text="@string/message_no_medoly"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:layout_margin="@dimen/main_button_margin" />
+
+            <TextView
+                android:id="@+id/twitterAuthTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:text="@string/message_account_auth"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:layout_margin="@dimen/main_button_margin" />
+
+        </LinearLayout>
+    </ScrollView>
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="right|top"></LinearLayout>
+</FrameLayout>
+
+
 

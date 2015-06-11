@@ -1,4 +1,4 @@
-package com.wa2c.android.medoly.plugin.action.twitter;
+package com.wa2c.android.medoly.plugin.action.tweet;
 
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -106,7 +106,7 @@ public class PropertyItem {
                 outputItemList.add(item); // 設定に無い項目を追加
             }
         } catch (Exception e) {
-            Logger.e(e);
+            // エラー時はデフォルト状態
             outputItemList = itemList;
         }
 

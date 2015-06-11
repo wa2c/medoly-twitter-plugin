@@ -23,7 +23,7 @@
 
 	<string name="media_genre">ジャンル</string>
 	<string name="media_mood">ムード</string>
-	<string name="media_occasion">Occasion</string>
+	<string name="media_occasion">機会</string>
 
 	<string name="media_year">年</string>
 	<string name="media_original_year">オリジナル年</string>
@@ -39,14 +39,21 @@
 	<string name="media_mixer">ミキサ</string>
 	<string name="media_djmixer">DJミキサ</string>
 	<string name="media_remixer">リミキサ</string>
-
 	<string name="media_record_label">レーベル</string>
+	<string name="media_comment">コメント</string>
+
+	<string name="media_media">メディア</string>
 	<string name="media_disc">ディスク</string>
 	<string name="media_disc_total">ディスク合計</string>
 	<string name="media_track">トラック</string>
 	<string name="media_track_total">トラック合計</string>
 
-	<string name="media_comment">コメント</string>
+	<string name="media_duration">曲の長さ</string>
+	<string name="media_format">音声フォーマット</string>
+	<string name="media_encoding_type">音声エンコード種別</string>
+	<string name="media_bit_rate">ビットレート</string>
+	<string name="media_sample_rate">サンプリングレート</string>
+	<string name="media_channels">音声チャンネル</string>
 
 	<string name="media_loop">ループ</string>
 	<string name="media_tempo">テンポ</string>
@@ -74,9 +81,9 @@
 	<string name="media_url_discogs_release_site">Discogs Release Site URL</string>
 	<string name="media_url_discogs_artist_site">Discogs Artist Site URL</string>
 
-	<string name="media_musicbrainz_releaseid">MusicBranz Release ID</string>
-	<string name="media_musicbrainz_artistid">MusicBranz Artist ID</string>
-	<string name="media_musicbrainz_releaseartistid">MusicBranz Release Artist ID</string>
+	<string name="media_musicbrainz_release_id">MusicBranz Release ID</string>
+	<string name="media_musicbrainz_artist_id">MusicBranz Artist ID</string>
+	<string name="media_musicbrainz_release_artist_id">MusicBranz Release Artist ID</string>
 	<string name="media_musicbrainz_release_group_id">MusicBranz Release Group ID</string>
 	<string name="media_musicbrainz_disc_id">MusicBranz Disc ID</string>
 	<string name="media_musicbrainz_track_id">MusicBranz Track ID</string>

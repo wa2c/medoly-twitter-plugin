@@ -5,24 +5,21 @@ android {
     buildToolsVersion "22.0.1"
 
     defaultConfig {
-        applicationId "com.wa2c.android.medoly.plugin.action.twitter"
+        applicationId "com.wa2c.android.medoly.plugin.action.tweet"
         minSdkVersion 13
         targetSdkVersion 15
     }
 
     buildTypes {
+        debug {
+            versionNameSuffix 'd'
+        }
         release {
-            minifyEnabled false
+            minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.txt'
         }
     }
 }
-
-//dependencies {
-//    compile files('libs/twitter4j-core-4.0.1-javadoc.jar')
-//    compile files('libs/twitter4j-core-4.0.1-sources.jar')
-//    compile files('libs/twitter4j-core-4.0.1.jar')
-//}
 
 dependencies {
     // Twitter4j

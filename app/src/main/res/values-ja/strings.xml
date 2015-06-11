@@ -1,43 +1,44 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-
 	<!-- Package -->
-	<string name="classLabel">ついーと！</string>
-	<string name="classDescription">Twitterに投稿します</string>
+	<string name="app_description">MedolyからTwitterにメッセージを送信します。</string>
+	<string name="class_receiver_label">Twitter アクション</string>
+	<string name="label_execute_tweet">外部アプリで送信</string>
+	<string name="label_execute_site">Twitterを開く</string>
 
-
-
-	<!-- App -->
+	<!-- Activity -->
 	<string name="title_activity_edit">メッセージ編集</string>
-	<string name="title_activity_settings">Setting</string>
-
-
+	<string name="title_activity_settings">設定</string>
 	<string name="label_insert">挿入</string>
 	<string name="label_default">初期化</string>
 	<string name="label_priority">優先度</string>
 	<string name="label_confirm">確認</string>
 
-
-
-	<!-- Twitter -->
+	<!-- Post -->
+	<string name="message_no_media">メディアが選択されていません。</string>
 	<string name="message_post_success">ツイートが完了しました。</string>
-	<string name="message_post_failure">ツイートに失敗しました。.</string>
+	<string name="message_post_failure">ツイートに失敗しました。</string>
+	<string name="message_auth_success">認証が完了しました。</string>
+	<string name="message_auth_failure">認証に失敗しました。</string>
 
-	<string name="message_oauth_success">認証が完了しました。</string>
-	<string name="message_oauth_failure">認証に失敗しました。</string>
-
-
-
+	<!-- Main Activity -->
+	<string name="label_button_account_auth">Twitter認証</string>
+	<string name="label_button_edit">メッセージ編集</string>
+	<string name="label_button_settings">設定</string>
+	<string name="label_button_launch_medoly">Medoly起動</string>
+	<string name="message_no_medoly">Medolyをインストールしてください。</string>
+	<string name="message_account_auth">Twitter認証が完了しています。</string>
+	<string name="message_account_not_auth">Twitter認証されていません。</string>
 
 	<!--  Edit Activity -->
 	<string name="label_edit_title">メッセージ編集</string>
 	<string name="label_edit_insert_album_art">アルバムアート追加</string>
 	<string name="label_dialog_insert_property_title">プロパティ挿入</string>
-	<string name="label_dialog_property_priority_title">項目優先度の並べ替え</string>
+	<string name="label_dialog_property_priority_title">表示優先度の並べ替え</string>
 	<string name="label_dialog_property_priority_title1">表示項目</string>
 	<string name="label_dialog_property_priority_title2">省略可</string>
-	<string name="message_initialize_priority">優先度を初期化しました。</string>
+	<string name="message_initialize_priority">表示優先度を初期化しました。</string>
 	<string name="message_confirm_initialize_format">メッセージを初期化します。</string>
 
 	<!-- Settings Activity -->
@@ -54,10 +55,12 @@
 	<string name="pref_summary_trim_before_empty_enabled">挿入項目が空白の場合、直前の空白を削除します。</string>
 	<string name="pref_title_omit_newline">改行で省略</string>
 	<string name="pref_summary_omit_newline">改行文字を含むテキストを省略する際、改行文字の位置で省略します。</string>
-	<string name="pref_title_tweet_success_message_show">成功メッセージ表示</string>
-	<string name="pref_summary_tweet_success_message_show">ツイートに成功した際にメッセージを表示します。</string>
-	<string name="pref_title_tweet_failure_message_show">失敗メッセージ表示</string>
-	<string name="pref_summary_tweet_failure_message_show">ツイートに失敗した際にメッセージを表示します。</string>
+	<string name="pref_title_post_success_message_show">成功メッセージ表示</string>
+	<string name="pref_summary_post_success_message_show">ツイートに成功した際にメッセージを表示します。</string>
+	<string name="pref_title_post_failure_message_show">失敗メッセージ表示</string>
+	<string name="pref_summary_post_failure_message_show">ツイートに失敗した際にメッセージを表示します。</string>
+	<string name="pref_title_application_details">アプリ情報</string>
+	<string name="pref_summary_application_details">アプリ情報を表示します。</string>
 	<string name="pref_title_about">About</string>
 	<string name="pref_summary_about">About</string>
 

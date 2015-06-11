@@ -5,15 +5,15 @@ import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Debug;
 import android.preference.PreferenceManager;
-import android.text.format.Time;
+import android.text.format.DateFormat;
 import android.util.Log;
 
-import com.wa2c.android.medoly.plugin.action.twitter.BuildConfig;
+import com.wa2c.android.medoly.plugin.action.tweet.BuildConfig;
 
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.lang.Thread.UncaughtExceptionHandler;
-
+import java.util.Date;
 
 
 /**
@@ -60,9 +60,7 @@ public class Logger implements UncaughtExceptionHandler {
 	public static void saveExceptionMessage(Throwable ex) {
 		// スタックトレースを保存
 		StringBuilder builder = new StringBuilder();
-		Time time = new Time("Asia/Tokyo");
-		time.setToNow();
-		builder.append(time.format3339(false)).append("\n");
+		builder.append(DateFormat.format("yyyy/MM/dd HH:mm:ss", new Date())).append("\n");
 		builder.append(ex.getMessage()).append("\n");
 		builder.append(Build.MANUFACTURER).append(" / ").append(Build.MODEL).append("\n");
 		builder.append("-----------------------------\n");

@@ -3,26 +3,34 @@
 
 
 	<!-- Package -->
-	<string name="classLabel">ついーと！</string>
-	<string name="classDescription">Twitterに投稿します</string>
+	<string name="app_description">Post messages to Twitter from Medoly.</string>
+	<string name="class_receiver_label">Twitter actions.</string>
+	<string name="label_execute_tweet">Send to external apps</string>
+	<string name="label_execute_site">Twitter</string>
 
-
-	<!-- App -->
+	<!-- Activity -->
 	<string name="title_activity_edit">Message Edit</string>
 	<string name="title_activity_settings">Setting</string>
-
 	<string name="label_insert">Insert</string>
 	<string name="label_default">Default</string>
 	<string name="label_priority">Priority</string>
 	<string name="label_confirm">Confirm</string>
 
 	<!-- Twitter -->
-	<string name="message_post_completed">Tweet completed.</string>
-	<string name="message_post_failed">Tweet failed.</string>
-	<string name="message_oauth_completed">OAuth completed.</string>
-	<string name="message_oauth_failed">OAuth failed.</string>
+	<string name="message_no_media">The media is not selected.</string>
+	<string name="message_post_success">Tweet completed.</string>
+	<string name="message_post_failure">Tweet failed.</string>
+	<string name="message_auth_success">OAuth completed.</string>
+	<string name="message_auth_failure">OAuth failed.</string>
 
-
+	<!-- Main Activity -->
+	<string name="label_button_account_auth">Twitter Auth</string>
+	<string name="label_button_edit">Edit Message</string>
+	<string name="label_button_settings">Settings</string>
+	<string name="label_button_launch_medoly">Launch Medoly</string>
+	<string name="message_no_medoly">Please install Medoly.</string>
+	<string name="message_account_auth">Twitter authentication completed.</string>
+	<string name="message_account_not_auth">Not Twitter authentication.</string>
 
 	<!--  Edit Activity -->
 	<string name="label_edit_title">Edit Message</string>
@@ -48,10 +56,12 @@
 	<string name="pref_summary_trim_before_empty_enabled">Trim the whitespace in front of the empty item.</string>
 	<string name="pref_title_omit_newline">Omit At Newline</string>
 	<string name="pref_summary_omit_newline">When omit the text which contains newlines, omit at a newline position.</string>
-	<string name="pref_title_tweet_success_message_show">Show Success Message</string>
-	<string name="pref_summary_tweet_success_message_show">Show the message when tweet succeeded.</string>
-	<string name="pref_title_tweet_failure_message_show">Show Failure Message</string>
-	<string name="pref_summary_tweet_failure_message_show">Show the message when tweet failed. </string>
+	<string name="pref_title_post_success_message_show">Show Success Message</string>
+	<string name="pref_summary_post_success_message_show">Show the message when tweet succeeded.</string>
+	<string name="pref_title_post_failure_message_show">Show Failure Message</string>
+	<string name="pref_summary_post_failure_message_show">Show the message when tweet failed. </string>
+	<string name="pref_title_application_details">App Info</string>
+	<string name="pref_summary_application_details">Show application information.</string>
 	<string name="pref_title_about">About</string>
 	<string name="pref_summary_about">About</string>
 

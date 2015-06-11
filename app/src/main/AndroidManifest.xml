@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.wa2c.android.medoly.plugin.action.twitter"
-    android:versionCode="1"
-    android:versionName="1.0" >
+    package="com.wa2c.android.medoly.plugin.action.tweet"
+    android:versionCode="3"
+    android:versionName="1.0.2" >
 
     <uses-sdk
         android:minSdkVersion="13"
@@ -10,11 +10,6 @@
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-
-    <android:uses-permission
-        android:name="android.permission.WRITE_EXTERNAL_STORAGE"
-        android:maxSdkVersion="18" />
-    <android:uses-permission android:name="android.permission.READ_PHONE_STATE" />
 
     <application
         android:allowBackup="true"
@@ -24,7 +19,6 @@
         android:theme="@style/AppTheme" >
         <activity
             android:name=".MainActivity"
-            android:label="@string/app_name"
             android:launchMode="singleTask" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -47,7 +41,9 @@
             android:label="@string/title_activity_settings"
             android:launchMode="singleTask" />
 
-        <receiver android:name=".PluginReceiver" >
+        <receiver
+            android:name=".PluginReceiver"
+            android:label="@string/class_receiver_label">
             <intent-filter>
                 <action android:name="com.wa2c.android.medoly.plugin.action.ACTION_MEDIA" />
 
@@ -55,7 +51,18 @@
                 <category android:name="com.wa2c.android.medoly.plugin.category.TYPE_POST_MESSAGE" />
                 <category android:name="com.wa2c.android.medoly.plugin.category.OPERATION_PLAY_NOW" />
                 <category android:name="com.wa2c.android.medoly.plugin.category.OPERATION_PLAY_START" />
+                <category android:name="com.wa2c.android.medoly.plugin.category.OPERATION_EXECUTE" />
             </intent-filter>
+
+
+            <meta-data android:name="id_execute_tweet" android:value="0" />
+            <meta-data android:name="label_execute_tweet" android:resource="@string/label_execute_tweet" />
+            <meta-data android:name="icon_execute_tweet" android:resource="@drawable/ic_action_tweet" />
+
+            <meta-data android:name="id_execute_site" android:value="1" />
+            <meta-data android:name="label_execute_site" android:resource="@string/label_execute_site" />
+            <meta-data android:name="icon_execute_site" android:resource="@drawable/ic_action_twitter" />
+
         </receiver>
 
         <activity

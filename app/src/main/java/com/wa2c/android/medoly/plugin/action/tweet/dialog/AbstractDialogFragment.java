@@ -1,4 +1,4 @@
-package com.wa2c.android.medoly.plugin.action.twitter.dialog;
+package com.wa2c.android.medoly.plugin.action.tweet.dialog;
 
 import android.app.Activity;
 import android.app.Dialog;
@@ -8,8 +8,7 @@ import android.content.DialogInterface;
 import android.content.res.Configuration;
 import android.widget.Toast;
 
-
-import com.wa2c.android.medoly.plugin.action.twitter.R;
+import com.wa2c.android.medoly.plugin.action.tweet.R;
 
 import java.util.HashMap;
 import java.util.Map;

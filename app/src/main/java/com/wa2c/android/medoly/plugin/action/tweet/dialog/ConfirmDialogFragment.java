@@ -1,4 +1,4 @@
-package com.wa2c.android.medoly.plugin.action.twitter.dialog;
+package com.wa2c.android.medoly.plugin.action.tweet.dialog;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
