@@ -41,7 +41,7 @@ public class PluginReceiver extends BroadcastReceiver {
     private static final int IMAGE_URL_LENGTH = 24; // 23 + 1 (space)
 
     /** 前回のファイルパス設定キー。 */
-    private static final String PREFKEY_PREVIOUS_MEDIA_PATH = "previous_media_path";
+    private static final String PREFKEY_PREVIOUS_MEDIA_URI = "previous_media_uri";
 
     /** コンテキスト。 */
     private Context context;
@@ -71,6 +71,9 @@ public class PluginReceiver extends BroadcastReceiver {
             return;
         }
 
+        // URIを取得
+        Uri mediaUri = intent.getData();
+
         // 値を取得
         HashMap<String, String> propertyMap = null;
         boolean isEvent = false;
@@ -91,22 +94,25 @@ public class PluginReceiver extends BroadcastReceiver {
         }
 
        if (categories.contains(ActionPluginParam.PluginOperationCategory.OPERATION_PLAY_START.getCategoryValue())) {
-           // 再生開始
+           // Play Start
            if (!isEvent || this.sharedPreferences.getBoolean(context.getString(R.string.prefkey_operation_play_start_enabled), false)) {
-               post(propertyMap);
+               post(mediaUri, propertyMap);
            }
         } else if (categories.contains(ActionPluginParam.PluginOperationCategory.OPERATION_PLAY_NOW.getCategoryValue())) {
-           // 再生中
+           // Play Now
            if (!isEvent || this.sharedPreferences.getBoolean(context.getString(R.string.prefkey_operation_play_now_enabled), true)) {
-               post(propertyMap);
+               post(mediaUri, propertyMap);
            }
        } else if (categories.contains(ActionPluginParam.PluginOperationCategory.OPERATION_EXECUTE.getCategoryValue())) {
-           // 実行
+           final String EXECUTE_TWEET_ID = "execute_id_tweet";
+           final String EXECUTE_SITE_ID = "execute_id_site";
+
+           // Execute
            Bundle extras = intent.getExtras();
            if (extras != null) {
-               if (extras.keySet().contains("id_execute_tweet")) {
-                   sendApp(propertyMap);
-               } else if (extras.keySet().contains("id_execute_site")) {
+               if (extras.keySet().contains(EXECUTE_TWEET_ID)) {
+                   sendApp(mediaUri, propertyMap);
+               } else if (extras.keySet().contains(EXECUTE_SITE_ID)) {
                    Intent launchIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("http://twitter.com/"));
                    try {
                        launchIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -125,25 +131,15 @@ public class PluginReceiver extends BroadcastReceiver {
      * 外部アプリで投稿。
      * @param propertyMap プロパティ情報。
      */
-    private void sendApp(HashMap<String, String> propertyMap) {
+    private void sendApp(Uri uri, HashMap<String, String> propertyMap) {
         // 音楽データ無し
-        if (!propertyMap.containsKey(ActionPluginParam.MediaProperty.FOLDER_PATH.getKeyName()) ||
-            !propertyMap.containsKey(ActionPluginParam.MediaProperty.FILE_NAME.getKeyName())) {
+        if (uri == null) {
             AppUtils.showToast(context, R.string.message_no_media);
             return;
         }
 
-        // アルバムアート有無
-        File albumArtFile = null;
-        if (sharedPreferences.getBoolean(context.getString(R.string.prefkey_content_album_art), true)) {
-            String albumArtPath = propertyMap.get(ActionPluginParam.AlbumArtProperty.FOLDER_PATH.getKeyName()) + propertyMap.get(ActionPluginParam.AlbumArtProperty.FILE_NAME.getKeyName());
-            if (!TextUtils.isEmpty(albumArtPath)) {
-                albumArtFile = new File(albumArtPath);
-                if (!albumArtFile.exists()) {
-                    albumArtFile = null;
-                }
-            }
-        }
+        // アルバムアート取得
+        File albumArtFile =getAlbumArtFile(propertyMap);
 
         // メッセージ取得
         int messageMax = (albumArtFile == null) ? MESSAGE_LENGTH : MESSAGE_LENGTH - IMAGE_URL_LENGTH;
@@ -195,24 +191,23 @@ public class PluginReceiver extends BroadcastReceiver {
      * @param propertyMap プロパティ情報。
      */
     @SuppressWarnings("unchecked")
-    private void post(HashMap<String, String> propertyMap) {
+    private void post(Uri uri, HashMap<String, String> propertyMap) {
         // 音楽データ無し
-        if (!propertyMap.containsKey(ActionPluginParam.MediaProperty.FOLDER_PATH.getKeyName()) ||
-                !propertyMap.containsKey(ActionPluginParam.MediaProperty.FILE_NAME.getKeyName())) {
+        if (uri == null) {
             AppUtils.showToast(context, R.string.message_no_media);
             return;
         }
 
-        String filePath = propertyMap.get(ActionPluginParam.MediaProperty.FOLDER_PATH.getKeyName()) + propertyMap.get(ActionPluginParam.MediaProperty.FILE_NAME.getKeyName());
-        String previousMediaPath = sharedPreferences.getString(PREFKEY_PREVIOUS_MEDIA_PATH, "");
+        String mediaUri = uri.toString();
+        String previousMediaUri = sharedPreferences.getString(PREFKEY_PREVIOUS_MEDIA_URI, "");
         boolean previousMediaEnabled = sharedPreferences.getBoolean(context.getString(R.string.prefkey_previous_media_enabled), false);
-        if (!TextUtils.isEmpty(filePath) && !TextUtils.isEmpty(previousMediaPath) && filePath.equals(previousMediaPath) && !previousMediaEnabled) {
+        if (!previousMediaEnabled && !TextUtils.isEmpty(mediaUri) && !TextUtils.isEmpty(previousMediaUri) && mediaUri.equals(previousMediaUri)) {
             // 前回と同じメディアは無視
             return;
         }
+        sharedPreferences.edit().putString(PREFKEY_PREVIOUS_MEDIA_URI, mediaUri).apply();
 
        (new AsyncPostTask(propertyMap)).execute();
-       sharedPreferences.edit().putString(PREFKEY_PREVIOUS_MEDIA_PATH, filePath).apply();
     }
 
     /**
@@ -229,17 +224,8 @@ public class PluginReceiver extends BroadcastReceiver {
          @Override
         protected Boolean doInBackground(String... params) {
             try {
-                // アルバムアート有無
-                File albumArtFile = null;
-                if (sharedPreferences.getBoolean(context.getString(R.string.prefkey_content_album_art), true)) {
-                    String albumArtPath = propertyMap.get(ActionPluginParam.AlbumArtProperty.FOLDER_PATH.getKeyName()) + propertyMap.get(ActionPluginParam.AlbumArtProperty.FILE_NAME.getKeyName());
-                    if (!TextUtils.isEmpty(albumArtPath)) {
-                        albumArtFile = new File(albumArtPath);
-                        if (!albumArtFile.exists()) {
-                            albumArtFile = null;
-                        }
-                    }
-                }
+                // アルバムアート取得
+                File albumArtFile =getAlbumArtFile(propertyMap);
 
                 // メッセージ取得
                 int messageMax = (albumArtFile == null) ? MESSAGE_LENGTH : MESSAGE_LENGTH - IMAGE_URL_LENGTH;
@@ -358,6 +344,25 @@ public class PluginReceiver extends BroadcastReceiver {
         }
 
         return outputMessage;
+    }
+
+    /**
+     * アルバムアートファイルを取得する。
+     * @param propertyMap プロパティ情報マップ。
+     * @return アルバムアートファイルファイル。
+     */
+    private File getAlbumArtFile( final Map<String, String> propertyMap) {
+        File albumArtFile = null;
+        if (sharedPreferences.getBoolean(context.getString(R.string.prefkey_content_album_art), true)) {
+            String albumArtPath = propertyMap.get(ActionPluginParam.AlbumArtProperty.FOLDER_PATH.getKeyName()) + propertyMap.get(ActionPluginParam.AlbumArtProperty.FILE_NAME.getKeyName());
+            if (!TextUtils.isEmpty(albumArtPath)) {
+                albumArtFile = new File(albumArtPath);
+                if (!albumArtFile.exists()) {
+                    albumArtFile = null;
+                }
+            }
+        }
+        return albumArtFile;
     }
 
 

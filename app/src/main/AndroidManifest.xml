@@ -55,13 +55,13 @@
             </intent-filter>
 
 
-            <meta-data android:name="id_execute_tweet" android:value="0" />
-            <meta-data android:name="label_execute_tweet" android:resource="@string/label_execute_tweet" />
-            <meta-data android:name="icon_execute_tweet" android:resource="@drawable/ic_action_tweet" />
+            <meta-data android:name="execute_id_tweet" android:value="0" />
+            <meta-data android:name="execute_label_tweet" android:resource="@string/label_execute_tweet" />
+            <meta-data android:name="execute_icon_tweet" android:resource="@drawable/ic_action_tweet" />
 
-            <meta-data android:name="id_execute_site" android:value="1" />
-            <meta-data android:name="label_execute_site" android:resource="@string/label_execute_site" />
-            <meta-data android:name="icon_execute_site" android:resource="@drawable/ic_action_twitter" />
+            <meta-data android:name="execute_id_site" android:value="1" />
+            <meta-data android:name="execute_label_site" android:resource="@string/label_execute_site" />
+            <meta-data android:name="execute_icon_site" android:resource="@drawable/ic_action_twitter" />
 
         </receiver>
 
