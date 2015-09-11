@@ -8,6 +8,8 @@ android {
         applicationId "com.wa2c.android.medoly.plugin.action.tweet"
         minSdkVersion 13
         targetSdkVersion 15
+        versionCode 4
+        versionName "1.0.5"
     }
 
     buildTypes {

@@ -62,17 +62,16 @@ public class PluginReceiver extends BroadcastReceiver {
         this.sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
         this.twitter = TwitterUtils.getTwitterInstance(context);
 
-        Set<String> categories = intent.getCategories();
-        if (categories == null || categories.size() == 0) {
-            return;
-        }
-
-        if (!categories.contains(ActionPluginParam.PluginTypeCategory.TYPE_POST_MESSAGE.getCategoryValue())) {
-            return;
-        }
-
         // URIを取得
-        Uri mediaUri = intent.getData();
+        Uri mediaUri = null;
+        if (intent.getExtras() != null) {
+            Object extraStream = intent.getExtras().get(Intent.EXTRA_STREAM);
+            if (extraStream != null && extraStream instanceof Uri)
+                mediaUri = (Uri)extraStream;
+        } else if (intent.getData() != null) {
+            // Old version
+            mediaUri = intent.getData();
+        }
 
         // 値を取得
         HashMap<String, String> propertyMap = null;
@@ -93,7 +92,13 @@ public class PluginReceiver extends BroadcastReceiver {
             return;
         }
 
-       if (categories.contains(ActionPluginParam.PluginOperationCategory.OPERATION_PLAY_START.getCategoryValue())) {
+        // カテゴリ取得
+        Set<String> categories = intent.getCategories();
+        if (categories == null || categories.size() == 0) {
+            return;
+        }
+
+        if (categories.contains(ActionPluginParam.PluginOperationCategory.OPERATION_PLAY_START.getCategoryValue())) {
            // Play Start
            if (!isEvent || this.sharedPreferences.getBoolean(context.getString(R.string.prefkey_operation_play_start_enabled), false)) {
                post(mediaUri, propertyMap);
@@ -103,26 +108,26 @@ public class PluginReceiver extends BroadcastReceiver {
            if (!isEvent || this.sharedPreferences.getBoolean(context.getString(R.string.prefkey_operation_play_now_enabled), true)) {
                post(mediaUri, propertyMap);
            }
-       } else if (categories.contains(ActionPluginParam.PluginOperationCategory.OPERATION_EXECUTE.getCategoryValue())) {
-           final String EXECUTE_TWEET_ID = "execute_id_tweet";
-           final String EXECUTE_SITE_ID = "execute_id_site";
+        } else if (categories.contains(ActionPluginParam.PluginOperationCategory.OPERATION_EXECUTE.getCategoryValue())) {
+            // Execute
+            final String EXECUTE_TWEET_ID = "execute_id_tweet";
+            final String EXECUTE_SITE_ID = "execute_id_site";
 
-           // Execute
-           Bundle extras = intent.getExtras();
-           if (extras != null) {
-               if (extras.keySet().contains(EXECUTE_TWEET_ID)) {
-                   sendApp(mediaUri, propertyMap);
-               } else if (extras.keySet().contains(EXECUTE_SITE_ID)) {
-                   Intent launchIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("http://twitter.com/"));
-                   try {
-                       launchIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                       context.startActivity(launchIntent);
-                   } catch (android.content.ActivityNotFoundException e) {
-                       Logger.d(e);
-                   }
-               }
-           }
-       }
+            Bundle extras = intent.getExtras();
+            if (extras != null) {
+                if (extras.keySet().contains(EXECUTE_TWEET_ID)) {
+                    sendApp(mediaUri, propertyMap);
+                } else if (extras.keySet().contains(EXECUTE_SITE_ID)) {
+                    Intent launchIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("http://twitter.com/"));
+                    try {
+                        launchIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                        context.startActivity(launchIntent);
+                    } catch (android.content.ActivityNotFoundException e) {
+                        Logger.d(e);
+                    }
+                }
+            }
+        }
     }
 
 
@@ -188,6 +193,7 @@ public class PluginReceiver extends BroadcastReceiver {
 
     /**
      * 投稿。
+     * @param uri URI。
      * @param propertyMap プロパティ情報。
      */
     @SuppressWarnings("unchecked")
