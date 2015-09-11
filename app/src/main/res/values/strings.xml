@@ -2,72 +2,71 @@
 <resources>
 
 
-	<!-- Package -->
-	<string name="app_description">Post messages to Twitter from Medoly.</string>
-	<string name="class_receiver_label">Twitter actions.</string>
-	<string name="label_execute_tweet">Send to external apps</string>
-	<string name="label_execute_site">Twitter</string>
+    <!-- Package -->
+    <string name="app_description">Post messages to Twitter from Medoly.</string>
+    <string name="class_receiver_label">Twitter actions.</string>
+    <string name="label_execute_tweet">Send to external apps</string>
+    <string name="label_execute_site">Twitter</string>
 
-	<!-- Activity -->
-	<string name="title_activity_edit">Message Edit</string>
-	<string name="title_activity_settings">Setting</string>
-	<string name="label_insert">Insert</string>
-	<string name="label_default">Default</string>
-	<string name="label_priority">Priority</string>
-	<string name="label_confirm">Confirm</string>
+    <!-- Activity -->
+    <string name="title_activity_edit">Message Edit</string>
+    <string name="title_activity_settings">Setting</string>
+    <string name="label_insert">Insert</string>
+    <string name="label_default">Default</string>
+    <string name="label_priority">Priority</string>
+    <string name="label_confirm">Confirm</string>
 
-	<!-- Twitter -->
-	<string name="message_no_media">The media is not selected.</string>
-	<string name="message_post_success">Tweet completed.</string>
-	<string name="message_post_failure">Tweet failed.</string>
-	<string name="message_auth_success">OAuth completed.</string>
-	<string name="message_auth_failure">OAuth failed.</string>
+    <!-- Twitter -->
+    <string name="message_no_media">The media is not selected.</string>
+    <string name="message_post_success">Tweet completed.</string>
+    <string name="message_post_failure">Tweet failed.</string>
+    <string name="message_auth_success">OAuth completed.</string>
+    <string name="message_auth_failure">OAuth failed.</string>
 
-	<!-- Main Activity -->
-	<string name="label_button_account_auth">Twitter Auth</string>
-	<string name="label_button_edit">Edit Message</string>
-	<string name="label_button_settings">Settings</string>
-	<string name="label_button_launch_medoly">Launch Medoly</string>
-	<string name="message_no_medoly">Please install Medoly.</string>
-	<string name="message_account_auth">Twitter authentication completed.</string>
-	<string name="message_account_not_auth">Not Twitter authentication.</string>
+    <!-- Main Activity -->
+    <string name="label_button_account_auth">Twitter Auth</string>
+    <string name="label_button_edit">Edit Message</string>
+    <string name="label_button_settings">Settings</string>
+    <string name="label_button_launch_medoly">Launch Medoly</string>
+    <string name="message_no_medoly">Please install Medoly.</string>
+    <string name="message_account_auth">Twitter authentication completed.</string>
+    <string name="message_account_not_auth">Not Twitter authentication.</string>
 
-	<!--  Edit Activity -->
-	<string name="label_edit_title">Edit Message</string>
-	<string name="label_edit_insert_album_art">Insert album art.</string>
-	<string name="label_dialog_insert_property_title">Insert Property</string>
-	<string name="label_dialog_property_priority_title">Sorting Item Priority</string>
-	<string name="label_dialog_property_priority_title1">View  Item</string>
-	<string name="label_dialog_property_priority_title2">Omissible</string>
-	<string name="message_initialize_priority">Priority initialized.</string>
-	<string name="message_confirm_initialize_format">Initialize current message.</string>
+    <!--  Edit Activity -->
+    <string name="label_edit_title">Edit Message</string>
+    <string name="label_edit_insert_album_art">Insert album art.</string>
+    <string name="label_dialog_insert_property_title">Insert Property</string>
+    <string name="label_dialog_property_priority_title">Sorting Item Priority</string>
+    <string name="label_dialog_property_priority_title1">View  Item</string>
+    <string name="label_dialog_property_priority_title2">Omissible</string>
+    <string name="message_initialize_priority">Priority initialized.</string>
+    <string name="message_confirm_initialize_format">Initialize current message.</string>
 
-	<!-- Settings Activity -->
-	<string name="settings_summary_current_value">[Current Value: %1$s]</string>
+    <!-- Settings Activity -->
+    <string name="settings_summary_current_value">[Current Value: %1$s]</string>
 
-	<!-- Preferences -->
-	<string name="pref_title_operation_play_now_enabled">Run At Media Playing</string>
-	<string name="pref_summary_operation_play_now_enabled">Enable the action at the time of media playing.</string>
-	<string name="pref_title_operation_play_start_enabled">Run At Media Start</string>
-	<string name="pref_summary_operation_play_start_enabled">Enable the action at the time of media start.</string>
-	<string name="pref_title_previous_media_enabled">Run Previous Media</string>
-	<string name="pref_summary_previous_media_enabled">Enable to run the event for the same media that has run the event already last time.</string>
-	<string name="pref_title_trim_before_empty_enabled">Trim Before Whitespace</string>
-	<string name="pref_summary_trim_before_empty_enabled">Trim the whitespace in front of the empty item.</string>
-	<string name="pref_title_omit_newline">Omit At Newline</string>
-	<string name="pref_summary_omit_newline">When omit the text which contains newlines, omit at a newline position.</string>
-	<string name="pref_title_post_success_message_show">Show Success Message</string>
-	<string name="pref_summary_post_success_message_show">Show the message when tweet succeeded.</string>
-	<string name="pref_title_post_failure_message_show">Show Failure Message</string>
-	<string name="pref_summary_post_failure_message_show">Show the message when tweet failed. </string>
-	<string name="pref_title_application_details">App Info</string>
-	<string name="pref_summary_application_details">Show application information.</string>
-	<string name="pref_title_about">About</string>
-	<string name="pref_summary_about">About</string>
+    <!-- Preferences -->
+    <string name="pref_title_operation_play_now_enabled">Run At Media Playing</string>
+    <string name="pref_summary_operation_play_now_enabled">Enable the action at the time of media playing.</string>
+    <string name="pref_title_operation_play_start_enabled">Run At Media Start</string>
+    <string name="pref_summary_operation_play_start_enabled">Enable the action at the time of media start.</string>
+    <string name="pref_title_previous_media_enabled">Run Previous Media</string>
+    <string name="pref_summary_previous_media_enabled">Enable to run the event for the same media that has run the event already last time.</string>
+    <string name="pref_title_trim_before_empty_enabled">Trim Before Whitespace</string>
+    <string name="pref_summary_trim_before_empty_enabled">Trim the whitespace in front of the empty item.</string>
+    <string name="pref_title_omit_newline">Omit At Newline</string>
+    <string name="pref_summary_omit_newline">When omit the text which contains newlines, omit at a newline position.</string>
+    <string name="pref_title_post_success_message_show">Show Success Message</string>
+    <string name="pref_summary_post_success_message_show">Show the message when tweet succeeded.</string>
+    <string name="pref_title_post_failure_message_show">Show Failure Message</string>
+    <string name="pref_summary_post_failure_message_show">Show the message when tweet failed. </string>
+    <string name="pref_title_application_details">App Info</string>
+    <string name="pref_summary_application_details">Show application information.</string>
+    <string name="pref_title_about">About</string>
+    <string name="pref_summary_about">About</string>
 
 
-
-	<!-- System -->
-	<string name="error_dialog_dismissed">Open the dialog again.</string>
+    <!-- System -->
+    <string name="error_dialog_dismissed">Open the dialog again.</string>
 
 </resources>

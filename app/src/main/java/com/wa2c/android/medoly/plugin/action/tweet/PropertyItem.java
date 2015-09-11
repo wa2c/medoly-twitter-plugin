@@ -39,7 +39,7 @@ public class PropertyItem {
         for (ActionPluginParam.MediaProperty p : ActionPluginParam.MediaProperty.values()) {
             PropertyItem item = new PropertyItem();
             item.propertyKey = p.getKeyName();
-            item.propertyName = context.getString(R.string.media) + " - " +  p.getName(context);
+            item.propertyName = context.getString(R.string.media) + " - " + p.getName(context);
             item.omissible = p.getOmissible();
             itemList.add(item);
         }
@@ -48,7 +48,7 @@ public class PropertyItem {
         for (ActionPluginParam.AlbumArtProperty p : ActionPluginParam.AlbumArtProperty.values()) {
             PropertyItem item = new PropertyItem();
             item.propertyKey = p.getKeyName();
-            item.propertyName = context.getString(R.string.album_art) + " - " +  p.getName(context);
+            item.propertyName = context.getString(R.string.album_art) + " - " + p.getName(context);
             item.omissible = p.getOmissible();
             itemList.add(item);
         }
@@ -57,7 +57,7 @@ public class PropertyItem {
         for (ActionPluginParam.LyricsProperty p : ActionPluginParam.LyricsProperty.values()) {
             PropertyItem item = new PropertyItem();
             item.propertyKey = p.getKeyName();
-            item.propertyName = context.getString(R.string.lyrics) + " - " +  p.getName(context);
+            item.propertyName = context.getString(R.string.lyrics) + " - " + p.getName(context);
             item.omissible = p.getOmissible();
             itemList.add(item);
         }
@@ -66,7 +66,7 @@ public class PropertyItem {
         for (ActionPluginParam.QueueProperty p : ActionPluginParam.QueueProperty.values()) {
             PropertyItem item = new PropertyItem();
             item.propertyKey = p.getKeyName();
-            item.propertyName = context.getString(R.string.queue) + " - " +  p.getName(context);
+            item.propertyName = context.getString(R.string.queue) + " - " + p.getName(context);
             item.omissible = p.getOmissible();
             itemList.add(item);
         }
@@ -89,7 +89,7 @@ public class PropertyItem {
         ArrayList<PropertyItem> outputItemList = new ArrayList<>();
         try {
             SharedPreferences p = PreferenceManager.getDefaultSharedPreferences(context);
-            String text =  p.getString(PREFKEY_PROPERTY_PRIORITY, null);
+            String text = p.getString(PREFKEY_PROPERTY_PRIORITY, null);
             String[] lines = text.split("\n");
             for (String line : lines) {
                 String[] items = line.split(",");

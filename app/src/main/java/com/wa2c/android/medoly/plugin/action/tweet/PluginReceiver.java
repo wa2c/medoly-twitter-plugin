@@ -99,15 +99,15 @@ public class PluginReceiver extends BroadcastReceiver {
         }
 
         if (categories.contains(ActionPluginParam.PluginOperationCategory.OPERATION_PLAY_START.getCategoryValue())) {
-           // Play Start
-           if (!isEvent || this.sharedPreferences.getBoolean(context.getString(R.string.prefkey_operation_play_start_enabled), false)) {
-               post(mediaUri, propertyMap);
-           }
+            // Play Start
+            if (!isEvent || this.sharedPreferences.getBoolean(context.getString(R.string.prefkey_operation_play_start_enabled), false)) {
+                post(mediaUri, propertyMap);
+            }
         } else if (categories.contains(ActionPluginParam.PluginOperationCategory.OPERATION_PLAY_NOW.getCategoryValue())) {
-           // Play Now
-           if (!isEvent || this.sharedPreferences.getBoolean(context.getString(R.string.prefkey_operation_play_now_enabled), true)) {
-               post(mediaUri, propertyMap);
-           }
+            // Play Now
+            if (!isEvent || this.sharedPreferences.getBoolean(context.getString(R.string.prefkey_operation_play_now_enabled), true)) {
+                post(mediaUri, propertyMap);
+            }
         } else if (categories.contains(ActionPluginParam.PluginOperationCategory.OPERATION_EXECUTE.getCategoryValue())) {
             // Execute
             final String EXECUTE_TWEET_ID = "execute_id_tweet";
@@ -144,7 +144,7 @@ public class PluginReceiver extends BroadcastReceiver {
         }
 
         // アルバムアート取得
-        File albumArtFile =getAlbumArtFile(propertyMap);
+        File albumArtFile = getAlbumArtFile(propertyMap);
 
         // メッセージ取得
         int messageMax = (albumArtFile == null) ? MESSAGE_LENGTH : MESSAGE_LENGTH - IMAGE_URL_LENGTH;
@@ -213,7 +213,7 @@ public class PluginReceiver extends BroadcastReceiver {
         }
         sharedPreferences.edit().putString(PREFKEY_PREVIOUS_MEDIA_URI, mediaUri).apply();
 
-       (new AsyncPostTask(propertyMap)).execute();
+        (new AsyncPostTask(propertyMap)).execute();
     }
 
     /**
@@ -227,7 +227,7 @@ public class PluginReceiver extends BroadcastReceiver {
             this.propertyMap = propertyMap;
         }
 
-         @Override
+        @Override
         protected Boolean doInBackground(String... params) {
             try {
                 // アルバムアート取得
