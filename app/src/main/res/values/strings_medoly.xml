@@ -7,11 +7,14 @@
     <string name="queue">Queue</string>
 
     <!-- Common Property -->
+    <string name="source_title">Source Name</string>
+    <string name="source_uri">Source URI</string>
     <string name="mime_type">MIME Type</string>
     <string name="folder_path">Folder Path</string>
     <string name="file_name">File Name</string>
     <string name="data_size">Data Size</string>
     <string name="last_modified">Last Modified</string>
+    <string name="data_uri">URI</string>
 
     <!-- Media Property -->
     <string name="media_title">Title</string>
@@ -47,13 +50,6 @@
     <string name="media_disc_total">Total Disc</string>
     <string name="media_track">Track</string>
     <string name="media_track_total">Total Track</string>
-
-    <string name="media_duration">Duration</string>
-    <string name="media_format">Media Format</string>
-    <string name="media_encoding_type">Media Codec</string>
-    <string name="media_bit_rate">Bit Rate</string>
-    <string name="media_sample_rate">Sample Rate</string>
-    <string name="media_channels">Audio Channel</string>
 
     <string name="media_loop">Loop</string>
     <string name="media_tempo">Tempo</string>
@@ -93,6 +89,15 @@
     <string name="media_musicbrainz_release_country">MusicBranz Release Country</string>
 
     <string name="media_musicip_id">MusicIP ID</string>
+
+    <string name="media_tag_type">Tag Type</string>
+    <string name="media_character_encoding">Character Encoding</string>
+    <string name="media_format">Media Format</string>
+    <string name="media_encoding_type">Media Codec</string>
+    <string name="media_bit_rate">Bit Rate</string>
+    <string name="media_sample_rate">Sample Rate</string>
+    <string name="media_channels">Audio Channel</string>
+    <string name="media_duration">Duration</string>
 
     <!-- Album Art Property -->
     <string name="album_art_resource_type">Resource Type</string>

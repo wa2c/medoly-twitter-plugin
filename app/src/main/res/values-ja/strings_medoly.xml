@@ -7,23 +7,28 @@
     <string name="queue">再生キュー</string>
 
     <!-- Common Property -->
+    <string name="source_title">取得元名称</string>
+    <string name="source_uri">取得元URI</string>
     <string name="mime_type">MIMEタイプ</string>
     <string name="folder_path">フォルダパス</string>
     <string name="file_name">ファイル名</string>
     <string name="data_size">データサイズ</string>
     <string name="last_modified">更新日時</string>
+    <string name="data_uri">URI</string>
 
     <!-- Media Property -->
     <string name="media_title">タイトル</string>
+
     <string name="media_artist">アーティスト</string>
     <string name="media_original_artist">オリジナルアーティスト</string>
     <string name="media_album_artist">アルバムアーティスト</string>
+
     <string name="media_album">アルバム</string>
     <string name="media_original_album">オリジナルアルバム</string>
 
     <string name="media_genre">ジャンル</string>
     <string name="media_mood">ムード</string>
-    <string name="media_occasion">機会</string>
+    <string name="media_occasion">シーン</string>
 
     <string name="media_year">年</string>
     <string name="media_original_year">オリジナル年</string>
@@ -48,12 +53,6 @@
     <string name="media_track">トラック</string>
     <string name="media_track_total">トラック合計</string>
 
-    <string name="media_duration">曲の長さ</string>
-    <string name="media_format">音声フォーマット</string>
-    <string name="media_encoding_type">音声エンコード種別</string>
-    <string name="media_bit_rate">ビットレート</string>
-    <string name="media_sample_rate">サンプリングレート</string>
-    <string name="media_channels">音声チャンネル</string>
 
     <string name="media_loop">ループ</string>
     <string name="media_tempo">テンポ</string>
@@ -93,6 +92,15 @@
     <string name="media_musicbrainz_release_country">MusicBranz Release Country</string>
 
     <string name="media_musicip_id">MusicIP ID</string>
+
+    <string name="media_tag_type">タグ種別</string>
+    <string name="media_character_encoding">文字コード</string>
+    <string name="media_format">音声フォーマット</string>
+    <string name="media_encoding_type">音声エンコード種別</string>
+    <string name="media_bit_rate">ビットレート</string>
+    <string name="media_sample_rate">サンプリングレート</string>
+    <string name="media_channels">音声チャンネル</string>
+    <string name="media_duration">曲の長さ</string>
 
     <!-- Album Art Property -->
     <string name="album_art_resource_type">保存種別</string>

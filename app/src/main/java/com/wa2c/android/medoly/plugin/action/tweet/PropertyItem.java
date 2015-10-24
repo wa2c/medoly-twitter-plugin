@@ -5,7 +5,6 @@ import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 
 import com.wa2c.android.medoly.plugin.action.ActionPluginParam;
-import com.wa2c.android.medoly.plugin.action.Logger;
 
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
@@ -40,7 +39,7 @@ public class PropertyItem {
             PropertyItem item = new PropertyItem();
             item.propertyKey = p.getKeyName();
             item.propertyName = context.getString(R.string.media) + " - " + p.getName(context);
-            item.omissible = p.getOmissible();
+            item.omissible = p.enableShortening();
             itemList.add(item);
         }
 
@@ -49,7 +48,7 @@ public class PropertyItem {
             PropertyItem item = new PropertyItem();
             item.propertyKey = p.getKeyName();
             item.propertyName = context.getString(R.string.album_art) + " - " + p.getName(context);
-            item.omissible = p.getOmissible();
+            item.omissible = p.enableShortening();
             itemList.add(item);
         }
 
@@ -58,7 +57,7 @@ public class PropertyItem {
             PropertyItem item = new PropertyItem();
             item.propertyKey = p.getKeyName();
             item.propertyName = context.getString(R.string.lyrics) + " - " + p.getName(context);
-            item.omissible = p.getOmissible();
+            item.omissible = p.enableShortening();
             itemList.add(item);
         }
 
@@ -67,7 +66,7 @@ public class PropertyItem {
             PropertyItem item = new PropertyItem();
             item.propertyKey = p.getKeyName();
             item.propertyName = context.getString(R.string.queue) + " - " + p.getName(context);
-            item.omissible = p.getOmissible();
+            item.omissible = p.enableShortening();
             itemList.add(item);
         }
 
