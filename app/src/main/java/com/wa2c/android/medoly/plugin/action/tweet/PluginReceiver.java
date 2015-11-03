@@ -13,7 +13,9 @@ import android.preference.PreferenceManager;
 import android.provider.MediaStore;
 import android.text.TextUtils;
 
-import com.wa2c.android.medoly.plugin.action.ActionPluginParam;
+import com.wa2c.android.medoly.library.AlbumArtProperty;
+import com.wa2c.android.medoly.library.MedolyParam;
+import com.wa2c.android.medoly.library.PluginOperationCategory;
 import com.wa2c.android.medoly.plugin.action.Logger;
 
 import java.io.File;
@@ -77,16 +79,16 @@ public class PluginReceiver extends BroadcastReceiver {
         HashMap<String, String> propertyMap = null;
         boolean isEvent = false;
         try {
-            if (intent.hasExtra(ActionPluginParam.PLUGIN_VALUE_KEY)) {
-                Serializable serializable = intent.getSerializableExtra(ActionPluginParam.PLUGIN_VALUE_KEY);
+            if (intent.hasExtra(MedolyParam.PLUGIN_VALUE_KEY)) {
+                Serializable serializable = intent.getSerializableExtra(MedolyParam.PLUGIN_VALUE_KEY);
                 if (serializable != null) {
                     propertyMap = (HashMap<String, String>) serializable;
                 }
             }
             if (propertyMap == null || propertyMap.isEmpty()) { return; }
 
-            if (intent.hasExtra(ActionPluginParam.PLUGIN_EVENT_KEY))
-                isEvent = intent.getBooleanExtra(ActionPluginParam.PLUGIN_EVENT_KEY, false);
+            if (intent.hasExtra(MedolyParam.PLUGIN_EVENT_KEY))
+                isEvent = intent.getBooleanExtra(MedolyParam.PLUGIN_EVENT_KEY, false);
         } catch (ClassCastException | NullPointerException e) {
             Logger.e(e);
             return;
@@ -98,17 +100,17 @@ public class PluginReceiver extends BroadcastReceiver {
             return;
         }
 
-        if (categories.contains(ActionPluginParam.PluginOperationCategory.OPERATION_PLAY_START.getCategoryValue())) {
+        if (categories.contains(PluginOperationCategory.OPERATION_PLAY_START.getCategoryValue())) {
             // Play Start
             if (!isEvent || this.sharedPreferences.getBoolean(context.getString(R.string.prefkey_operation_play_start_enabled), false)) {
                 post(mediaUri, propertyMap);
             }
-        } else if (categories.contains(ActionPluginParam.PluginOperationCategory.OPERATION_PLAY_NOW.getCategoryValue())) {
+        } else if (categories.contains(PluginOperationCategory.OPERATION_PLAY_NOW.getCategoryValue())) {
             // Play Now
             if (!isEvent || this.sharedPreferences.getBoolean(context.getString(R.string.prefkey_operation_play_now_enabled), true)) {
                 post(mediaUri, propertyMap);
             }
-        } else if (categories.contains(ActionPluginParam.PluginOperationCategory.OPERATION_EXECUTE.getCategoryValue())) {
+        } else if (categories.contains(PluginOperationCategory.OPERATION_EXECUTE.getCategoryValue())) {
             // Execute
             final String EXECUTE_TWEET_ID = "execute_id_tweet";
             final String EXECUTE_SITE_ID = "execute_id_site";
@@ -360,7 +362,7 @@ public class PluginReceiver extends BroadcastReceiver {
     private File getAlbumArtFile( final Map<String, String> propertyMap) {
         File albumArtFile = null;
         if (sharedPreferences.getBoolean(context.getString(R.string.prefkey_content_album_art), true)) {
-            String albumArtPath = propertyMap.get(ActionPluginParam.AlbumArtProperty.FOLDER_PATH.getKeyName()) + propertyMap.get(ActionPluginParam.AlbumArtProperty.FILE_NAME.getKeyName());
+            String albumArtPath = propertyMap.get(AlbumArtProperty.FOLDER_PATH.getKeyName()) + propertyMap.get(AlbumArtProperty.FILE_NAME.getKeyName());
             if (!TextUtils.isEmpty(albumArtPath)) {
                 albumArtFile = new File(albumArtPath);
                 if (!albumArtFile.exists()) {

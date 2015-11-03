@@ -4,7 +4,10 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 
-import com.wa2c.android.medoly.plugin.action.ActionPluginParam;
+import com.wa2c.android.medoly.library.AlbumArtProperty;
+import com.wa2c.android.medoly.library.LyricsProperty;
+import com.wa2c.android.medoly.library.MediaProperty;
+import com.wa2c.android.medoly.library.QueueProperty;
 
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
@@ -34,8 +37,43 @@ public class PropertyItem {
     public static ArrayList<PropertyItem> getDefaultPropertyPriority(Context context) {
         ArrayList<PropertyItem> itemList = new ArrayList<>();
 
+//        // メディア
+//        for (ActionPluginParam.MediaProperty p : ActionPluginParam.MediaProperty.values()) {
+//            PropertyItem item = new PropertyItem();
+//            item.propertyKey = p.getKeyName();
+//            item.propertyName = context.getString(R.string.media) + " - " + p.getName(context);
+//            item.omissible = p.enableShortening();
+//            itemList.add(item);
+//        }
+//
+//        // アルバムアート
+//        for (ActionPluginParam.AlbumArtProperty p : ActionPluginParam.AlbumArtProperty.values()) {
+//            PropertyItem item = new PropertyItem();
+//            item.propertyKey = p.getKeyName();
+//            item.propertyName = context.getString(R.string.album_art) + " - " + p.getName(context);
+//            item.omissible = p.enableShortening();
+//            itemList.add(item);
+//        }
+//
+//        // 歌詞
+//        for (ActionPluginParam.LyricsProperty p : ActionPluginParam.LyricsProperty.values()) {
+//            PropertyItem item = new PropertyItem();
+//            item.propertyKey = p.getKeyName();
+//            item.propertyName = context.getString(R.string.lyrics) + " - " + p.getName(context);
+//            item.omissible = p.enableShortening();
+//            itemList.add(item);
+//        }
+//
+//        for (ActionPluginParam.QueueProperty p : ActionPluginParam.QueueProperty.values()) {
+//            PropertyItem item = new PropertyItem();
+//            item.propertyKey = p.getKeyName();
+//            item.propertyName = context.getString(R.string.queue) + " - " + p.getName(context);
+//            item.omissible = p.enableShortening();
+//            itemList.add(item);
+//        }
+
         // メディア
-        for (ActionPluginParam.MediaProperty p : ActionPluginParam.MediaProperty.values()) {
+        for (MediaProperty p : MediaProperty.values()) {
             PropertyItem item = new PropertyItem();
             item.propertyKey = p.getKeyName();
             item.propertyName = context.getString(R.string.media) + " - " + p.getName(context);
@@ -44,7 +82,7 @@ public class PropertyItem {
         }
 
         // アルバムアート
-        for (ActionPluginParam.AlbumArtProperty p : ActionPluginParam.AlbumArtProperty.values()) {
+        for (AlbumArtProperty p : AlbumArtProperty.values()) {
             PropertyItem item = new PropertyItem();
             item.propertyKey = p.getKeyName();
             item.propertyName = context.getString(R.string.album_art) + " - " + p.getName(context);
@@ -53,7 +91,7 @@ public class PropertyItem {
         }
 
         // 歌詞
-        for (ActionPluginParam.LyricsProperty p : ActionPluginParam.LyricsProperty.values()) {
+        for (LyricsProperty p : LyricsProperty.values()) {
             PropertyItem item = new PropertyItem();
             item.propertyKey = p.getKeyName();
             item.propertyName = context.getString(R.string.lyrics) + " - " + p.getName(context);
@@ -62,7 +100,7 @@ public class PropertyItem {
         }
 
         // 再生キュー
-        for (ActionPluginParam.QueueProperty p : ActionPluginParam.QueueProperty.values()) {
+        for (QueueProperty p : QueueProperty.values()) {
             PropertyItem item = new PropertyItem();
             item.propertyKey = p.getKeyName();
             item.propertyName = context.getString(R.string.queue) + " - " + p.getName(context);

@@ -71,6 +71,8 @@
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/dependency-cache" />
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/dex" />
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/dex-cache" />
+      <excludeFolder url="file://$MODULE_DIR$/build/intermediates/exploded-aar/MedolyTwitterPlugin/drag-sort-listview/unspecified/jars" />
+      <excludeFolder url="file://$MODULE_DIR$/build/intermediates/exploded-aar/MedolyTwitterPlugin/medolylibrary/unspecified/jars" />
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/incremental" />
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/jacoco" />
       <excludeFolder url="file://$MODULE_DIR$/build/intermediates/javaResources" />
@@ -89,5 +91,9 @@
     <orderEntry type="jdk" jdkName="Android API 22 Platform" jdkType="Android SDK" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" exported="" name="twitter4j-core-4.0.4" level="project" />
+    <orderEntry type="module" module-name="drag-sort-listview" exported="" />
+    <orderEntry type="module" module-name="medolylibrary" exported="" />
+    <orderEntry type="library" exported="" name="drag-sort-listview-unspecified" level="project" />
+    <orderEntry type="library" exported="" name="medolylibrary-unspecified" level="project" />
   </component>
 </module>

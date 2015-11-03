@@ -25,5 +25,7 @@ android {
 
 dependencies {
     // Twitter4j
-    compile 'org.twitter4j:twitter4j-core:4.0.+'
+    compile 'org.twitter4j:twitter4j-core:4.0.4'
+    compile project(':drag-sort-listview')
+    compile project(':medolylibrary')
 }
