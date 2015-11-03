@@ -16,7 +16,8 @@ import android.text.TextUtils;
 import com.wa2c.android.medoly.library.AlbumArtProperty;
 import com.wa2c.android.medoly.library.MedolyParam;
 import com.wa2c.android.medoly.library.PluginOperationCategory;
-import com.wa2c.android.medoly.plugin.action.Logger;
+import com.wa2c.android.medoly.utils.Logger;
+
 
 import java.io.File;
 import java.io.Serializable;
@@ -333,7 +334,7 @@ public class PluginReceiver extends BroadcastReceiver {
                         textCount += replaceText.length();
                     } else {
                         // 文字数内に収まらない
-                        if (propertyItem.omissible && remain > 4) {
+                        if (propertyItem.shorten && remain > 4) {
                             // 省略
                             replaceText = replaceText.substring(0, remain - 4) + "... ";
                             int newlineIndex = replaceText.lastIndexOf("\n");

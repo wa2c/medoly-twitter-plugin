@@ -5,7 +5,8 @@ import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.text.TextUtils;
 
-import com.wa2c.android.medoly.plugin.action.Logger;
+
+import com.wa2c.android.medoly.utils.Logger;
 
 import twitter4j.Twitter;
 import twitter4j.TwitterFactory;

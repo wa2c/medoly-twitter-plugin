@@ -38,7 +38,7 @@
     <string name="label_dialog_insert_property_title">Insert Property</string>
     <string name="label_dialog_property_priority_title">Sorting Item Priority</string>
     <string name="label_dialog_property_priority_title1">View  Item</string>
-    <string name="label_dialog_property_priority_title2">Omissible</string>
+    <string name="label_dialog_property_priority_title2">Shorten</string>
     <string name="message_initialize_priority">Priority initialized.</string>
     <string name="message_confirm_initialize_format">Initialize current message.</string>
 

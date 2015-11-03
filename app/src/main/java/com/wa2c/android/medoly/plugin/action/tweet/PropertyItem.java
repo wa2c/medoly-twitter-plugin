@@ -12,17 +12,16 @@ import com.wa2c.android.medoly.library.QueueProperty;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 
-/**
- * Created by wa2c on 2015/05/09.
- */
+
+
 public class PropertyItem {
 
     /** プロパティキー。 */
     public String propertyKey;
     /** プロパティ名。 */
     public String propertyName;
-    /** 省略可。 */
-    public boolean omissible;
+    /** 短縮可。 */
+    public boolean shorten;
 
 
 
@@ -37,47 +36,12 @@ public class PropertyItem {
     public static ArrayList<PropertyItem> getDefaultPropertyPriority(Context context) {
         ArrayList<PropertyItem> itemList = new ArrayList<>();
 
-//        // メディア
-//        for (ActionPluginParam.MediaProperty p : ActionPluginParam.MediaProperty.values()) {
-//            PropertyItem item = new PropertyItem();
-//            item.propertyKey = p.getKeyName();
-//            item.propertyName = context.getString(R.string.media) + " - " + p.getName(context);
-//            item.omissible = p.enableShortening();
-//            itemList.add(item);
-//        }
-//
-//        // アルバムアート
-//        for (ActionPluginParam.AlbumArtProperty p : ActionPluginParam.AlbumArtProperty.values()) {
-//            PropertyItem item = new PropertyItem();
-//            item.propertyKey = p.getKeyName();
-//            item.propertyName = context.getString(R.string.album_art) + " - " + p.getName(context);
-//            item.omissible = p.enableShortening();
-//            itemList.add(item);
-//        }
-//
-//        // 歌詞
-//        for (ActionPluginParam.LyricsProperty p : ActionPluginParam.LyricsProperty.values()) {
-//            PropertyItem item = new PropertyItem();
-//            item.propertyKey = p.getKeyName();
-//            item.propertyName = context.getString(R.string.lyrics) + " - " + p.getName(context);
-//            item.omissible = p.enableShortening();
-//            itemList.add(item);
-//        }
-//
-//        for (ActionPluginParam.QueueProperty p : ActionPluginParam.QueueProperty.values()) {
-//            PropertyItem item = new PropertyItem();
-//            item.propertyKey = p.getKeyName();
-//            item.propertyName = context.getString(R.string.queue) + " - " + p.getName(context);
-//            item.omissible = p.enableShortening();
-//            itemList.add(item);
-//        }
-
         // メディア
         for (MediaProperty p : MediaProperty.values()) {
             PropertyItem item = new PropertyItem();
             item.propertyKey = p.getKeyName();
             item.propertyName = context.getString(R.string.media) + " - " + p.getName(context);
-            item.omissible = p.enableShortening();
+            item.shorten = p.enableShortening();
             itemList.add(item);
         }
 
@@ -86,7 +50,7 @@ public class PropertyItem {
             PropertyItem item = new PropertyItem();
             item.propertyKey = p.getKeyName();
             item.propertyName = context.getString(R.string.album_art) + " - " + p.getName(context);
-            item.omissible = p.enableShortening();
+            item.shorten = p.enableShortening();
             itemList.add(item);
         }
 
@@ -95,7 +59,7 @@ public class PropertyItem {
             PropertyItem item = new PropertyItem();
             item.propertyKey = p.getKeyName();
             item.propertyName = context.getString(R.string.lyrics) + " - " + p.getName(context);
-            item.omissible = p.enableShortening();
+            item.shorten = p.enableShortening();
             itemList.add(item);
         }
 
@@ -104,7 +68,7 @@ public class PropertyItem {
             PropertyItem item = new PropertyItem();
             item.propertyKey = p.getKeyName();
             item.propertyName = context.getString(R.string.queue) + " - " + p.getName(context);
-            item.omissible = p.enableShortening();
+            item.shorten = p.enableShortening();
             itemList.add(item);
         }
 
@@ -136,7 +100,7 @@ public class PropertyItem {
                 if (!itemMap.containsKey(key)) continue;
 
                 PropertyItem item = itemMap.get(key);
-                item.omissible = Boolean.parseBoolean(items[1]);
+                item.shorten = Boolean.parseBoolean(items[1]);
                 outputItemList.add(itemMap.remove(key)); // プロパティをリストに追加
             }
             for (PropertyItem item : itemMap.values()) {
@@ -159,7 +123,7 @@ public class PropertyItem {
         SharedPreferences p = PreferenceManager.getDefaultSharedPreferences(context);
         StringBuilder builder = new StringBuilder();
         for (PropertyItem item : itemList) {
-            builder.append(item.propertyKey).append(",").append(item.omissible).append("\n");
+            builder.append(item.propertyKey).append(",").append(item.shorten).append("\n");
         }
         p.edit().putString(PREFKEY_PROPERTY_PRIORITY, builder.toString()).apply();
     }

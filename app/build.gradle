@@ -16,6 +16,7 @@ android {
         debug {
             versionNameSuffix 'd'
         }
+
         release {
             minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.txt'

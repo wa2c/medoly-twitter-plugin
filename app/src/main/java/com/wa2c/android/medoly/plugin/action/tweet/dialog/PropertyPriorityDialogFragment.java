@@ -76,19 +76,19 @@ public class PropertyPriorityDialogFragment extends AbstractDialogFragment {
                     holder = new ListItemViewHolder();
                     holder.TitleTextView = (TextView)convertView.findViewById(R.id.propertyItemTitle);
                     holder.DragImageView = (ImageView)convertView.findViewById(R.id.propertyItemImageView);
-                    holder.OmissibleCheckBox = (CheckBox)convertView.findViewById(R.id.propertyItemCheckBox);
+                    holder.ShortenCheckBox = (CheckBox)convertView.findViewById(R.id.propertyItemCheckBox);
                     convertView.setTag(holder);
                 } else {
                     holder = (ListItemViewHolder) convertView.getTag();
                 }
 
-                holder.OmissibleCheckBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                holder.ShortenCheckBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                     @Override
                     public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                        item.omissible = isChecked;
+                        item.shorten = isChecked;
                     }
                 });
-                holder.OmissibleCheckBox.setChecked(item.omissible);
+                holder.ShortenCheckBox.setChecked(item.shorten);
 
                 holder.TitleTextView.setText(item.propertyName);
                 return convertView;
@@ -98,7 +98,7 @@ public class PropertyPriorityDialogFragment extends AbstractDialogFragment {
             class ListItemViewHolder {
                 public TextView TitleTextView;
                 public ImageView DragImageView;
-                public CheckBox OmissibleCheckBox;
+                public CheckBox ShortenCheckBox;
             }
         });
 

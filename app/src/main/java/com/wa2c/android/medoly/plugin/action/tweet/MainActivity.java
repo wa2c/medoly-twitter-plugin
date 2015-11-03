@@ -10,7 +10,7 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.wa2c.android.medoly.library.MedolyParam;
-import com.wa2c.android.medoly.plugin.action.Logger;
+import com.wa2c.android.medoly.utils.Logger;
 
 import twitter4j.Twitter;
 import twitter4j.TwitterException;
