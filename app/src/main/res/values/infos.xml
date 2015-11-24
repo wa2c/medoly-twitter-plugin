@@ -11,6 +11,7 @@
     <string name="app_market">market://details?id=com.wa2c.android.medoly.plugin.action.twitter</string>
     <string name="app_market_web">https://play.google.com/store/apps/details?id=com.wa2c.android.medoly.plugin.action.twitter</string>
     <string name="twitter_callback_url">medoly://plugin_twitter</string>
+    <string name="twitter_uri">http://twitter.com/</string>
 
     <!-- Library  -->
     <string-array name="about_library_names">

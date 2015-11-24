@@ -5,11 +5,22 @@ import android.widget.Toast;
 
 public class AppUtils {
 
+    /**
+     * トーストを表示。
+     * @param context コンテキスト。
+     * @param text メッセージ。
+     */
     public static void showToast(Context context, String text) {
-        Toast.makeText(context, text, Toast.LENGTH_SHORT).show();
+        ToastReceiver.showToast(context, text);
     }
 
-    public static void showToast(Context context, int stringId) {
-        Toast.makeText(context, stringId, Toast.LENGTH_SHORT).show();
+    /**
+     * トーストを表示。
+     * @param context コンテキスト。
+     * @param stringId メッセージ。
+     */
+    public static void showToast(final Context context, final int stringId) {
+        showToast(context, context.getString(stringId));
     }
+
 }
