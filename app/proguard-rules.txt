@@ -1,4 +1,6 @@
 -keepattributes *Annotation*
 -keep class twitter4j.** { *; }
+-keep class com.mobeta.android.dslv.** { *; }
 -dontwarn twitter4j.**
+-dontwarn com.mobeta.android.dslv.**
 -dontnote

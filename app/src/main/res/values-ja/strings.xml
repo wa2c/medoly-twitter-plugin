@@ -28,8 +28,9 @@
     <string name="label_button_settings">設定</string>
     <string name="label_button_launch_medoly">Medoly起動</string>
     <string name="message_no_medoly">Medolyをインストールしてください。</string>
-    <string name="message_account_auth">Twitter認証が完了しています。</string>
-    <string name="message_account_not_auth">Twitter認証されていません。</string>
+    <string name="message_account_auth">アカウントの認証が完了しています。</string>
+    <string name="message_account_not_auth">アカウントが認証されていません。</string>
+    <string name="message_account_clear">アカウント情報をクリアしました。</string>
 
     <!--  Edit Activity -->
     <string name="label_edit_title">メッセージ編集</string>

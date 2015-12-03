@@ -190,6 +190,15 @@ public class PostIntentService extends IntentService {
             return;
         }
 
+        // 認証確認
+        if (postType == PostType.TWEET) {
+            if (!TwitterUtils.hasAccessToken(context)) {
+                showResult(PostResult.AUTH_FAILED, postType);
+                return;
+            }
+        }
+
+        // 前回メディア確認
         if (postType == PostType.TWEET) {
             String mediaUriText = mediaUri.toString();
             String previousMediaUri = sharedPreferences.getString(PREFKEY_PREVIOUS_MEDIA_URI, "");
@@ -202,6 +211,7 @@ public class PostIntentService extends IntentService {
             sharedPreferences.edit().putString(PREFKEY_PREVIOUS_MEDIA_URI, mediaUriText).apply();
         }
 
+        // 投稿
         PostResult result = PostResult.IGNORE;
         try {
             switch (postType) {
