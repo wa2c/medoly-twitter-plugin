@@ -5,7 +5,6 @@ import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.text.TextUtils;
 
-
 import com.wa2c.android.medoly.utils.Logger;
 
 import twitter4j.Twitter;
@@ -24,7 +23,6 @@ public class TwitterUtils {
      * @param context コンテキスト。
      * @return Twitterインスタンス。
      */
-    @SuppressWarnings("unchecked")
     public static Twitter getTwitterInstance(Context context) {
         String t1;
         String t2;

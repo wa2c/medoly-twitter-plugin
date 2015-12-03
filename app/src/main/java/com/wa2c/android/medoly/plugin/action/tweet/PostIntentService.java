@@ -1,28 +1,21 @@
 package com.wa2c.android.medoly.plugin.action.tweet;
 
 import android.app.IntentService;
-import android.content.ContentUris;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.database.Cursor;
 import android.net.Uri;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.provider.MediaStore;
 import android.text.TextUtils;
 
 import com.wa2c.android.medoly.library.AlbumArtProperty;
-import com.wa2c.android.medoly.library.MediaProperty;
 import com.wa2c.android.medoly.library.MedolyParam;
 import com.wa2c.android.medoly.library.PluginOperationCategory;
 import com.wa2c.android.medoly.utils.Logger;
 
 import java.io.File;
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -30,7 +23,6 @@ import java.util.Map;
 import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
 
 import twitter4j.StatusUpdate;
 import twitter4j.Twitter;
@@ -277,33 +269,6 @@ public class PostIntentService extends IntentService {
             twitterIntent.setAction(Intent.ACTION_SEND);
             twitterIntent.setType("text/plain");
             twitterIntent.putExtra(Intent.EXTRA_TEXT, message);
-
-//            Uri imageUri = null;
-//            if (albumArtFile != null) {
-//                Cursor cursor = null;
-//                try {
-//                    // 画像のURI取得 (取得パスがエイリアスでMediaStorageのパスと異なる場合は取得できない)
-//                    cursor = context.getContentResolver().query(
-//                            MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
-//                            null,
-//                            MediaStore.Images.Media.DATA + " = ?",
-//                            new String[]{ albumArtFile.getAbsolutePath() },
-//                            null);
-//                    if (cursor != null &&  cursor.moveToFirst()) {
-//                        long id = cursor.getLong(cursor.getColumnIndex(MediaStore.MediaColumns._ID));
-//                        imageUri = ContentUris.withAppendedId(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, id);
-//                    }
-//                } catch (Exception e) {
-//                    Logger.e(e);
-//                } finally {
-//                    if (cursor != null && !cursor.isClosed()) cursor.close();
-//                }
-//                if (imageUri == null) {
-//                    // DBから取得できない場合はfile://スキーマを使用
-//                    imageUri = Uri.parse("file://" + albumArtFile.getPath());
-//                }
-//                twitterIntent.putExtra(Intent.EXTRA_STREAM, imageUri);
-//            }
             twitterIntent.putExtra(Intent.EXTRA_STREAM, albumArtUri);
             twitterIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
             twitterIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -413,13 +378,6 @@ public class PostIntentService extends IntentService {
     private Uri getAlbumArtFile( final Map<String, String> propertyMap) {
         Uri albumArtUri = null;
         if (sharedPreferences.getBoolean(context.getString(R.string.prefkey_content_album_art), true)) {
-//            String albumArtPath = propertyMap.get(AlbumArtProperty.FOLDER_PATH.getKeyName()) + propertyMap.get(AlbumArtProperty.FILE_NAME.getKeyName());
-//            if (!TextUtils.isEmpty(albumArtPath)) {
-//                albumArtFile = new File(albumArtPath);
-//                if (!albumArtFile.exists()) {
-//                    albumArtFile = null;
-//                }
-//            }
             String uri = propertyMap.get(AlbumArtProperty.DATA_URI.getKeyName());
             if (!TextUtils.isEmpty(uri)) {
                 albumArtUri = Uri.parse(uri);

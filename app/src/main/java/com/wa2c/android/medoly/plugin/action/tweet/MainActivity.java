@@ -80,7 +80,7 @@ public class MainActivity extends Activity {
             findViewById(R.id.noMedolyTextView).setVisibility(View.GONE);
         }
 
-        updateAuthMesage();
+        updateAuthMessage();
     }
 
     @Override
@@ -93,7 +93,7 @@ public class MainActivity extends Activity {
     /**
      * 認証状態のメッセージを更新する。
      */
-    private void updateAuthMesage() {
+    private void updateAuthMessage() {
         AccessToken token = TwitterUtils.loadAccessToken(this);
         if (token != null) {
             ((TextView)findViewById(R.id.twitterAuthTextView)).setText(getString(R.string.message_account_auth));
@@ -172,7 +172,7 @@ public class MainActivity extends Activity {
                     AppUtils.showToast(MainActivity.this, R.string.message_auth_failure);
                     TwitterUtils.storeAccessToken(MainActivity.this, null);
                 }
-                updateAuthMesage();
+                updateAuthMessage();
             }
         };
         task.execute(verifier);

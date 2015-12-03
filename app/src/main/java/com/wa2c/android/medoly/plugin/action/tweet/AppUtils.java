@@ -1,7 +1,6 @@
 package com.wa2c.android.medoly.plugin.action.tweet;
 
 import android.content.Context;
-import android.widget.Toast;
 
 public class AppUtils {
 
