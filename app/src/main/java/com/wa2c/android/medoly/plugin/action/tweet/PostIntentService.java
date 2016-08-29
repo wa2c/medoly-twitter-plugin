@@ -10,16 +10,14 @@ import android.preference.PreferenceManager;
 import android.text.TextUtils;
 
 import com.wa2c.android.medoly.library.AlbumArtProperty;
-import com.wa2c.android.medoly.library.MedolyParam;
+import com.wa2c.android.medoly.library.MedolyEnvironment;
 import com.wa2c.android.medoly.library.PluginOperationCategory;
+import com.wa2c.android.medoly.library.PropertyData;
 import com.wa2c.android.medoly.utils.Logger;
 
 import java.io.File;
-import java.io.Serializable;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -75,7 +73,7 @@ public class PostIntentService extends IntentService {
     /** 設定。 */
     private SharedPreferences sharedPreferences = null;
     /** 受信データ。 */
-    private HashMap<String, String> propertyMap = null;
+    private PropertyData propertyData = null;
     /** メディアURI。 */
     private Uri mediaUri = null;
     /** Twitter。 */
@@ -102,34 +100,15 @@ public class PostIntentService extends IntentService {
 
             Bundle extras = intent.getExtras();
 
+            // プロパティ情報を取得
+            propertyData = PropertyData.getFromIntent(intent);
+            if (propertyData == null || propertyData.isEmpty())
+                return;
+
             // URIを取得
             Object extraStream;
             if (extras != null && (extraStream = intent.getExtras().get(Intent.EXTRA_STREAM)) != null && extraStream instanceof Uri) {
                 mediaUri = (Uri) extraStream;
-            } else if (intent.getData() != null) {
-                // Old version
-                mediaUri = intent.getData();
-            }
-
-
-            // 値を取得
-            boolean isEvent = false;
-            try {
-                if (intent.hasExtra(MedolyParam.PLUGIN_VALUE_KEY)) {
-                    Serializable serializable = intent.getSerializableExtra(MedolyParam.PLUGIN_VALUE_KEY);
-                    if (serializable != null) {
-                        propertyMap = (HashMap<String, String>) serializable;
-                    }
-                }
-                if (propertyMap == null || propertyMap.isEmpty()) {
-                    return;
-                }
-
-                if (intent.hasExtra(MedolyParam.PLUGIN_EVENT_KEY))
-                    isEvent = intent.getBooleanExtra(MedolyParam.PLUGIN_EVENT_KEY, false);
-            } catch (ClassCastException | NullPointerException e) {
-                Logger.e(e);
-                return;
             }
 
             // カテゴリを取得
@@ -137,6 +116,11 @@ public class PostIntentService extends IntentService {
             if (categories == null || categories.size() == 0) {
                 return;
             }
+
+            // イベントを取得
+            boolean isEvent = false;
+            if (intent.hasExtra(MedolyEnvironment.PLUGIN_EVENT_KEY))
+                isEvent = intent.getBooleanExtra(MedolyEnvironment.PLUGIN_EVENT_KEY, false);
 
             // 各アクション実行
             if (categories.contains(PluginOperationCategory.OPERATION_PLAY_START.getCategoryValue())) {
@@ -168,10 +152,12 @@ public class PostIntentService extends IntentService {
                     }
                 }
             }
+        } catch (Exception e) {
+            AppUtils.showToast(this, R.string.error_app);
         } finally {
             context = null;
             sharedPreferences = null;
-            propertyMap = null;
+            propertyData = null;
             mediaUri = null;
             twitter = null;
         }
@@ -237,7 +223,7 @@ public class PostIntentService extends IntentService {
         try {
             // アルバムアート取得
             File albumArtFile = null;
-            Uri albumArtUri =getAlbumArtFile(propertyMap);
+            Uri albumArtUri =getAlbumArtFile(propertyData);
             if (albumArtUri != null) {
                 String path = albumArtUri.getPath();
                 albumArtFile = new File(path);
@@ -245,7 +231,7 @@ public class PostIntentService extends IntentService {
 
             // メッセージ取得
             int messageMax = (albumArtFile == null) ? MESSAGE_LENGTH : MESSAGE_LENGTH - IMAGE_URL_LENGTH;
-            String message = getMessage(messageMax, propertyMap);
+            String message = getMessage(messageMax, propertyData);
             if (TextUtils.isEmpty(message)) {
                 return PostResult.IGNORE;
             }
@@ -266,11 +252,11 @@ public class PostIntentService extends IntentService {
     private PostResult sendApp() {
         try {
             // アルバムアート取得
-            Uri albumArtUri= getAlbumArtFile(propertyMap);
+            Uri albumArtUri= getAlbumArtFile(propertyData);
 
             // メッセージ取得
             int messageMax = (albumArtUri == null) ? MESSAGE_LENGTH : MESSAGE_LENGTH - IMAGE_URL_LENGTH;
-            String message = getMessage(messageMax, propertyMap);
+            String message = getMessage(messageMax, propertyData);
             if (TextUtils.isEmpty(message)) {
                 return PostResult.IGNORE;
             }
@@ -299,7 +285,7 @@ public class PostIntentService extends IntentService {
      * @param propertyMap プロパティ情報マップ。
      * @return メッセージ。
      */
-    private String getMessage(final int messageMax, final Map<String, String> propertyMap) {
+    private String getMessage(final int messageMax, final PropertyData propertyMap) {
         final String TAG_EXP = "%([^%]+)%"; // メタタグ
         final String format = sharedPreferences.getString(context.getString(R.string.prefkey_content_format), context.getString(R.string.format_content_default));
         if (TextUtils.isEmpty(format)) {
@@ -335,7 +321,7 @@ public class PostIntentService extends IntentService {
             // 置換えテキスト取得
             String replaceText = "";
             if (propertyMap.containsKey(propertyItem.propertyKey))
-                replaceText = propertyMap.get(propertyItem.propertyKey);
+                replaceText = propertyMap.getFirst(propertyItem.propertyKey);
 
             // 検索
             Matcher matcher;
@@ -385,10 +371,10 @@ public class PostIntentService extends IntentService {
      * @param propertyMap プロパティ情報マップ。
      * @return アルバムアートファイルファイル。
      */
-    private Uri getAlbumArtFile( final Map<String, String> propertyMap) {
+    private Uri getAlbumArtFile(final PropertyData propertyMap) {
         Uri albumArtUri = null;
         if (sharedPreferences.getBoolean(context.getString(R.string.prefkey_content_album_art), true)) {
-            String uri = propertyMap.get(AlbumArtProperty.DATA_URI.getKeyName());
+            String uri = propertyMap.getFirst(AlbumArtProperty.DATA_URI);
             if (!TextUtils.isEmpty(uri)) {
                 albumArtUri = Uri.parse(uri);
             }

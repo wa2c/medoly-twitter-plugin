@@ -68,6 +68,7 @@
 
 
     <!-- System -->
+    <string name="error_app">The operation failed due to an error.</string>
     <string name="error_dialog_dismissed">Open the dialog again.</string>
 
 </resources>
