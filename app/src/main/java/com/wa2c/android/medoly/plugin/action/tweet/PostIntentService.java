@@ -5,12 +5,11 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
-import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.text.TextUtils;
 
 import com.wa2c.android.medoly.library.AlbumArtProperty;
-import com.wa2c.android.medoly.library.MedolyEnvironment;
+import com.wa2c.android.medoly.library.MedolyIntentParam;
 import com.wa2c.android.medoly.library.PluginOperationCategory;
 import com.wa2c.android.medoly.library.PropertyData;
 import com.wa2c.android.medoly.utils.Logger;
@@ -18,7 +17,6 @@ import com.wa2c.android.medoly.utils.Logger;
 import java.io.File;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -72,10 +70,8 @@ public class PostIntentService extends IntentService {
     private Context context = null;
     /** 設定。 */
     private SharedPreferences sharedPreferences = null;
-    /** 受信データ。 */
-    private PropertyData propertyData = null;
-    /** メディアURI。 */
-    private Uri mediaUri = null;
+    /** Intentパラメータ。 */
+    private MedolyIntentParam param;
     /** Twitter。 */
     private Twitter twitter;
 
@@ -94,61 +90,35 @@ public class PostIntentService extends IntentService {
             return;
 
         try {
-            this.context = getApplicationContext();
-            this.sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
-            this.twitter = TwitterUtils.getTwitterInstance(context);
-
-            Bundle extras = intent.getExtras();
-
-            // プロパティ情報を取得
-            propertyData = PropertyData.getFromIntent(intent);
-            if (propertyData == null || propertyData.isEmpty())
-                return;
-
-            // URIを取得
-            Object extraStream;
-            if (extras != null && (extraStream = intent.getExtras().get(Intent.EXTRA_STREAM)) != null && extraStream instanceof Uri) {
-                mediaUri = (Uri) extraStream;
-            }
-
-            // カテゴリを取得
-            Set<String> categories = intent.getCategories();
-            if (categories == null || categories.size() == 0) {
-                return;
-            }
-
-            // イベントを取得
-            boolean isEvent = false;
-            if (intent.hasExtra(MedolyEnvironment.PLUGIN_EVENT_KEY))
-                isEvent = intent.getBooleanExtra(MedolyEnvironment.PLUGIN_EVENT_KEY, false);
+            context = getApplicationContext();
+            sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
+            param = new MedolyIntentParam(intent);
+            twitter = TwitterUtils.getTwitterInstance(context);
 
             // 各アクション実行
-            if (categories.contains(PluginOperationCategory.OPERATION_PLAY_START.getCategoryValue())) {
+            if (param.hasCategories(PluginOperationCategory.OPERATION_PLAY_START)) {
                 // Play Start
-                if (!isEvent || this.sharedPreferences.getBoolean(context.getString(R.string.prefkey_operation_play_start_enabled), false)) {
+                if (!param.isEvent() || this.sharedPreferences.getBoolean(context.getString(R.string.prefkey_operation_play_start_enabled), false)) {
                     post(PostType.TWEET);
                 }
-            } else if (categories.contains(PluginOperationCategory.OPERATION_PLAY_NOW.getCategoryValue())) {
+            } else if (param.hasCategories(PluginOperationCategory.OPERATION_PLAY_NOW)) {
                 // Play Now
-                if (!isEvent || this.sharedPreferences.getBoolean(context.getString(R.string.prefkey_operation_play_now_enabled), true)) {
+                if (!param.isEvent() || this.sharedPreferences.getBoolean(context.getString(R.string.prefkey_operation_play_now_enabled), true)) {
                     post(PostType.TWEET);
                 }
-            } else if (categories.contains(PluginOperationCategory.OPERATION_EXECUTE.getCategoryValue())) {
+            } else if (param.hasCategories(PluginOperationCategory.OPERATION_EXECUTE)) {
                 // Execute
-                final String EXECUTE_TWEET_ID = "execute_id_tweet";
-                final String EXECUTE_SITE_ID = "execute_id_site";
-
-                if (extras != null) {
-                    if (extras.keySet().contains(EXECUTE_TWEET_ID)) {
-                        post(PostType.SEND_APP);
-                    } else if (extras.keySet().contains(EXECUTE_SITE_ID)) {
-                        Intent launchIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(context.getString(R.string.twitter_uri)));
-                        try {
-                            launchIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                            context.startActivity(launchIntent);
-                        } catch (android.content.ActivityNotFoundException e) {
-                            Logger.d(e);
-                        }
+                if (param.hasExecuteId("execute_id_tweet")) {
+                    // Send
+                    post(PostType.SEND_APP);
+                } else if (param.hasExecuteId("execute_id_site")) {
+                    // Twitter.com
+                    Intent launchIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(context.getString(R.string.twitter_uri)));
+                    try {
+                        launchIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                        context.startActivity(launchIntent);
+                    } catch (android.content.ActivityNotFoundException e) {
+                        Logger.d(e);
                     }
                 }
             }
@@ -157,8 +127,7 @@ public class PostIntentService extends IntentService {
         } finally {
             context = null;
             sharedPreferences = null;
-            propertyData = null;
-            mediaUri = null;
+            param = null;
             twitter = null;
         }
     }
@@ -170,7 +139,7 @@ public class PostIntentService extends IntentService {
      */
     private void post(PostType postType) {
         // 音楽データ無し
-        if (mediaUri == null) {
+        if (param.getMediaUri() == null) {
             AppUtils.showToast(context, R.string.message_no_media);
             showResult(PostResult.IGNORE, postType);
             return;
@@ -186,7 +155,7 @@ public class PostIntentService extends IntentService {
 
         // 前回メディア確認
         if (postType == PostType.TWEET) {
-            String mediaUriText = mediaUri.toString();
+            String mediaUriText = param.getMediaUri().toString();
             String previousMediaUri = sharedPreferences.getString(PREFKEY_PREVIOUS_MEDIA_URI, "");
             boolean previousMediaEnabled = sharedPreferences.getBoolean(context.getString(R.string.prefkey_previous_media_enabled), false);
             if (!previousMediaEnabled && !TextUtils.isEmpty(mediaUriText) && !TextUtils.isEmpty(previousMediaUri) && mediaUriText.equals(previousMediaUri)) {
@@ -223,7 +192,7 @@ public class PostIntentService extends IntentService {
         try {
             // アルバムアート取得
             File albumArtFile = null;
-            Uri albumArtUri =getAlbumArtFile(propertyData);
+            Uri albumArtUri = getAlbumArtFile(param.getPropertyData());
             if (albumArtUri != null) {
                 String path = albumArtUri.getPath();
                 albumArtFile = new File(path);
@@ -231,7 +200,7 @@ public class PostIntentService extends IntentService {
 
             // メッセージ取得
             int messageMax = (albumArtFile == null) ? MESSAGE_LENGTH : MESSAGE_LENGTH - IMAGE_URL_LENGTH;
-            String message = getMessage(messageMax, propertyData);
+            String message = getMessage(messageMax, param.getPropertyData());
             if (TextUtils.isEmpty(message)) {
                 return PostResult.IGNORE;
             }
@@ -252,11 +221,11 @@ public class PostIntentService extends IntentService {
     private PostResult sendApp() {
         try {
             // アルバムアート取得
-            Uri albumArtUri= getAlbumArtFile(propertyData);
+            Uri albumArtUri= getAlbumArtFile(param.getPropertyData());
 
             // メッセージ取得
             int messageMax = (albumArtUri == null) ? MESSAGE_LENGTH : MESSAGE_LENGTH - IMAGE_URL_LENGTH;
-            String message = getMessage(messageMax, propertyData);
+            String message = getMessage(messageMax, param.getPropertyData());
             if (TextUtils.isEmpty(message)) {
                 return PostResult.IGNORE;
             }
