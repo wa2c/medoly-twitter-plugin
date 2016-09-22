@@ -3,7 +3,6 @@ package com.wa2c.android.medoly.plugin.action.tweet.util;
 import android.os.Debug;
 import android.util.Log;
 
-
 import com.wa2c.android.medoly.plugin.action.tweet.BuildConfig;
 
 import java.io.PrintWriter;

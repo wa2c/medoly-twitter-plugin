@@ -5,7 +5,6 @@ import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.text.TextUtils;
 
-import com.wa2c.android.medoly.plugin.action.tweet.R;
 import com.wa2c.android.medoly.plugin.action.tweet.Token;
 
 import twitter4j.Twitter;
@@ -29,9 +28,8 @@ public class TwitterUtils {
         String t2;
 
         try {
-            String k = context.getString(R.string.base_app_name) + "__" + context.getString(R.string.domain_name);
-            t1 = Token.getConsumerKey(k);
-            t2 = Token.getConsumerSecret(k);
+            t1 = Token.getConsumerKey(context);
+            t2 = Token.getConsumerSecret(context);
         } catch (Exception e) {
             Logger.e(e);
             AppUtils.showToast(context, "There is no Token class.");
