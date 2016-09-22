@@ -17,6 +17,7 @@ public class ToastReceiver extends BroadcastReceiver {
     }
 
     public static void showToast(Context context, String text) {
+        // IntentService起動
         Intent intent = new Intent(context, ToastReceiver.class);
         intent.putExtra(MESSAGE_TOAST, text);
         context.sendBroadcast(intent);
