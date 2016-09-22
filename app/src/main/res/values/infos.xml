@@ -23,7 +23,7 @@
         <item>https://github.com/bauerca/drag-sort-listview</item>
     </string-array>
 
-    <string name="format_content_default">%MEDIA_TITLE% - %MEDIA_ARTIST% / %MEDIA_ALBUM% #NowPlaying</string>
+    <string name="format_content_default">%MEDIA_TITLE% - %MEDIA_ARTIST% / %MEDIA_ALBUM% #NowPlaying #Medoly</string>
 
     <!-- Preferences -->
     <string name="prefkey_content_format">content_format</string>

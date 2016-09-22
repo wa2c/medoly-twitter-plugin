@@ -1,6 +1,8 @@
-package com.wa2c.android.medoly.plugin.action.tweet;
+package com.wa2c.android.medoly.plugin.action.tweet.util;
 
 import android.content.Context;
+
+import com.wa2c.android.medoly.plugin.action.tweet.util.ToastReceiver;
 
 public class AppUtils {
 

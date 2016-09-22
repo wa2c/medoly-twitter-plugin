@@ -12,7 +12,9 @@ import com.wa2c.android.medoly.library.AlbumArtProperty;
 import com.wa2c.android.medoly.library.MedolyIntentParam;
 import com.wa2c.android.medoly.library.PluginOperationCategory;
 import com.wa2c.android.medoly.library.PropertyData;
-import com.wa2c.android.medoly.utils.Logger;
+import com.wa2c.android.medoly.plugin.action.tweet.util.AppUtils;
+import com.wa2c.android.medoly.plugin.action.tweet.util.Logger;
+import com.wa2c.android.medoly.plugin.action.tweet.util.TwitterUtils;
 
 import java.io.File;
 import java.util.HashSet;
@@ -134,7 +136,7 @@ public class PostIntentService extends IntentService {
 
 
 
-    /**
+     /**
      * 投稿。
      */
     private void post(PostType postType) {

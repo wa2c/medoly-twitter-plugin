@@ -80,7 +80,7 @@
         </receiver>
 
         <receiver
-            android:name=".ToastReceiver"
+            android:name=".util.ToastReceiver"
             android:exported="false" />
 
     </application>

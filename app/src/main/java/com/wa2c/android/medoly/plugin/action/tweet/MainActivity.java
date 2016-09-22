@@ -10,7 +10,9 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.wa2c.android.medoly.library.MedolyEnvironment;
-import com.wa2c.android.medoly.utils.Logger;
+import com.wa2c.android.medoly.plugin.action.tweet.util.AppUtils;
+import com.wa2c.android.medoly.plugin.action.tweet.util.Logger;
+import com.wa2c.android.medoly.plugin.action.tweet.util.TwitterUtils;
 
 import twitter4j.Twitter;
 import twitter4j.TwitterException;

@@ -1,11 +1,12 @@
-package com.wa2c.android.medoly.plugin.action.tweet;
+package com.wa2c.android.medoly.plugin.action.tweet.util;
 
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.text.TextUtils;
 
-import com.wa2c.android.medoly.utils.Logger;
+import com.wa2c.android.medoly.plugin.action.tweet.R;
+import com.wa2c.android.medoly.plugin.action.tweet.Token;
 
 import twitter4j.Twitter;
 import twitter4j.TwitterFactory;

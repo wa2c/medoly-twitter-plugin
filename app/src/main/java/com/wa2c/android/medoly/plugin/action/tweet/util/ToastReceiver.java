@@ -1,4 +1,4 @@
-package com.wa2c.android.medoly.plugin.action.tweet;
+package com.wa2c.android.medoly.plugin.action.tweet.util;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
