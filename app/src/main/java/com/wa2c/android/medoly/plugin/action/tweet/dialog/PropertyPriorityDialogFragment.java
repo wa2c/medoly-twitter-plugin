@@ -22,6 +22,7 @@ import com.wa2c.android.medoly.plugin.action.tweet.util.AppUtils;
 import java.util.ArrayList;
 
 
+
 public class PropertyPriorityDialogFragment extends AbstractDialogFragment {
 
     /**
@@ -96,9 +97,9 @@ public class PropertyPriorityDialogFragment extends AbstractDialogFragment {
 
             /** リスト項目のビュー情報を保持するHolder。 */
             class ListItemViewHolder {
-                public TextView TitleTextView;
-                public ImageView DragImageView;
-                public CheckBox ShortenCheckBox;
+                TextView TitleTextView;
+                ImageView DragImageView;
+                CheckBox ShortenCheckBox;
             }
         });
 
