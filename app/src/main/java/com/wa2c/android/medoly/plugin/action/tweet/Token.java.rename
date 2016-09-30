@@ -1,0 +1,16 @@
+package com.wa2c.android.medoly.plugin.action.lastfm;
+
+import android.content.Context;
+
+
+
+public class Token {
+
+    public static String getConsumerKey(Context context) {
+        return "";
+    }
+
+    public static String getConsumerSecret(Context context) {
+        return "";
+    }
+}
