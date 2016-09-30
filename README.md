@@ -32,7 +32,7 @@ Medoly Twitter Plugin は、[Medoly](https://play.google.com/store/apps/details?
 
 ## Licence
 
-[MIT](https://github.com/tcnksm/tool/blob/master/LICENCE)
+[MIT](https://opensource.org/licenses/MIT)
 
 ## Author
 
