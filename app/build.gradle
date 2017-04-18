@@ -2,7 +2,7 @@ apply plugin: 'com.android.application'
 
 android {
     compileSdkVersion 24
-    buildToolsVersion '24.0.2'
+    buildToolsVersion '25.0.0'
 
     defaultConfig {
         applicationId "com.wa2c.android.medoly.plugin.action.tweet"
@@ -25,8 +25,13 @@ android {
 
 }
 
+repositories {
+    maven { url 'https://api.bitbucket.org/1.0/repositories/wa2c/medoly-library/raw/master/repository/' }
+}
+
 dependencies {
-    compile project(':medolylibrary')
+    // Medoly
+    compile 'com.wa2c.android:medolylibrary:1.0.4'
     // https://mvnrepository.com/artifact/org.twitter4j/twitter4j-core
     compile 'org.twitter4j:twitter4j-core:4.0.5'
     // https://mvnrepository.com/artifact/asia.ivity.android/drag-sort-listview

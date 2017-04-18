@@ -1,1 +1,1 @@
-include ':app', ':medolylibrary', ':drag-sort-listview'
+include ':app'
