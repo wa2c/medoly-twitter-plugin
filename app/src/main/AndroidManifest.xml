@@ -13,7 +13,7 @@
         android:theme="@style/AppTheme">
 
         <activity
-            android:name=".MainActivity"
+            android:name=".activity.MainActivity"
             android:launchMode="singleTask">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -33,20 +33,20 @@
         </activity>
 
         <activity
-            android:name=".EditActivity"
+            android:name=".activity.EditActivity"
             android:label="@string/title_activity_edit" />
 
         <activity
-            android:name=".SettingsActivity"
+            android:name=".activity.SettingsActivity"
             android:label="@string/title_activity_settings"
             android:launchMode="singleTask" />
 
         <service
-            android:name=".PostIntentService"
+            android:name=".service.PostIntentService"
             android:exported="false" />
 
         <receiver
-            android:name=".PluginReceiver"
+            android:name=".service.PluginReceiver"
             android:label="@string/class_receiver_label">
             <intent-filter>
                 <action android:name="com.wa2c.android.medoly.plugin.action.ACTION_MEDIA" />

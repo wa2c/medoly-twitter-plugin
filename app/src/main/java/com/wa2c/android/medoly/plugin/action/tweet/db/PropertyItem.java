@@ -1,4 +1,4 @@
-package com.wa2c.android.medoly.plugin.action.tweet;
+package com.wa2c.android.medoly.plugin.action.tweet.db;
 
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -9,6 +9,7 @@ import com.wa2c.android.medoly.library.IProperty;
 import com.wa2c.android.medoly.library.LyricsProperty;
 import com.wa2c.android.medoly.library.MediaProperty;
 import com.wa2c.android.medoly.library.QueueProperty;
+import com.wa2c.android.medoly.plugin.action.tweet.R;
 
 import java.util.ArrayList;
 import java.util.HashSet;

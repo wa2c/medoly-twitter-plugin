@@ -1,22 +1,28 @@
-package com.wa2c.android.medoly.plugin.action.tweet;
+package com.wa2c.android.medoly.plugin.action.tweet.service;
 
 import android.app.IntentService;
+import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
+import android.content.pm.ResolveInfo;
 import android.net.Uri;
 import android.preference.PreferenceManager;
 import android.text.TextUtils;
 
 import com.wa2c.android.medoly.library.AlbumArtProperty;
-import com.wa2c.android.medoly.library.MedolyIntentParam;
+import com.wa2c.android.medoly.library.MediaPluginIntent;
 import com.wa2c.android.medoly.library.PluginOperationCategory;
 import com.wa2c.android.medoly.library.PropertyData;
+import com.wa2c.android.medoly.plugin.action.tweet.db.PropertyItem;
+import com.wa2c.android.medoly.plugin.action.tweet.R;
 import com.wa2c.android.medoly.plugin.action.tweet.util.AppUtils;
 import com.wa2c.android.medoly.plugin.action.tweet.util.Logger;
 import com.wa2c.android.medoly.plugin.action.tweet.util.TwitterUtils;
 
-import java.io.File;
+import java.io.FileInputStream;
+import java.io.InputStream;
 import java.util.HashSet;
 import java.util.List;
 import java.util.regex.Matcher;
@@ -68,12 +74,17 @@ public class PostIntentService extends IntentService {
 
 
 
-    /** コンテキスト。 */
+    /** Context. */
     private Context context = null;
-    /** 設定。 */
+    /** Shared preferences. */
     private SharedPreferences sharedPreferences = null;
-    /** Intentパラメータ。 */
-    private MedolyIntentParam param;
+    /** Package manager. */
+    private PackageManager packageManager;
+
+    /** Plugin intent.。 */
+    private MediaPluginIntent pluginIntent;
+    /** Property data. */
+    private PropertyData propertyData;
     /** Twitter。 */
     private Twitter twitter;
 
@@ -94,26 +105,28 @@ public class PostIntentService extends IntentService {
         try {
             context = getApplicationContext();
             sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
-            param = new MedolyIntentParam(intent);
+            packageManager = context.getPackageManager();
+            pluginIntent = new MediaPluginIntent(intent);
+            propertyData = pluginIntent.getPropertyData();
             twitter = TwitterUtils.getTwitterInstance(context);
 
             // 各アクション実行
-            if (param.hasCategories(PluginOperationCategory.OPERATION_PLAY_START)) {
+            if (pluginIntent.hasCategory(PluginOperationCategory.OPERATION_PLAY_START)) {
                 // Play Start
-                if (!param.isEvent() || this.sharedPreferences.getBoolean(context.getString(R.string.prefkey_operation_play_start_enabled), false)) {
+                if (!pluginIntent.isAutomatically() || this.sharedPreferences.getBoolean(context.getString(R.string.prefkey_operation_play_start_enabled), false)) {
                     post(PostType.TWEET);
                 }
-            } else if (param.hasCategories(PluginOperationCategory.OPERATION_PLAY_NOW)) {
+            } else if (pluginIntent.hasCategory(PluginOperationCategory.OPERATION_PLAY_NOW)) {
                 // Play Now
-                if (!param.isEvent() || this.sharedPreferences.getBoolean(context.getString(R.string.prefkey_operation_play_now_enabled), true)) {
+                if (!pluginIntent.isAutomatically() || this.sharedPreferences.getBoolean(context.getString(R.string.prefkey_operation_play_now_enabled), true)) {
                     post(PostType.TWEET);
                 }
-            } else if (param.hasCategories(PluginOperationCategory.OPERATION_EXECUTE)) {
+            } else if (pluginIntent.hasCategory(PluginOperationCategory.OPERATION_EXECUTE)) {
                 // Execute
-                if (param.hasExecuteId("execute_id_tweet")) {
+                if (pluginIntent.hasExecuteId("execute_id_tweet")) {
                     // Send
                     post(PostType.SEND_APP);
-                } else if (param.hasExecuteId("execute_id_site")) {
+                } else if (pluginIntent.hasExecuteId("execute_id_site")) {
                     // Twitter.com
                     Intent launchIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(context.getString(R.string.twitter_uri)));
                     try {
@@ -129,7 +142,7 @@ public class PostIntentService extends IntentService {
         } finally {
             context = null;
             sharedPreferences = null;
-            param = null;
+            pluginIntent = null;
             twitter = null;
         }
     }
@@ -141,7 +154,7 @@ public class PostIntentService extends IntentService {
      */
     private void post(PostType postType) {
         // 音楽データ無し
-        if (param.getMediaUri() == null) {
+        if (propertyData.getMediaUri() == null) {
             AppUtils.showToast(context, R.string.message_no_media);
             showResult(PostResult.IGNORE, postType);
             return;
@@ -157,7 +170,7 @@ public class PostIntentService extends IntentService {
 
         // 前回メディア確認
         if (postType == PostType.TWEET) {
-            String mediaUriText = param.getMediaUri().toString();
+            String mediaUriText = propertyData.getMediaUri().toString();
             String previousMediaUri = sharedPreferences.getString(PREFKEY_PREVIOUS_MEDIA_URI, "");
             boolean previousMediaEnabled = sharedPreferences.getBoolean(context.getString(R.string.prefkey_previous_media_enabled), false);
             if (!previousMediaEnabled && !TextUtils.isEmpty(mediaUriText) && !TextUtils.isEmpty(previousMediaUri) && mediaUriText.equals(previousMediaUri)) {
@@ -191,29 +204,47 @@ public class PostIntentService extends IntentService {
      * @return 投稿結果。
      */
     private PostResult tweet() {
+        Uri albumArtUri = null;
+        InputStream inputStream = null;
         try {
-            // アルバムアート取得
-            File albumArtFile = null;
-            Uri albumArtUri = getAlbumArtFile(param.getPropertyData());
-            if (albumArtUri != null) {
-                String path = albumArtUri.getPath();
-                albumArtFile = new File(path);
+            // Get album art uri
+            if (sharedPreferences.getBoolean(getString(R.string.prefkey_send_album_art), true)) {
+                albumArtUri = propertyData.getAlbumArtUri();
+                if (albumArtUri != null) {
+                    try {
+                        if (ContentResolver.SCHEME_CONTENT.equals(albumArtUri.getScheme())) {
+                            inputStream = context.getContentResolver().openInputStream(albumArtUri);
+                        } else if (ContentResolver.SCHEME_FILE.equals(albumArtUri.getScheme())) {
+                            inputStream = new FileInputStream(albumArtUri.getPath());
+                        }
+                    } catch (Exception ignored) {
+                        albumArtUri = null;
+                        inputStream = null;
+                    }
+                }
             }
 
-            // メッセージ取得
-            int messageMax = (albumArtFile == null) ? MESSAGE_LENGTH : MESSAGE_LENGTH - IMAGE_URL_LENGTH;
-            String message = getMessage(messageMax, param.getPropertyData());
+            // Get message
+            int messageMax = (inputStream == null) ? MESSAGE_LENGTH : MESSAGE_LENGTH - IMAGE_URL_LENGTH;
+            String message = getMessage(messageMax, propertyData);
             if (TextUtils.isEmpty(message)) {
                 return PostResult.IGNORE;
             }
 
-            // ツイート
-            twitter.updateStatus(new StatusUpdate(message).media(albumArtFile));
-            return PostResult.SUCCEEDED;
+            if (inputStream == null) {
+                twitter.updateStatus(new StatusUpdate(message));
+            } else {
+                twitter.updateStatus(new StatusUpdate(message).media(albumArtUri.getLastPathSegment(), inputStream));
+            }
         } catch (Exception e) {
             Logger.e(e);
             return PostResult.FAILED;
+        } finally {
+            if (inputStream != null)
+                try { inputStream.close(); } catch (Exception ignored) {}
         }
+
+        return PostResult.SUCCEEDED;
     }
 
     /**
@@ -223,22 +254,33 @@ public class PostIntentService extends IntentService {
     private PostResult sendApp() {
         try {
             // アルバムアート取得
-            Uri albumArtUri= getAlbumArtFile(param.getPropertyData());
+            Uri albumArtUri= propertyData.getAlbumArtUri();
 
             // メッセージ取得
             int messageMax = (albumArtUri == null) ? MESSAGE_LENGTH : MESSAGE_LENGTH - IMAGE_URL_LENGTH;
-            String message = getMessage(messageMax, param.getPropertyData());
+            String message = getMessage(messageMax, propertyData);
             if (TextUtils.isEmpty(message)) {
                 return PostResult.IGNORE;
             }
 
             Intent twitterIntent = new Intent();
             twitterIntent.setAction(Intent.ACTION_SEND);
-            twitterIntent.setType("text/plain");
+            twitterIntent.setType(propertyData.getFirst(AlbumArtProperty.MIME_TYPE));
             twitterIntent.putExtra(Intent.EXTRA_TEXT, message);
             twitterIntent.putExtra(Intent.EXTRA_STREAM, albumArtUri);
-            twitterIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-            twitterIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            twitterIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+
+            // add URI permission
+            if (albumArtUri != null && ContentResolver.SCHEME_CONTENT.equals(albumArtUri.getScheme())) {
+                twitterIntent.setData(albumArtUri);
+                twitterIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+
+                List<ResolveInfo> resolveInfoList = packageManager.queryIntentActivities(twitterIntent, PackageManager.MATCH_DEFAULT_ONLY | PackageManager.GET_RESOLVED_FILTER);
+                for (ResolveInfo resolveInfo : resolveInfoList) {
+                    String packageName = resolveInfo.activityInfo.packageName;
+                    context.getApplicationContext().grantUriPermission(packageName, albumArtUri, Intent.FLAG_GRANT_READ_URI_PERMISSION);
+                }
+            }
 
             context.startActivity(twitterIntent);
             return PostResult.SUCCEEDED;
@@ -336,24 +378,6 @@ public class PostIntentService extends IntentService {
 
         return outputMessage;
     }
-
-    /**
-     * アルバムアートファイルを取得する。
-     * @param propertyMap プロパティ情報マップ。
-     * @return アルバムアートファイルファイル。
-     */
-    private Uri getAlbumArtFile(final PropertyData propertyMap) {
-        Uri albumArtUri = null;
-        if (sharedPreferences.getBoolean(context.getString(R.string.prefkey_content_album_art), true)) {
-            String uri = propertyMap.getFirst(AlbumArtProperty.DATA_URI);
-            if (!TextUtils.isEmpty(uri)) {
-                albumArtUri = Uri.parse(uri);
-            }
-        }
-        return albumArtUri;
-    }
-
-
 
     /**
      * 投稿結果を出力。

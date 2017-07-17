@@ -27,6 +27,7 @@
     <string name="label_button_edit">メッセージ編集</string>
     <string name="label_button_settings">設定</string>
     <string name="label_button_launch_medoly">Medoly起動</string>
+    <string name="message_storage_permission_denied">ファイルのアクセス許可が無いため、画像が送信できません。</string>
     <string name="message_no_medoly">Medolyをインストールしてください。</string>
     <string name="message_account_auth">アカウントの認証が完了しています。</string>
     <string name="message_account_not_auth">アカウントが認証されていません。</string>
@@ -56,6 +57,8 @@
     <string name="pref_summary_trim_before_empty_enabled">挿入項目が空白の場合、直前の空白を削除します。</string>
     <string name="pref_title_omit_newline">改行で省略</string>
     <string name="pref_summary_omit_newline">改行文字を含むテキストを省略する際、改行文字の位置で省略します。</string>
+    <string name="pref_title_send_album_art">アルバムアートを送信</string>
+    <string name="pref_summary_send_album_art">ツイートにアルバムアートを含めます。</string>
     <string name="pref_title_post_success_message_show">成功メッセージ表示</string>
     <string name="pref_summary_post_success_message_show">ツイートに成功した際にメッセージを表示します。</string>
     <string name="pref_title_post_failure_message_show">失敗メッセージ表示</string>

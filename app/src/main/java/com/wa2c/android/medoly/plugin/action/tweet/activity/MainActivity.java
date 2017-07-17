@@ -1,15 +1,23 @@
-package com.wa2c.android.medoly.plugin.action.tweet;
+package com.wa2c.android.medoly.plugin.action.tweet.activity;
 
+import android.Manifest;
+import android.app.ActionBar;
 import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
+import android.support.annotation.NonNull;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.TextView;
 
 import com.wa2c.android.medoly.library.MedolyEnvironment;
+import com.wa2c.android.medoly.plugin.action.tweet.R;
 import com.wa2c.android.medoly.plugin.action.tweet.util.AppUtils;
 import com.wa2c.android.medoly.plugin.action.tweet.util.Logger;
 import com.wa2c.android.medoly.plugin.action.tweet.util.TwitterUtils;
@@ -37,10 +45,18 @@ public class MainActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        // ActionBar
+        ActionBar actionBar = getActionBar();
+        if (actionBar != null) {
+            actionBar.setDisplayShowHomeEnabled(true);
+            actionBar.setDisplayShowTitleEnabled(true);
+        }
+
+        // パーミッション設定
+        requestPermission();
+
         callbackURL = getString(R.string.twitter_callback_url);
         twitter = TwitterUtils.getTwitterInstance(this);
-
-
 
         // Twitter認証
         findViewById(R.id.twitterOAuthButton).setOnClickListener(new View.OnClickListener() {
@@ -92,6 +108,51 @@ public class MainActivity extends Activity {
         completeAuthorize(intent);
     }
 
+
+    private static int PERMISSION_REQUEST_CODE = 0;
+
+    /**
+     * Require storage permission.
+     */
+    public void requestPermission() {
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
+            return;
+        }
+
+        SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(this);
+        if (!pref.getBoolean(getString(R.string.prefkey_send_album_art), true))
+            return;
+
+        // Check permission
+        if (checkSelfPermission(Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
+            return;
+        }
+
+        // Require permission.
+        requestPermissions(new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, PERMISSION_REQUEST_CODE);
+    }
+
+    /**
+     * Receive permission result.
+     * @param requestCode The request code.
+     * @param permissions Permissions.
+     * @param grantResults The result
+     */
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        if (requestCode != PERMISSION_REQUEST_CODE) {
+            return;
+        }
+
+        for (int i = 0; i < permissions.length; i++) {
+            if (Manifest.permission.READ_EXTERNAL_STORAGE.equals(permissions[i]) &&  grantResults[i] != PackageManager.PERMISSION_GRANTED) {
+                AppUtils.showToast(this, R.string.message_storage_permission_denied);
+            }
+        }
+    }
+
+
+
     /**
      * 認証状態のメッセージを更新する。
      */
@@ -103,7 +164,6 @@ public class MainActivity extends Activity {
             ((TextView)findViewById(R.id.twitterAuthTextView)).setText(getString(R.string.message_account_not_auth));
         }
     }
-
 
     /**
      * OAuth認証開始。

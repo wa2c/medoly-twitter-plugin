@@ -1,8 +1,10 @@
-package com.wa2c.android.medoly.plugin.action.tweet;
+package com.wa2c.android.medoly.plugin.action.tweet.service;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+
+import com.wa2c.android.medoly.plugin.action.tweet.service.PostIntentService;
 
 
 /**
@@ -11,9 +13,9 @@ import android.content.Intent;
 public class PluginReceiver extends BroadcastReceiver {
 
     /**
-     * メッセージ受信。
-     * @param context コンテキスト。
-     * @param intent インテント。
+     * Receive message.
+     * @param context A context.
+     * @param intent Received intent.
      */
     @Override
     public void onReceive(Context context, Intent intent) {

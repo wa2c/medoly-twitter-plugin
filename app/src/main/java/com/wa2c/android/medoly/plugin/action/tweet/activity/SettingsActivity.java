@@ -1,4 +1,4 @@
-package com.wa2c.android.medoly.plugin.action.tweet;
+package com.wa2c.android.medoly.plugin.action.tweet.activity;
 
 import android.app.ActionBar;
 import android.app.AlertDialog;
@@ -30,6 +30,7 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.wa2c.android.medoly.plugin.action.tweet.R;
 import com.wa2c.android.medoly.plugin.action.tweet.util.Logger;
 
 import java.util.HashMap;

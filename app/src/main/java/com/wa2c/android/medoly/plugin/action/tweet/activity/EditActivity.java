@@ -1,4 +1,4 @@
-package com.wa2c.android.medoly.plugin.action.tweet;
+package com.wa2c.android.medoly.plugin.action.tweet.activity;
 
 import android.app.ActionBar;
 import android.app.Activity;
@@ -13,6 +13,7 @@ import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
 
+import com.wa2c.android.medoly.plugin.action.tweet.R;
 import com.wa2c.android.medoly.plugin.action.tweet.dialog.ConfirmDialogFragment;
 import com.wa2c.android.medoly.plugin.action.tweet.dialog.InsertPropertyDialogFragment;
 import com.wa2c.android.medoly.plugin.action.tweet.dialog.PropertyPriorityDialogFragment;
@@ -90,7 +91,6 @@ public class EditActivity extends Activity {
             }
         });
 
-
         // 初期化
         findViewById(R.id.initializeButton).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -122,7 +122,6 @@ public class EditActivity extends Activity {
 
         // テキスト保存
         sharedPreferences.edit().putString(getString(R.string.prefkey_content_format), contentEditText.getText().toString()).apply();
-
      }
 
     /**

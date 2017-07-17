@@ -14,7 +14,7 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import com.wa2c.android.medoly.plugin.action.tweet.PropertyItem;
+import com.wa2c.android.medoly.plugin.action.tweet.db.PropertyItem;
 import com.wa2c.android.medoly.plugin.action.tweet.R;
 
 import java.util.ArrayList;

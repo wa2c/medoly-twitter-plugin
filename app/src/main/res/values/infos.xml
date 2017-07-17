@@ -34,6 +34,7 @@
     <string name="prefkey_previous_media_enabled">previous_media_enabled</string>
     <string name="prefkey_trim_before_empty_enabled">trim_before_empty_enabled</string>
     <string name="prefkey_omit_newline">omit_newline</string>
+    <string name="prefkey_send_album_art">send_album_art</string>
     <string name="prefkey_tweet_success_message_show">tweet_success_message_show</string>
     <string name="prefkey_tweet_failure_message_show">tweet_failure_message_show</string>
     <string name="prefkey_application_details">application_details</string>
