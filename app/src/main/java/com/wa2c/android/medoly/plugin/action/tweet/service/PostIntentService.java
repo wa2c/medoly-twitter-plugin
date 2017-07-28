@@ -14,6 +14,7 @@ import android.text.TextUtils;
 import com.wa2c.android.medoly.library.AlbumArtProperty;
 import com.wa2c.android.medoly.library.MediaPluginIntent;
 import com.wa2c.android.medoly.library.PluginOperationCategory;
+import com.wa2c.android.medoly.library.PluginTypeCategory;
 import com.wa2c.android.medoly.library.PropertyData;
 import com.wa2c.android.medoly.plugin.action.tweet.db.PropertyItem;
 import com.wa2c.android.medoly.plugin.action.tweet.R;
@@ -32,42 +33,37 @@ import twitter4j.StatusUpdate;
 import twitter4j.Twitter;
 
 
+
 /**
- * 投稿サービス。
+ * Intent service
  */
 public class PostIntentService extends IntentService {
 
-    /** ツイート文字数。 */
+    /** Received receiver class name. */
+    public static String RECEIVED_CLASS_NAME = "RECEIVED_CLASS_NAME";
+
+    /** Max tweet length.。 */
     private static final int MESSAGE_LENGTH = 140; // Twitter文字数
-    /** 画像URLの文字数 */
+    /** Image url length.*/
     private static final int IMAGE_URL_LENGTH = 24; // 23 + 1 (space)
-    /** 前回のファイルパス設定キー。 */
+    /** Previous data key. */
     private static final String PREFKEY_PREVIOUS_MEDIA_URI = "previous_media_uri";
 
     /**
-     * 投稿種別。
+     * Command result.
      */
-    private enum PostType {
-        /** Tweet */
-        TWEET,
-        /** Send App */
-        SEND_APP,
-    }
-
-
-    /**
-     * 投稿結果。
-     */
-    private enum PostResult {
-        /** 成功。 */
+    private enum CommandResult {
+        /** Succeeded. */
         SUCCEEDED,
-        /** 失敗。 */
+        /** Failed. */
         FAILED,
-        /** 認証失敗。 */
+        /** Authorization failed. */
         AUTH_FAILED,
-        /** 投稿一時保存。 */
+        /** No media. */
+        NO_MEDIA,
+        /** Post saved. */
         SAVED,
-        /** 無視。 */
+        /** Ignore. */
         IGNORE
     }
 
@@ -91,7 +87,7 @@ public class PostIntentService extends IntentService {
 
 
     /**
-     * コンストラクタ。
+     * Constructor.
      */
     public PostIntentService() {
         super(PostIntentService.class.getSimpleName());
@@ -110,32 +106,28 @@ public class PostIntentService extends IntentService {
             propertyData = pluginIntent.getPropertyData();
             twitter = TwitterUtils.getTwitterInstance(context);
 
-            // 各アクション実行
-            if (pluginIntent.hasCategory(PluginOperationCategory.OPERATION_PLAY_START)) {
-                // Play Start
-                if (!pluginIntent.isAutomatically() || this.sharedPreferences.getBoolean(context.getString(R.string.prefkey_operation_play_start_enabled), false)) {
-                    post(PostType.TWEET);
+            // Execute
+
+            if (pluginIntent.hasCategory(PluginOperationCategory.OPERATION_EXECUTE)) {
+                String receivedClassName = pluginIntent.getStringExtra(RECEIVED_CLASS_NAME);
+                if (receivedClassName.equals(ExecuteReceiver.ExecutePostTweetReceiver.class.getName())) {
+                    postTweet();
+                } else if (receivedClassName.equals(ExecuteReceiver.ExecuteOpenTwitterReceiver.class.getName())) {
+                    openTwitter();
                 }
-            } else if (pluginIntent.hasCategory(PluginOperationCategory.OPERATION_PLAY_NOW)) {
-                // Play Now
-                if (!pluginIntent.isAutomatically() || this.sharedPreferences.getBoolean(context.getString(R.string.prefkey_operation_play_now_enabled), true)) {
-                    post(PostType.TWEET);
+                return;
+            }
+
+            // Event
+
+            // Get property
+            if (pluginIntent.hasCategory(PluginTypeCategory.TYPE_POST_MESSAGE)) {
+                if (pluginIntent.hasCategory(PluginOperationCategory.OPERATION_PLAY_START) && this.sharedPreferences.getBoolean(context.getString(R.string.prefkey_operation_play_start_enabled), false)) {
+                    tweet();
+                } else if (pluginIntent.hasCategory(PluginOperationCategory.OPERATION_PLAY_NOW) && this.sharedPreferences.getBoolean(context.getString(R.string.prefkey_operation_play_now_enabled), true)) {
+                    tweet();
                 }
-            } else if (pluginIntent.hasCategory(PluginOperationCategory.OPERATION_EXECUTE)) {
-                // Execute
-                if (pluginIntent.hasExecuteId("execute_id_tweet")) {
-                    // Send
-                    post(PostType.SEND_APP);
-                } else if (pluginIntent.hasExecuteId("execute_id_site")) {
-                    // Twitter.com
-                    Intent launchIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(context.getString(R.string.twitter_uri)));
-                    try {
-                        launchIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                        context.startActivity(launchIntent);
-                    } catch (android.content.ActivityNotFoundException e) {
-                        Logger.d(e);
-                    }
-                }
+                return;
             }
         } catch (Exception e) {
             AppUtils.showToast(this, R.string.error_app);
@@ -149,65 +141,35 @@ public class PostIntentService extends IntentService {
 
 
 
-     /**
-     * 投稿。
+    /**
+     * Tweet.
      */
-    private void post(PostType postType) {
-        // 音楽データ無し
-        if (propertyData.getMediaUri() == null) {
-            AppUtils.showToast(context, R.string.message_no_media);
-            showResult(PostResult.IGNORE, postType);
-            return;
-        }
-
-        // 認証確認
-        if (postType == PostType.TWEET) {
-            if (!TwitterUtils.hasAccessToken(context)) {
-                showResult(PostResult.AUTH_FAILED, postType);
+    private void tweet() {
+        CommandResult result = CommandResult.IGNORE;
+        InputStream inputStream = null;
+        try {
+            if (propertyData == null || propertyData.isMediaEmpty()) {
+                result = CommandResult.NO_MEDIA;
                 return;
             }
-        }
 
-        // 前回メディア確認
-        if (postType == PostType.TWEET) {
+            // Check previous media
             String mediaUriText = propertyData.getMediaUri().toString();
             String previousMediaUri = sharedPreferences.getString(PREFKEY_PREVIOUS_MEDIA_URI, "");
             boolean previousMediaEnabled = sharedPreferences.getBoolean(context.getString(R.string.prefkey_previous_media_enabled), false);
             if (!previousMediaEnabled && !TextUtils.isEmpty(mediaUriText) && !TextUtils.isEmpty(previousMediaUri) && mediaUriText.equals(previousMediaUri)) {
-                // 前回と同じメディアは無視
-                showResult(PostResult.IGNORE, postType);
+                result = CommandResult.IGNORE;
                 return;
             }
             sharedPreferences.edit().putString(PREFKEY_PREVIOUS_MEDIA_URI, mediaUriText).apply();
-        }
 
-        // 投稿
-        PostResult result = PostResult.IGNORE;
-        try {
-            switch (postType) {
-                case TWEET:
-                    result = tweet();
-                    break;
-                case SEND_APP:
-                    result = sendApp();
-                    break;
+            if (!TwitterUtils.hasAccessToken(context)) {
+                result = CommandResult.AUTH_FAILED;
+                return;
             }
-        } catch (Exception e) {
-            Logger.e(e);
-            result = PostResult.FAILED;
-        }
-        showResult(result, postType);
-    }
 
-    /**
-     * ツイート投稿。
-     * @return 投稿結果。
-     */
-    private PostResult tweet() {
-        Uri albumArtUri = null;
-        InputStream inputStream = null;
-        try {
             // Get album art uri
+            Uri albumArtUri = null;
             if (sharedPreferences.getBoolean(getString(R.string.prefkey_send_album_art), true)) {
                 albumArtUri = propertyData.getAlbumArtUri();
                 if (albumArtUri != null) {
@@ -228,7 +190,8 @@ public class PostIntentService extends IntentService {
             int messageMax = (inputStream == null) ? MESSAGE_LENGTH : MESSAGE_LENGTH - IMAGE_URL_LENGTH;
             String message = getMessage(messageMax, propertyData);
             if (TextUtils.isEmpty(message)) {
-                return PostResult.IGNORE;
+                result = CommandResult.IGNORE;
+                return;
             }
 
             if (inputStream == null) {
@@ -236,31 +199,45 @@ public class PostIntentService extends IntentService {
             } else {
                 twitter.updateStatus(new StatusUpdate(message).media(albumArtUri.getLastPathSegment(), inputStream));
             }
+            result = CommandResult.SUCCEEDED;
         } catch (Exception e) {
             Logger.e(e);
-            return PostResult.FAILED;
+            result = CommandResult.FAILED;
         } finally {
             if (inputStream != null)
                 try { inputStream.close(); } catch (Exception ignored) {}
+            if (result == CommandResult.AUTH_FAILED) {
+                AppUtils.showToast(context, R.string.message_account_not_auth);
+            } else if (result == CommandResult.NO_MEDIA) {
+                AppUtils.showToast(context, R.string.message_no_media);
+            } else if (result == CommandResult.SUCCEEDED) {
+                AppUtils.showToast(context, R.string.message_post_success);
+            } else if (result == CommandResult.FAILED) {
+                AppUtils.showToast(context, R.string.message_post_failure);
+            }
         }
-
-        return PostResult.SUCCEEDED;
     }
 
     /**
-     * 外部アプリで投稿。
-     * @return 投稿結果。
+     * Post tweet message.
      */
-    private PostResult sendApp() {
+    private void postTweet() {
+        CommandResult result = CommandResult.IGNORE;
         try {
-            // アルバムアート取得
+            if (propertyData == null || propertyData.isMediaEmpty()) {
+                result = CommandResult.NO_MEDIA;
+                return;
+            }
+
+            // Get album art
             Uri albumArtUri= propertyData.getAlbumArtUri();
 
-            // メッセージ取得
+            // Get message
             int messageMax = (albumArtUri == null) ? MESSAGE_LENGTH : MESSAGE_LENGTH - IMAGE_URL_LENGTH;
             String message = getMessage(messageMax, propertyData);
             if (TextUtils.isEmpty(message)) {
-                return PostResult.IGNORE;
+                result = CommandResult.IGNORE;
+                return;
             }
 
             Intent twitterIntent = new Intent();
@@ -283,20 +260,42 @@ public class PostIntentService extends IntentService {
             }
 
             context.startActivity(twitterIntent);
-            return PostResult.SUCCEEDED;
+            result = CommandResult.SUCCEEDED;
         } catch (Exception e) {
             Logger.e(e);
-            return PostResult.FAILED;
+            result = CommandResult.FAILED;
+        } finally {
+            if (result == CommandResult.AUTH_FAILED) {
+                AppUtils.showToast(context, R.string.message_account_not_auth);
+            } else if (result == CommandResult.NO_MEDIA) {
+                AppUtils.showToast(context, R.string.message_no_media);
+            } else if (result == CommandResult.SUCCEEDED) {
+                AppUtils.showToast(context, R.string.message_post_success);
+            } else if (result == CommandResult.FAILED) {
+                AppUtils.showToast(context, R.string.message_post_failure);
+            }
+       }
+    }
+
+    /**
+     * Open twitter.
+     */
+    private void openTwitter() {
+        // Twitter.com
+        Intent launchIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(context.getString(R.string.twitter_uri)));
+        try {
+            launchIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            context.startActivity(launchIntent);
+        } catch (android.content.ActivityNotFoundException e) {
+            Logger.d(e);
         }
     }
 
-
-
     /**
-     * メッセージを取得する。
-     * @param messageMax 最大文字数。
-     * @param propertyMap プロパティ情報マップ。
-     * @return メッセージ。
+     * Get message text.
+     * @param messageMax Max text length.
+     * @param propertyMap A property data.
+     * @return The message text.
      */
     private String getMessage(final int messageMax, final PropertyData propertyMap) {
         final String TAG_EXP = "%([^%]+)%"; // メタタグ
@@ -379,31 +378,4 @@ public class PostIntentService extends IntentService {
         return outputMessage;
     }
 
-    /**
-     * 投稿結果を出力。
-     * @param result 投稿結果。
-     * @param postType 投稿種別。
-     */
-    private void showResult(PostResult result, PostType postType) {
-        if (result == PostResult.IGNORE || result == PostResult.SAVED) {
-            return;
-        } else if (result == PostResult.AUTH_FAILED) {
-            AppUtils.showToast(context, R.string.message_account_not_auth);
-            return;
-        }
-
-        switch (postType) {
-            case TWEET:
-                if (result == PostResult.SUCCEEDED) {
-                    if (sharedPreferences.getBoolean(context.getString(R.string.prefkey_tweet_success_message_show), false)) {
-                        AppUtils.showToast(context, R.string.message_post_success);
-                    }
-                } else {
-                    if (sharedPreferences.getBoolean(context.getString(R.string.prefkey_tweet_failure_message_show), true)) {
-                        AppUtils.showToast(context, R.string.message_post_failure);
-                    }
-                }
-        }
-
-    }
 }

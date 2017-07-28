@@ -45,38 +45,49 @@
             android:name=".service.PostIntentService"
             android:exported="false" />
 
+        <!-- Plugin event action -->
+
         <receiver
-            android:name=".service.PluginReceiver"
-            android:label="@string/class_receiver_label">
+            android:name=".service.EventReceiver$EventAllReceiver"
+            android:exported="true">
+
+            <!-- Tweet -->
             <intent-filter>
                 <action android:name="com.wa2c.android.medoly.plugin.action.ACTION_MEDIA" />
-
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="com.wa2c.android.medoly.plugin.category.TYPE_POST_MESSAGE" />
                 <category android:name="com.wa2c.android.medoly.plugin.category.OPERATION_PLAY_NOW" />
                 <category android:name="com.wa2c.android.medoly.plugin.category.OPERATION_PLAY_START" />
-                <category android:name="com.wa2c.android.medoly.plugin.category.OPERATION_EXECUTE" />
             </intent-filter>
 
-            <meta-data
-                android:name="execute_id_tweet"
-                android:value="0" />
-            <meta-data
-                android:name="execute_label_tweet"
-                android:resource="@string/label_execute_tweet" />
-            <meta-data
-                android:name="execute_icon_tweet"
-                android:resource="@drawable/ic_action_tweet" />
+        </receiver>
 
-            <meta-data
-                android:name="execute_id_site"
-                android:value="1" />
-            <meta-data
-                android:name="execute_label_site"
-                android:resource="@string/label_execute_site" />
-            <meta-data
-                android:name="execute_icon_site"
-                android:resource="@drawable/ic_action_twitter" />
+        <!-- Plugin execute action -->
+
+        <!-- Tweet -->
+        <receiver
+            android:name=".service.ExecuteReceiver$ExecutePostTweetReceiver"
+            android:exported="true"
+            android:icon="@drawable/ic_action_tweet"
+            android:label="@string/label_execute_tweet">
+            <intent-filter>
+                <action android:name="com.wa2c.android.medoly.plugin.action.ACTION_MEDIA" />
+                <category android:name="com.wa2c.android.medoly.plugin.category.TYPE_POST_MESSAGE" />
+                <category android:name="com.wa2c.android.medoly.plugin.category.OPERATION_EXECUTE" />
+            </intent-filter>
+        </receiver>
+
+        <!-- Twitter -->
+        <receiver
+            android:name=".service.ExecuteReceiver$ExecuteOpenTwitterReceiver"
+            android:exported="true"
+            android:icon="@drawable/ic_action_twitter"
+            android:label="@string/label_execute_site">
+            <intent-filter>
+                <action android:name="com.wa2c.android.medoly.plugin.action.ACTION_MEDIA" />
+                <category android:name="com.wa2c.android.medoly.plugin.category.TYPE_RUN" />
+                <category android:name="com.wa2c.android.medoly.plugin.category.OPERATION_EXECUTE" />
+            </intent-filter>
         </receiver>
 
         <receiver
