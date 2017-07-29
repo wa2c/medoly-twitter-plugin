@@ -1,4 +1,4 @@
-package com.wa2c.android.medoly.plugin.action.tweet.db;
+package com.wa2c.android.medoly.plugin.action.tweet.util;
 
 import android.content.Context;
 import android.content.SharedPreferences;

@@ -4,23 +4,32 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 
-import com.wa2c.android.medoly.plugin.action.tweet.service.PostIntentService;
-
+import com.wa2c.android.medoly.plugin.action.tweet.util.AppUtils;
 
 /**
- * メッセージプラグイン受信レシーバ。
+ * Execute receiver.
  */
-public class PluginReceiver extends BroadcastReceiver {
+public class PluginReceiver {
 
-    /**
-     * Receive message.
-     * @param context A context.
-     * @param intent Received intent.
-     */
-    @Override
-    public void onReceive(Context context, Intent intent) {
-        Intent serviceIntent = new Intent(intent);
-        serviceIntent.setClass(context, PostIntentService.class);
-        context.startService(serviceIntent);
+    public static class EventAllReceiver extends BroadcastReceiver {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            AppUtils.startService(context, intent);
+        }
     }
+
+    public static class ExecutePostTweetReceiver extends BroadcastReceiver {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            AppUtils.startService(context, intent);
+        }
+    }
+
+    public static class ExecuteOpenTwitterReceiver extends BroadcastReceiver {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            AppUtils.startService(context, intent);
+        }
+    }
+
 }

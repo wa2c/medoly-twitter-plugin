@@ -6,18 +6,23 @@ import android.content.Intent;
 import android.widget.Toast;
 
 /**
- * トースト表示レシーバ。(IntentServiceからToastを表示するため。)
+ * Toast receiver.
  */
 public class ToastReceiver extends BroadcastReceiver {
-    public static final String MESSAGE_TOAST = "message_toast";
+    public static final String MESSAGE_TOAST = "message";
 
     @Override
     public void onReceive(Context context, Intent intent) {
         Toast.makeText(context, intent.getStringExtra(MESSAGE_TOAST), Toast.LENGTH_SHORT).show();
     }
 
+    public static void showToast(Context context, int stringId) {
+        Intent intent = new Intent(context, ToastReceiver.class);
+        intent.putExtra(MESSAGE_TOAST, context.getString(stringId));
+        context.sendBroadcast(intent);
+    }
+
     public static void showToast(Context context, String text) {
-        // IntentService起動
         Intent intent = new Intent(context, ToastReceiver.class);
         intent.putExtra(MESSAGE_TOAST, text);
         context.sendBroadcast(intent);

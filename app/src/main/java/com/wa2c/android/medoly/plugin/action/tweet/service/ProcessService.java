@@ -10,19 +10,22 @@ import android.content.pm.ResolveInfo;
 import android.net.Uri;
 import android.preference.PreferenceManager;
 import android.text.TextUtils;
+import android.webkit.MimeTypeMap;
 
 import com.wa2c.android.medoly.library.AlbumArtProperty;
 import com.wa2c.android.medoly.library.MediaPluginIntent;
 import com.wa2c.android.medoly.library.PluginOperationCategory;
 import com.wa2c.android.medoly.library.PluginTypeCategory;
 import com.wa2c.android.medoly.library.PropertyData;
-import com.wa2c.android.medoly.plugin.action.tweet.db.PropertyItem;
 import com.wa2c.android.medoly.plugin.action.tweet.R;
 import com.wa2c.android.medoly.plugin.action.tweet.util.AppUtils;
 import com.wa2c.android.medoly.plugin.action.tweet.util.Logger;
+import com.wa2c.android.medoly.plugin.action.tweet.util.PropertyItem;
 import com.wa2c.android.medoly.plugin.action.tweet.util.TwitterUtils;
 
+import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.util.HashSet;
 import java.util.List;
@@ -37,7 +40,7 @@ import twitter4j.Twitter;
 /**
  * Intent service
  */
-public class PostIntentService extends IntentService {
+public class ProcessService extends IntentService {
 
     /** Received receiver class name. */
     public static String RECEIVED_CLASS_NAME = "RECEIVED_CLASS_NAME";
@@ -89,8 +92,8 @@ public class PostIntentService extends IntentService {
     /**
      * Constructor.
      */
-    public PostIntentService() {
-        super(PostIntentService.class.getSimpleName());
+    public ProcessService() {
+        super(ProcessService.class.getSimpleName());
     }
 
     @Override
@@ -110,9 +113,9 @@ public class PostIntentService extends IntentService {
 
             if (pluginIntent.hasCategory(PluginOperationCategory.OPERATION_EXECUTE)) {
                 String receivedClassName = pluginIntent.getStringExtra(RECEIVED_CLASS_NAME);
-                if (receivedClassName.equals(ExecuteReceiver.ExecutePostTweetReceiver.class.getName())) {
+                if (receivedClassName.equals(PluginReceiver.ExecutePostTweetReceiver.class.getName())) {
                     postTweet();
-                } else if (receivedClassName.equals(ExecuteReceiver.ExecuteOpenTwitterReceiver.class.getName())) {
+                } else if (receivedClassName.equals(PluginReceiver.ExecuteOpenTwitterReceiver.class.getName())) {
                     openTwitter();
                 }
                 return;
@@ -120,7 +123,6 @@ public class PostIntentService extends IntentService {
 
             // Event
 
-            // Get property
             if (pluginIntent.hasCategory(PluginTypeCategory.TYPE_POST_MESSAGE)) {
                 if (pluginIntent.hasCategory(PluginOperationCategory.OPERATION_PLAY_START) && this.sharedPreferences.getBoolean(context.getString(R.string.prefkey_operation_play_start_enabled), false)) {
                     tweet();
@@ -211,9 +213,11 @@ public class PostIntentService extends IntentService {
             } else if (result == CommandResult.NO_MEDIA) {
                 AppUtils.showToast(context, R.string.message_no_media);
             } else if (result == CommandResult.SUCCEEDED) {
-                AppUtils.showToast(context, R.string.message_post_success);
+                if (sharedPreferences.getBoolean(getString(R.string.prefkey_tweet_success_message_show), false))
+                    AppUtils.showToast(context, R.string.message_post_success);
             } else if (result == CommandResult.FAILED) {
-                AppUtils.showToast(context, R.string.message_post_failure);
+                if (sharedPreferences.getBoolean(getString(R.string.prefkey_tweet_failure_message_show), true))
+                    AppUtils.showToast(context, R.string.message_post_failure);
             }
         }
     }
@@ -248,14 +252,16 @@ public class PostIntentService extends IntentService {
             twitterIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 
             // add URI permission
-            if (albumArtUri != null && ContentResolver.SCHEME_CONTENT.equals(albumArtUri.getScheme())) {
-                twitterIntent.setData(albumArtUri);
-                twitterIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+            if (albumArtUri != null) {
+                if (ContentResolver.SCHEME_CONTENT.equals(albumArtUri.getScheme())) {
+                    twitterIntent.setData(albumArtUri);
+                    twitterIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
 
-                List<ResolveInfo> resolveInfoList = packageManager.queryIntentActivities(twitterIntent, PackageManager.MATCH_DEFAULT_ONLY | PackageManager.GET_RESOLVED_FILTER);
-                for (ResolveInfo resolveInfo : resolveInfoList) {
-                    String packageName = resolveInfo.activityInfo.packageName;
-                    context.getApplicationContext().grantUriPermission(packageName, albumArtUri, Intent.FLAG_GRANT_READ_URI_PERMISSION);
+                    List<ResolveInfo> resolveInfoList = packageManager.queryIntentActivities(twitterIntent, PackageManager.MATCH_DEFAULT_ONLY | PackageManager.GET_RESOLVED_FILTER);
+                    for (ResolveInfo resolveInfo : resolveInfoList) {
+                        String packageName = resolveInfo.activityInfo.packageName;
+                        context.getApplicationContext().grantUriPermission(packageName, albumArtUri, Intent.FLAG_GRANT_READ_URI_PERMISSION);
+                    }
                 }
             }
 
@@ -265,12 +271,8 @@ public class PostIntentService extends IntentService {
             Logger.e(e);
             result = CommandResult.FAILED;
         } finally {
-            if (result == CommandResult.AUTH_FAILED) {
-                AppUtils.showToast(context, R.string.message_account_not_auth);
-            } else if (result == CommandResult.NO_MEDIA) {
+           if (result == CommandResult.NO_MEDIA) {
                 AppUtils.showToast(context, R.string.message_no_media);
-            } else if (result == CommandResult.SUCCEEDED) {
-                AppUtils.showToast(context, R.string.message_post_success);
             } else if (result == CommandResult.FAILED) {
                 AppUtils.showToast(context, R.string.message_post_failure);
             }

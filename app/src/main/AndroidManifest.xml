@@ -42,13 +42,13 @@
             android:launchMode="singleTask" />
 
         <service
-            android:name=".service.PostIntentService"
+            android:name=".service.ProcessService"
             android:exported="false" />
 
         <!-- Plugin event action -->
 
         <receiver
-            android:name=".service.EventReceiver$EventAllReceiver"
+            android:name=".service.PluginReceiver$EventAllReceiver"
             android:exported="true">
 
             <!-- Tweet -->
@@ -64,9 +64,9 @@
 
         <!-- Plugin execute action -->
 
-        <!-- Tweet -->
+        <!-- Post message -->
         <receiver
-            android:name=".service.ExecuteReceiver$ExecutePostTweetReceiver"
+            android:name=".service.PluginReceiver$ExecutePostTweetReceiver"
             android:exported="true"
             android:icon="@drawable/ic_action_tweet"
             android:label="@string/label_execute_tweet">
@@ -77,9 +77,9 @@
             </intent-filter>
         </receiver>
 
-        <!-- Twitter -->
+        <!-- Open Twitter -->
         <receiver
-            android:name=".service.ExecuteReceiver$ExecuteOpenTwitterReceiver"
+            android:name=".service.PluginReceiver$ExecuteOpenTwitterReceiver"
             android:exported="true"
             android:icon="@drawable/ic_action_twitter"
             android:label="@string/label_execute_site">

@@ -3,28 +3,27 @@ package com.wa2c.android.medoly.plugin.action.tweet.util;
 import android.content.Context;
 import android.content.Intent;
 
-import com.wa2c.android.medoly.plugin.action.tweet.service.PostIntentService;
+import com.wa2c.android.medoly.plugin.action.tweet.service.ProcessService;
 
 public class AppUtils {
 
     /**
-     * トーストを表示。
-     * @param context コンテキスト。
-     * @param text メッセージ。
+     * Show message.
+     * @param context context.
+     * @param text message.
      */
     public static void showToast(Context context, String text) {
         ToastReceiver.showToast(context, text);
     }
 
     /**
-     * トーストを表示。
-     * @param context コンテキスト。
-     * @param stringId メッセージ。
+     * Show message.
+     * @param context context
+     * @param stringId resource id.
      */
-    public static void showToast(final Context context, final int stringId) {
-        showToast(context, context.getString(stringId));
+    public static void showToast(Context context, int stringId) {
+        ToastReceiver.showToast(context, stringId);
     }
-
 
     /**
      * Start service.
@@ -33,13 +32,14 @@ public class AppUtils {
      */
     public static void startService(Context context, Intent intent) {
         // Stop exists service
-        Intent stopIntent = new Intent(context, PostIntentService.class);
+        Intent stopIntent = new Intent(context, ProcessService.class);
         context.stopService(stopIntent);
 
         // Launch service
         Intent serviceIntent = new Intent(intent);
-        serviceIntent.putExtra(PostIntentService.RECEIVED_CLASS_NAME, intent.getComponent().getClassName());
-        serviceIntent.setClass(context, PostIntentService.class);
+        serviceIntent.putExtra(ProcessService.RECEIVED_CLASS_NAME, intent.getComponent().getClassName());
+        serviceIntent.setClass(context, ProcessService.class);
         context.startService(serviceIntent);
     }
+
 }
