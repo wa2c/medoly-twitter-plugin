@@ -10,7 +10,6 @@ import android.content.pm.ResolveInfo;
 import android.net.Uri;
 import android.preference.PreferenceManager;
 import android.text.TextUtils;
-import android.webkit.MimeTypeMap;
 
 import com.wa2c.android.medoly.library.AlbumArtProperty;
 import com.wa2c.android.medoly.library.MediaPluginIntent;
@@ -23,9 +22,7 @@ import com.wa2c.android.medoly.plugin.action.tweet.util.Logger;
 import com.wa2c.android.medoly.plugin.action.tweet.util.PropertyItem;
 import com.wa2c.android.medoly.plugin.action.tweet.util.TwitterUtils;
 
-import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.util.HashSet;
 import java.util.List;
@@ -109,13 +106,13 @@ public class ProcessService extends IntentService {
             propertyData = pluginIntent.getPropertyData();
             twitter = TwitterUtils.getTwitterInstance(context);
 
-            // Execute
+            // Execution
 
             if (pluginIntent.hasCategory(PluginOperationCategory.OPERATION_EXECUTE)) {
                 String receivedClassName = pluginIntent.getStringExtra(RECEIVED_CLASS_NAME);
-                if (receivedClassName.equals(PluginReceiver.ExecutePostTweetReceiver.class.getName())) {
+                if (receivedClassName.equals(PluginReceivers.ExecutePostTweetReceiver.class.getName())) {
                     postTweet();
-                } else if (receivedClassName.equals(PluginReceiver.ExecuteOpenTwitterReceiver.class.getName())) {
+                } else if (receivedClassName.equals(PluginReceivers.ExecuteOpenTwitterReceiver.class.getName())) {
                     openTwitter();
                 }
                 return;
