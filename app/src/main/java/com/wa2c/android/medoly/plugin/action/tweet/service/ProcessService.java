@@ -243,15 +243,17 @@ public class ProcessService extends IntentService {
 
             Intent twitterIntent = new Intent();
             twitterIntent.setAction(Intent.ACTION_SEND);
-            twitterIntent.setType(propertyData.getFirst(AlbumArtProperty.MIME_TYPE));
+            twitterIntent.setType("text/plain");
             twitterIntent.putExtra(Intent.EXTRA_TEXT, message);
             twitterIntent.putExtra(Intent.EXTRA_STREAM, albumArtUri);
             twitterIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 
             // add URI permission
             if (albumArtUri != null) {
+                // content:// scheme needs permission.
                 if (ContentResolver.SCHEME_CONTENT.equals(albumArtUri.getScheme())) {
                     twitterIntent.setData(albumArtUri);
+                    twitterIntent.setType(propertyData.getFirst(AlbumArtProperty.MIME_TYPE));
                     twitterIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
 
                     List<ResolveInfo> resolveInfoList = packageManager.queryIntentActivities(twitterIntent, PackageManager.MATCH_DEFAULT_ONLY | PackageManager.GET_RESOLVED_FILTER);
