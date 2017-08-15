@@ -48,6 +48,9 @@
     <string name="settings_summary_current_value">[現在の値: %1$s]</string>
 
     <!-- Preferences -->
+    <string name="title_preference_category_event">イベント</string>
+    <string name="title_preference_category_info">情報</string>
+
     <string name="pref_title_event_tweet_operation">ツイートイベント</string>
     <string name="pref_summary_event_tweet_operation">ツイートを実行するイベントを選択します。</string>
     <string name="pref_title_previous_media_enabled">前回メディア実行</string>
@@ -76,7 +79,7 @@
 
     <!-- Tweet event -->
     <string-array name="event_tweet_operation_entries">
-        <item>Invalid</item>
+        <item>イベント無効</item>
         <item>@string/label_plugin_operation_play_start</item>
         <item>@string/label_plugin_operation_play_now</item>
     </string-array>
