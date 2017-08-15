@@ -1,16 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <CheckBoxPreference
-        android:defaultValue="true"
-        android:key="@string/prefkey_operation_play_now_enabled"
-        android:summary="@string/pref_summary_operation_play_now_enabled"
-        android:title="@string/pref_title_operation_play_now_enabled" />
-    <CheckBoxPreference
-        android:defaultValue="false"
-        android:key="@string/prefkey_operation_play_start_enabled"
-        android:summary="@string/pref_summary_operation_play_start_enabled"
-        android:title="@string/pref_title_operation_play_start_enabled" />
+    <ListPreference
+        android:defaultValue="@string/event_tweet_operation_values_default"
+        android:entries="@array/event_tweet_operation_entries"
+        android:entryValues="@array/event_tweet_operation_values"
+        android:key="@string/prefkey_event_tweet_operation"
+        android:summary="@string/pref_summary_event_tweet_operation"
+        android:title="@string/pref_title_event_tweet_operation"  />
 
     <CheckBoxPreference
         android:defaultValue="false"

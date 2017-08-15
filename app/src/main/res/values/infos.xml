@@ -29,8 +29,7 @@
     <string name="prefkey_content_format">content_format</string>
     <string name="prefkey_content_album_art">content_album_art</string>
 
-    <string name="prefkey_operation_play_now_enabled">operation_play_now_enabled</string>
-    <string name="prefkey_operation_play_start_enabled">operation_play_start_enabled</string>
+    <string name="prefkey_event_tweet_operation">event_tweet_operation</string>
     <string name="prefkey_previous_media_enabled">previous_media_enabled</string>
     <string name="prefkey_trim_before_empty_enabled">trim_before_empty_enabled</string>
     <string name="prefkey_omit_newline">omit_newline</string>
@@ -40,4 +39,17 @@
     <string name="prefkey_application_details">application_details</string>
     <string name="prefkey_about">about</string>
 
+
+
+    <!-- List -->
+
+    <string name="empty_value" />
+
+    <!-- Tweet event -->
+    <string name="event_tweet_operation_values_default">OPERATION_PLAY_NOW</string>
+    <string-array name="event_tweet_operation_values">
+        <item />
+        <item>OPERATION_PLAY_START</item>
+        <item>OPERATION_PLAY_NOW</item>
+    </string-array>
 </resources>

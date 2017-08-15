@@ -120,15 +120,17 @@ public class ProcessService extends IntentService {
 
             // Event
 
+            // Tweet
             if (pluginIntent.hasCategory(PluginTypeCategory.TYPE_POST_MESSAGE)) {
-                if (pluginIntent.hasCategory(PluginOperationCategory.OPERATION_PLAY_START) && this.sharedPreferences.getBoolean(context.getString(R.string.prefkey_operation_play_start_enabled), false)) {
+                String operation = sharedPreferences.getString(getString(R.string.prefkey_event_tweet_operation), getString(R.string.event_tweet_operation_values_default));
+                if (pluginIntent.hasCategory(PluginOperationCategory.OPERATION_PLAY_START) && PluginOperationCategory.OPERATION_PLAY_START.name().equals(operation)) {
                     tweet();
-                } else if (pluginIntent.hasCategory(PluginOperationCategory.OPERATION_PLAY_NOW) && this.sharedPreferences.getBoolean(context.getString(R.string.prefkey_operation_play_now_enabled), true)) {
-                    tweet();
+                } else if (pluginIntent.hasCategory(PluginOperationCategory.OPERATION_PLAY_NOW) && PluginOperationCategory.OPERATION_PLAY_NOW.name().equals(operation)) {
+                    tweet(); // play start
                 }
                 return;
             }
-        } catch (Exception e) {
+       } catch (Exception e) {
             AppUtils.showToast(this, R.string.error_app);
         } finally {
             context = null;

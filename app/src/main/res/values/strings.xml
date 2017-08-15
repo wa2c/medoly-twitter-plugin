@@ -49,10 +49,8 @@
     <string name="settings_summary_current_value">[Current Value: %1$s]</string>
 
     <!-- Preferences -->
-    <string name="pref_title_operation_play_now_enabled">Run At Media Playing</string>
-    <string name="pref_summary_operation_play_now_enabled">Enable the action at the time of media playing.</string>
-    <string name="pref_title_operation_play_start_enabled">Run At Media Start</string>
-    <string name="pref_summary_operation_play_start_enabled">Enable the action at the time of media start.</string>
+    <string name="pref_title_event_tweet_operation">Tweet Event</string>
+    <string name="pref_summary_event_tweet_operation">Select the event to tweet.</string>
     <string name="pref_title_previous_media_enabled">Run Previous Media</string>
     <string name="pref_summary_previous_media_enabled">Enable to run the event for the same media that has run the event already last time.</string>
     <string name="pref_title_trim_before_empty_enabled">Trim Before Whitespace</string>
@@ -74,5 +72,16 @@
     <!-- System -->
     <string name="error_app">The operation failed due to an error.</string>
     <string name="error_dialog_dismissed">Open the dialog again.</string>
+
+
+
+    <!-- List -->
+
+    <!-- Tweet event -->
+    <string-array name="event_tweet_operation_entries">
+        <item>イベント無効</item>
+        <item>@string/label_plugin_operation_play_start</item>
+        <item>@string/label_plugin_operation_play_now</item>
+    </string-array>
 
 </resources>

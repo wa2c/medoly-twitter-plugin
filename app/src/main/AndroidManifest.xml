@@ -59,6 +59,7 @@
 
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="com.wa2c.android.medoly.plugin.category.TYPE_POST_MESSAGE" />
+                <category android:name="com.wa2c.android.medoly.plugin.category.OPERATION_PLAY_START" />
                 <category android:name="com.wa2c.android.medoly.plugin.category.OPERATION_PLAY_NOW" />
             </intent-filter>
 
