@@ -34,7 +34,8 @@
 
         <activity
             android:name=".activity.EditActivity"
-            android:label="@string/title_activity_edit" />
+            android:label="@string/title_activity_edit"
+            android:launchMode="singleTask" />
 
         <activity
             android:name=".activity.SettingsActivity"
@@ -42,7 +43,10 @@
             android:launchMode="singleTask" />
 
         <service
-            android:name=".service.ProcessService"
+            android:name=".service.PluginPostService"
+            android:exported="false" />
+        <service
+            android:name=".service.PluginRunService"
             android:exported="false" />
 
         <!-- Plugin event action -->
@@ -76,7 +80,7 @@
             <intent-filter>
                 <action android:name="com.wa2c.android.medoly.plugin.action.ACTION_MEDIA" />
 
-                <category android:name="com.wa2c.android.medoly.plugin.category.TYPE_POST_MESSAGE" />
+                <category android:name="com.wa2c.android.medoly.plugin.category.TYPE_RUN" />
                 <category android:name="com.wa2c.android.medoly.plugin.category.OPERATION_EXECUTE" />
             </intent-filter>
         </receiver>

@@ -15,8 +15,16 @@ public class PluginReceivers {
         @Override
         public void onReceive(Context context, Intent intent) {
             Intent serviceIntent = new Intent(intent);
-            serviceIntent.putExtra(ProcessService.RECEIVED_CLASS_NAME, intent.getComponent().getClassName());
-            serviceIntent.setClass(context, ProcessService.class);
+            serviceIntent.putExtra(ProcessService.RECEIVED_CLASS_NAME, this.getClass().getName());
+
+            if (this instanceof EventPostTweetReceiver) {
+                serviceIntent.setClass(context, PluginPostService.class);
+            } else if (this instanceof ExecutePostTweetReceiver ||
+                       this instanceof ExecuteOpenTwitterReceiver) {
+                serviceIntent.setClass(context, PluginRunService.class);
+            }
+
+            context.stopService(serviceIntent);
             context.startService(serviceIntent);
         }
     }

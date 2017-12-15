@@ -210,10 +210,10 @@ public class ProcessService extends IntentService {
             } else if (result == CommandResult.NO_MEDIA) {
                 AppUtils.showToast(context, R.string.message_no_media);
             } else if (result == CommandResult.SUCCEEDED) {
-                if (sharedPreferences.getBoolean(getString(R.string.prefkey_tweet_success_message_show), false))
+                if (pluginIntent.hasCategory(PluginOperationCategory.OPERATION_EXECUTE) || sharedPreferences.getBoolean(getString(R.string.prefkey_tweet_success_message_show), false))
                     AppUtils.showToast(context, R.string.message_post_success);
             } else if (result == CommandResult.FAILED) {
-                if (sharedPreferences.getBoolean(getString(R.string.prefkey_tweet_failure_message_show), true))
+                if (pluginIntent.hasCategory(PluginOperationCategory.OPERATION_EXECUTE) || sharedPreferences.getBoolean(getString(R.string.prefkey_tweet_failure_message_show), true))
                     AppUtils.showToast(context, R.string.message_post_failure);
             }
         }

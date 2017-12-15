@@ -5,6 +5,7 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewGroup.LayoutParams;
@@ -48,7 +49,7 @@ public class InsertPropertyDialogFragment extends AbstractDialogFragment {
         itemList.addAll(PropertyItem.getDefaultPropertyPriority(context));
 
         // リストアダプタ
-        final PropertytListAdapter adapter = new PropertytListAdapter(context, itemList);
+        final PropertyListAdapter adapter = new PropertyListAdapter(context, itemList);
         adapter.setNotifyOnChange(false);
 
         // リスト作成
@@ -77,7 +78,7 @@ public class InsertPropertyDialogFragment extends AbstractDialogFragment {
         builder.setView(listLayout);
 
         // キャンセルボタン
-        builder.setNegativeButton(android.R.string.cancel, null);
+        builder.setNeutralButton(android.R.string.cancel, null);
 
         return  builder.create();
     }
@@ -90,15 +91,15 @@ public class InsertPropertyDialogFragment extends AbstractDialogFragment {
     /**
      * リストアダプタ。
      */
-    private class PropertytListAdapter extends ArrayAdapter<PropertyItem> {
+    private class PropertyListAdapter extends ArrayAdapter<PropertyItem> {
         /** コンストラクタ。 */
-        public PropertytListAdapter(Context context, ArrayList<PropertyItem> itemList) {
+        PropertyListAdapter(Context context, ArrayList<PropertyItem> itemList) {
             super(context, android.R.layout.simple_list_item_1, itemList);
         }
 
+        @NonNull
         @Override
-        public View getView(final int position, View convertView, ViewGroup parent) {
-            final PropertyItem item = getItem(position);
+        public View getView(final int position, View convertView, @NonNull ViewGroup parent) {
             final ListItemViewHolder holder;
 
             if (convertView == null) {
@@ -110,14 +111,17 @@ public class InsertPropertyDialogFragment extends AbstractDialogFragment {
                 holder = (ListItemViewHolder) convertView.getTag();
             }
 
-            holder.TitleTextView.setText(item.propertyName);
+            final PropertyItem item = getItem(position);
+            if (item != null) {
+                holder.TitleTextView.setText(item.propertyName);
+            }
 
             return convertView;
         }
 
         /** リスト項目のビュー情報を保持するHolder。 */
         class ListItemViewHolder {
-            public TextView TitleTextView;
+            TextView TitleTextView;
         }
 
     }

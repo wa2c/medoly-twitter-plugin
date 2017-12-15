@@ -5,6 +5,7 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
@@ -67,9 +68,9 @@ public class PropertyPriorityDialogFragment extends AbstractDialogFragment {
             }
 
             // 表示設定
+            @NonNull
             @Override
-            public View getView(int position, View convertView, ViewGroup parent) {
-                final PropertyItem item = getItem(position);
+            public View getView(int position, View convertView, @NonNull ViewGroup parent) {
                 final ListItemViewHolder holder;
 
                 if (convertView == null) {
@@ -83,15 +84,18 @@ public class PropertyPriorityDialogFragment extends AbstractDialogFragment {
                     holder = (ListItemViewHolder) convertView.getTag();
                 }
 
-                holder.ShortenCheckBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-                    @Override
-                    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                        item.shorten = isChecked;
-                    }
-                });
-                holder.ShortenCheckBox.setChecked(item.shorten);
+                final PropertyItem item = getItem(position);
+                if (item != null) {
+                    holder.ShortenCheckBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                        @Override
+                        public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                            item.shorten = isChecked;
+                        }
+                    });
+                    holder.ShortenCheckBox.setChecked(item.shorten);
+                    holder.TitleTextView.setText(item.propertyName);
+                }
 
-                holder.TitleTextView.setText(item.propertyName);
                 return convertView;
             }
 
