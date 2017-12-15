@@ -1,33 +1,19 @@
 package com.wa2c.android.medoly.plugin.action.tweet.service;
 
-import android.app.IntentService;
 import android.content.ContentResolver;
-import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
-import android.content.pm.PackageManager;
-import android.content.pm.ResolveInfo;
 import android.net.Uri;
-import android.preference.PreferenceManager;
 import android.text.TextUtils;
 
-import com.wa2c.android.medoly.library.AlbumArtProperty;
-import com.wa2c.android.medoly.library.MediaPluginIntent;
 import com.wa2c.android.medoly.library.PluginOperationCategory;
 import com.wa2c.android.medoly.library.PluginTypeCategory;
-import com.wa2c.android.medoly.library.PropertyData;
 import com.wa2c.android.medoly.plugin.action.tweet.R;
 import com.wa2c.android.medoly.plugin.action.tweet.util.AppUtils;
 import com.wa2c.android.medoly.plugin.action.tweet.util.Logger;
-import com.wa2c.android.medoly.plugin.action.tweet.util.PropertyItem;
 import com.wa2c.android.medoly.plugin.action.tweet.util.TwitterUtils;
 
 import java.io.FileInputStream;
 import java.io.InputStream;
-import java.util.HashSet;
-import java.util.List;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 import twitter4j.StatusUpdate;
 import twitter4j.Twitter;

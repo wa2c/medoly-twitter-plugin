@@ -5,9 +5,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
-import android.support.annotation.Nullable;
-import android.text.TextUtils;
-
 
 import com.twitter.Validator;
 import com.wa2c.android.medoly.library.MediaPluginIntent;
