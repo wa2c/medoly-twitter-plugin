@@ -15,7 +15,7 @@ public class PluginReceivers {
         @Override
         public void onReceive(Context context, Intent intent) {
             Intent serviceIntent = new Intent(intent);
-            serviceIntent.putExtra(ProcessService.RECEIVED_CLASS_NAME, this.getClass().getName());
+            serviceIntent.putExtra(AbstractPluginService.RECEIVED_CLASS_NAME, this.getClass().getName());
 
             if (this instanceof EventPostTweetReceiver) {
                 serviceIntent.setClass(context, PluginPostService.class);
