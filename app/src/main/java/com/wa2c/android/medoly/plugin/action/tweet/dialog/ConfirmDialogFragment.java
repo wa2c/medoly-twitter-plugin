@@ -83,7 +83,7 @@ public class ConfirmDialogFragment extends AbstractDialogFragment {
         // ボタン
         if (args.getBoolean(ARG_IS_BUTTON_DEFAULT)) {
             builder.setPositiveButton(android.R.string.ok, clickListener);
-            builder.setNegativeButton(android.R.string.cancel, clickListener);
+            builder.setNeutralButton(android.R.string.cancel, clickListener);
         } else {
             // Positiveボタン
             String positive = args.getString(ARG_POSITIVE_BUTTON);

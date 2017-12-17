@@ -33,6 +33,6 @@
         android:id="@+id/propertyPriorityListView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:fastScrollEnabled="true"></com.mobeta.android.dslv.DragSortListView>
+        android:fastScrollEnabled="false" />
 
 </LinearLayout>

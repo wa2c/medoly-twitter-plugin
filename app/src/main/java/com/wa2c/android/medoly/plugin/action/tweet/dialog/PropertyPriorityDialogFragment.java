@@ -6,6 +6,7 @@ import android.app.Dialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
@@ -64,7 +65,7 @@ public class PropertyPriorityDialogFragment extends AbstractDialogFragment {
 
             @Override
             public boolean isEnabled(int position) {
-                return false;
+                return true;
             }
 
             // 表示設定
@@ -85,16 +86,14 @@ public class PropertyPriorityDialogFragment extends AbstractDialogFragment {
                 }
 
                 final PropertyItem item = getItem(position);
-                if (item != null) {
-                    holder.ShortenCheckBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-                        @Override
-                        public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                            item.shorten = isChecked;
-                        }
-                    });
-                    holder.ShortenCheckBox.setChecked(item.shorten);
-                    holder.TitleTextView.setText(item.propertyName);
-                }
+                holder.ShortenCheckBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                    @Override
+                    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                        item.shorten = isChecked;
+                    }
+                });
+                holder.ShortenCheckBox.setChecked(item.shorten);
+                holder.TitleTextView.setText(item.propertyName);
 
                 return convertView;
             }
@@ -134,7 +133,6 @@ public class PropertyPriorityDialogFragment extends AbstractDialogFragment {
         builder.setTitle(R.string.label_dialog_property_priority_title);
         builder.setView(content);
 
-
         DialogInterface.OnClickListener listener = new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
@@ -142,11 +140,8 @@ public class PropertyPriorityDialogFragment extends AbstractDialogFragment {
             }
         };
         builder.setPositiveButton(android.R.string.ok, listener);
-        builder.setNeutralButton(R.string.label_default, listener);
-        builder.setNegativeButton(android.R.string.cancel, listener);
-
-        // キャンセルボタン
-        builder.setNegativeButton(android.R.string.cancel, null);
+        builder.setNegativeButton(R.string.label_default, listener);
+        builder.setNeutralButton(android.R.string.cancel, listener);
 
         return  builder.create();
     }
@@ -156,7 +151,7 @@ public class PropertyPriorityDialogFragment extends AbstractDialogFragment {
         if (which == DialogInterface.BUTTON_POSITIVE) {
             // 決定
             PropertyItem.savePropertyPriority(getActivity(), itemList);
-        } else if (which == DialogInterface.BUTTON_NEUTRAL) {
+        } else if (which == DialogInterface.BUTTON_NEGATIVE) {
             // 初期化
             PropertyItem.savePropertyPriority(getActivity(), PropertyItem.getDefaultPropertyPriority(getActivity()));
             AppUtils.showToast(getActivity(), R.string.message_initialize_priority);

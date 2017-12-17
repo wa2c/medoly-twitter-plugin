@@ -26,6 +26,12 @@ public class PropertyItem {
     /** 短縮可。 */
     public boolean shorten;
 
+    /** Get property tag. */
+    public String getPropertyTag() {
+        return "%" + propertyKey + "%";
+    }
+
+
 
 
     /** 設定保存キー。 */

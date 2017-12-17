@@ -5,18 +5,22 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
+import android.text.TextUtils;
 
-import com.twitter.Validator;
+import com.twitter.twittertext.TwitterTextParseResults;
+import com.twitter.twittertext.TwitterTextParser;
 import com.wa2c.android.medoly.library.MediaPluginIntent;
 import com.wa2c.android.medoly.library.PropertyData;
 import com.wa2c.android.medoly.plugin.action.tweet.R;
 import com.wa2c.android.medoly.plugin.action.tweet.util.Logger;
 import com.wa2c.android.medoly.plugin.action.tweet.util.PropertyItem;
 
-import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
 
 
 /**
@@ -92,138 +96,91 @@ public abstract class AbstractPluginService extends IntentService {
 
     /**
      * Get tweet message text.
-     * @param propertyMap A property data.
      * @return The message text.
      */
-    protected String getTweetMessage(final PropertyData propertyMap) {
+    protected String getTweetMessage() {
+        // test data
+        //propertyData.put(MediaProperty.TITLE, "０１２３４５６７８９０１２３４５６７８９０１２３４５６７８９０１２３４５６７８９０１２３４５６");
+        //propertyData.put(MediaProperty.ARTIST, "０１２３４５６７８９０１２３４５６７８９０１２３４５６７８９０１２３４５６７８９");
+        //propertyData.put(MediaProperty.ALBUM, "０１２３４５６７８９０１２３４５６７８９０１２３４５６７８９０１２３４５６７８９");
 
-        Validator validator = new Validator();
-
-        final String TRIM_EXP = sharedPreferences.getBoolean(context.getString(R.string.prefkey_trim_before_empty_enabled), true) ? "\\w*" : "";
-        final String TAG_EXP = "%([^%]+)%";
-        final String TRIMMED_TAG_EXP = TRIM_EXP + TAG_EXP;
         final String format = sharedPreferences.getString(context.getString(R.string.prefkey_content_format), context.getString(R.string.format_content_default));
-        final String constText = format.replaceAll(TAG_EXP, "");
-
-        // フォーマットに含まれているタグ取得
-        HashSet<String> propertyKeySet = new HashSet<>();
-        Matcher tagMatcher = Pattern.compile(TRIMMED_TAG_EXP, Pattern.MULTILINE).matcher(format);
-        while (tagMatcher.find()) {
-            if (tagMatcher.groupCount() > 0) {
-                propertyKeySet.add(tagMatcher.group(1));
-            }
-        }
-
-        int charCount = constText.length();
-        String currentText = format;
+        final String TRIM_EXP = sharedPreferences.getBoolean(context.getString(R.string.prefkey_trim_before_empty_enabled), true) ? "\\w*" : "";
         List<PropertyItem> priorityList = PropertyItem.loadPropertyPriority(context);
-        for (PropertyItem propertyItem : priorityList) {
+
+        // get contains tag
+        LinkedHashSet<PropertyItem> containsMap = new LinkedHashSet<>();
+        for (PropertyItem item : priorityList) {
+            Matcher matcher = Pattern.compile(item.getPropertyTag(), Pattern.MULTILINE).matcher(format);
+            if (matcher.find())
+                containsMap.add(item);
+        }
+
+        String outputText = format;
+        for (PropertyItem propertyItem : containsMap) {
             String propertyText = propertyData.getFirst(propertyItem.propertyKey);
-            if (propertyText == null)
+            String regexpText = propertyItem.getPropertyTag();
+            if (TextUtils.isEmpty(propertyText)) {
                 propertyText = "";
-            int propertyLength = validator.getTweetLength(propertyText);
+                regexpText = TRIM_EXP + regexpText;
+            }
 
-            Matcher matcher = Pattern.compile("(\\w*)%" + propertyItem.propertyKey + "%").matcher(currentText); // タグ削除
+            String workText = outputText;
+            Matcher matcher = Pattern.compile(regexpText).matcher(workText);
             while (matcher.find()) {
-                charCount += propertyLength;
-                if (Validator.MAX_TWEET_LENGTH > charCount) {
-                    currentText = matcher.replaceFirst(propertyText);
+                workText = matcher.replaceFirst(propertyText);
+                String removedText = getPropertyRemovedText(workText, containsMap);
+                TwitterTextParseResults result = TwitterTextParser.parseTweet(removedText);
+                int remainWeight = 999 - result.permillage; // 1000丁度だと入らない可能性
+                if (remainWeight > 0) {
+                    outputText = workText;
                 } else {
-                    currentText = matcher.replaceFirst("");
-                    charCount = Validator.MAX_TWEET_LENGTH;
+                    if (propertyItem.shorten) {
+                        workText = matcher.replaceFirst(trimWeightedText(propertyText, TwitterTextParser.parseTweet(propertyText).permillage + remainWeight));
+                        outputText = getPropertyRemovedText(workText, containsMap);
+                    }
+                    break;
                 }
-
             }
         }
 
-        return currentText;
+        return outputText;
     }
 
-//    /**
-//     * Get tweet message text.
-//     * @param propertyMap A property data.
-//     * @return The message text.
-//     */
-//    protected String getTweetMessage(final PropertyData propertyMap) {
-//        final String TAG_EXP = "%([^%]+)%"; // メタタグ
-//        final String format = sharedPreferences.getString(context.getString(R.string.prefkey_content_format), context.getString(R.string.format_content_default));
-//        if (TextUtils.isEmpty(format)) {
-//            return null;
-//        }
-//        boolean isTrim = sharedPreferences.getBoolean(context.getString(R.string.prefkey_trim_before_empty_enabled), true);
-//
-//        // フォーマットに含まれているタグ取得
-//        HashSet<String> propertyKeySet = new HashSet<>();
-//        Matcher tagMatcher = Pattern.compile(TAG_EXP, Pattern.MULTILINE).matcher(format);
-//        while (tagMatcher.find()) {
-//            if (tagMatcher.groupCount() > 0) {
-//                propertyKeySet.add(tagMatcher.group(1));
-//            }
-//        }
-//
-//        // フォーマットの内容を置換え
-//        String tempText = format.replaceAll(TAG_EXP, "");
-//        int textCount = tempText.length();
-//        if (textCount > messageMax) {
-//            // 置換え無しで文字数オーバー
-//            return tempText.substring(0, messageMax - 4) + "... ";
-//        }
-//
-//        // 優先度の高い順に置換え
-//        String outputMessage = format;
-//        boolean replaceComplete = false;
-//        List<PropertyItem> priorityList = PropertyItem.loadPropertyPriority(context);
-//        for (PropertyItem propertyItem : priorityList) {
-//            if (!propertyKeySet.contains(propertyItem.propertyKey))
-//                continue;
-//
-//            // 置換えテキスト取得
-//            String replaceText = "";
-//            if (propertyMap.containsKey(propertyItem.propertyKey))
-//                replaceText = propertyMap.getFirst(propertyItem.propertyKey);
-//
-//            // 検索
-//            Matcher matcher;
-//            if (replaceComplete || TextUtils.isEmpty(replaceText) && isTrim) {
-//                matcher = Pattern.compile("(\\w*)%" + propertyItem.propertyKey + "%").matcher(outputMessage); // タグ削除
-//            } else {
-//                matcher = Pattern.compile("%" + propertyItem.propertyKey + "%").matcher(outputMessage); // タグ置換
-//            }
-//
-//            while (matcher.find()) {
-//                if (replaceComplete || TextUtils.isEmpty(replaceText) && isTrim) {
-//                    // タグを削除する
-//                    outputMessage = matcher.replaceFirst("");
-//                    textCount -= matcher.group(1).length();
-//                } else {
-//                    int remain = messageMax - textCount;
-//
-//                    if (remain >= replaceText.length()) {
-//                        // 文字数内に収まる
-//                        outputMessage = matcher.replaceFirst(replaceText);
-//                        textCount += replaceText.length();
-//                    } else {
-//                        // 文字数内に収まらない
-//                        if (propertyItem.shorten && remain > 4) {
-//                            // 省略
-//                            replaceText = replaceText.substring(0, remain - 4) + "... ";
-//                            int newlineIndex = replaceText.lastIndexOf("\n");
-//                            if (sharedPreferences.getBoolean(context.getString(R.string.prefkey_omit_newline), true) && newlineIndex > 0) {
-//                                replaceText = replaceText.substring(0, newlineIndex) + "... ";
-//                            }
-//                            outputMessage = matcher.replaceFirst(replaceText);
-//                            textCount += replaceText.length();
-//                        } else {
-//                            outputMessage = matcher.replaceAll("");
-//                        }
-//                        replaceComplete = true; // 完了
-//                    }
-//                }
-//            }
-//        }
-//
-//        return outputMessage;
-//    }
 
+    private String getPropertyRemovedText(String workText, Set<PropertyItem> containsMap) {
+        String parseText = workText;
+        for (PropertyItem pi : containsMap) {
+            parseText = parseText.replaceAll("%" + pi.propertyKey + "%", "");
+        }
+        return parseText;
+    }
+
+    private String trimWeightedText(String propertyText, int remainWeight) {
+        if (TextUtils.isEmpty(propertyText) || propertyText.length() < "...".length()) {
+            return "";
+        }
+
+        Matcher newlineMatcher = Pattern.compile("\\r\\n|\\n|\\r").matcher(propertyText);
+        if (newlineMatcher.find() && sharedPreferences.getBoolean(context.getString(R.string.prefkey_omit_newline), true)) {
+            String returnText = "";
+            while (newlineMatcher.find()) {
+                TwitterTextParseResults result = TwitterTextParser.parseTweet(propertyText.substring(0, newlineMatcher.start()) + "...");
+                if (result.permillage >= remainWeight) {
+                    break;
+                }
+                returnText = propertyText.substring(0, newlineMatcher.start()) + "...";
+            }
+            return returnText;
+        } else {
+            for (int i = 1; i < propertyText.length(); i++) {
+                TwitterTextParseResults result = TwitterTextParser.parseTweet(propertyText.substring(0, i) + "...");
+                if (result.permillage >= remainWeight) {
+                    return propertyText.substring(0, i - 1) + "...";
+                }
+            }
+            return propertyText;
+        }
+    }
 
 }

@@ -16,6 +16,7 @@ import android.text.TextUtils;
 import android.view.View;
 import android.widget.TextView;
 
+import com.twitter.twittertext.TwitterTextConfiguration;
 import com.wa2c.android.medoly.library.MedolyEnvironment;
 import com.wa2c.android.medoly.plugin.action.tweet.R;
 import com.wa2c.android.medoly.plugin.action.tweet.util.AppUtils;

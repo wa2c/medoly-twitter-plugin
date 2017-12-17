@@ -85,7 +85,7 @@ public class PluginPostService extends AbstractPluginService {
 
 
             // Get message
-            String message = getTweetMessage(propertyData);
+            String message = getTweetMessage();
             if (TextUtils.isEmpty(message)) {
                 result = CommandResult.IGNORE;
                 return;
