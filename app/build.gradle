@@ -1,13 +1,15 @@
 apply plugin: 'com.android.application'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
 
 android {
-    compileSdkVersion 25
+    compileSdkVersion 26
     buildToolsVersion '26.0.2'
 
     defaultConfig {
         applicationId "com.wa2c.android.medoly.plugin.action.tweet"
         minSdkVersion 16
-        targetSdkVersion 25
+        targetSdkVersion 26
         versionCode 9
         versionName "2.1.0"
     }
@@ -27,11 +29,12 @@ android {
 
 repositories {
     maven { url 'https://api.bitbucket.org/1.0/repositories/wa2c/medoly-library/raw/master/repository/' }
+    mavenCentral()
 }
 
 dependencies {
     // Medoly library
-    compile 'com.wa2c.android:medolylibrary:1.1.0'
+    compile 'com.wa2c.android:medolylibrary:1.2.0'
     // https://mvnrepository.com/artifact/org.twitter4j/twitter4j-core
     compile group: 'org.twitter4j', name: 'twitter4j-core', version: '4.0.6'
     // https://github.com/twitter/twitter-text/tree/master/java

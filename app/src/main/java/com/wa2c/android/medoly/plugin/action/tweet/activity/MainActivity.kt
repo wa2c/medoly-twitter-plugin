@@ -1,10 +1,8 @@
 package com.wa2c.android.medoly.plugin.action.tweet.activity
 
 import android.Manifest
-import android.app.ActionBar
 import android.app.Activity
 import android.content.Intent
-import android.content.SharedPreferences
 import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.AsyncTask
@@ -12,21 +10,21 @@ import android.os.Build
 import android.os.Bundle
 import android.preference.PreferenceManager
 import android.text.TextUtils
-import android.view.View
-import android.widget.TextView
-
 import com.wa2c.android.medoly.library.MedolyEnvironment
 import com.wa2c.android.medoly.plugin.action.tweet.R
 import com.wa2c.android.medoly.plugin.action.tweet.util.AppUtils
 import com.wa2c.android.medoly.plugin.action.tweet.util.Logger
 import com.wa2c.android.medoly.plugin.action.tweet.util.TwitterUtils
-
+import kotlinx.android.synthetic.main.activity_main.*
 import twitter4j.Twitter
 import twitter4j.TwitterException
 import twitter4j.auth.AccessToken
 import twitter4j.auth.RequestToken
 
 
+/**
+ * Main activity
+ */
 class MainActivity : Activity() {
 
     /** コールバックURI。  */
@@ -42,11 +40,8 @@ class MainActivity : Activity() {
         setContentView(R.layout.activity_main)
 
         // ActionBar
-        val actionBar = actionBar
-        if (actionBar != null) {
-            actionBar.setDisplayShowHomeEnabled(true)
-            actionBar.setDisplayShowTitleEnabled(true)
-        }
+        actionBar.setDisplayShowHomeEnabled(true)
+        actionBar.setDisplayShowTitleEnabled(true)
 
         // パーミッション設定
         requestPermission()
@@ -54,24 +49,29 @@ class MainActivity : Activity() {
         callbackURL = getString(R.string.twitter_callback_url)
         twitter = TwitterUtils.getTwitterInstance(this)
 
-        // Twitter認証
-        findViewById(R.id.twitterOAuthButton).setOnClickListener { startAuthorize() }
+        // Twitter Auth
+        twitterOAuthButton.setOnClickListener {
+            startAuthorize()
+        }
 
-        // 編集
-        findViewById(R.id.editButton).setOnClickListener { startActivity(Intent(this@MainActivity, EditActivity::class.java)) }
+        // Edit
+        editButton.setOnClickListener {
+            startActivity(Intent(this@MainActivity, EditActivity::class.java))
+        }
 
-        // 設定
-        findViewById(R.id.settingsButton).setOnClickListener { startActivity(Intent(this@MainActivity, SettingsActivity::class.java)) }
+        // Settings
+        settingsButton.setOnClickListener {
+            startActivity(Intent(this@MainActivity, SettingsActivity::class.java))
+        }
 
-        // Medoly起動
-        val launchIntent = packageManager.getLaunchIntentForPackage(MedolyEnvironment.MEDOLY_PACKAGE)
-        findViewById(R.id.launchMedolyButton).setOnClickListener { if (launchIntent != null) startActivity(launchIntent) }
-        if (launchIntent == null) {
-            findViewById(R.id.launchMedolyButton).visibility = View.GONE
-            findViewById(R.id.noMedolyTextView).visibility = View.VISIBLE
-        } else {
-            findViewById(R.id.launchMedolyButton).visibility = View.VISIBLE
-            findViewById(R.id.noMedolyTextView).visibility = View.GONE
+        // Launch Medoly
+        launchMedolyButton.setOnClickListener {
+            val intent = packageManager.getLaunchIntentForPackage(MedolyEnvironment.MEDOLY_PACKAGE)
+            if (intent == null) {
+                AppUtils.showToast(this, R.string.message_no_medoly)
+                return@setOnClickListener
+            }
+            startActivity(intent)
         }
 
         updateAuthMessage()
@@ -86,7 +86,7 @@ class MainActivity : Activity() {
     /**
      * Require storage permission.
      */
-    fun requestPermission() {
+    private fun requestPermission() {
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
             return
         }
@@ -124,14 +124,14 @@ class MainActivity : Activity() {
 
 
     /**
-     * 認証状態のメッセージを更新する。
+     * Update authentication message
      */
     private fun updateAuthMessage() {
         val token = TwitterUtils.loadAccessToken(this)
         if (token != null) {
-            (findViewById(R.id.twitterAuthTextView) as TextView).text = getString(R.string.message_account_auth)
+            twitterAuthTextView.text = getString(R.string.message_account_auth)
         } else {
-            (findViewById(R.id.twitterAuthTextView) as TextView).text = getString(R.string.message_account_not_auth)
+            twitterAuthTextView.text = getString(R.string.message_account_not_auth)
         }
     }
 
@@ -208,10 +208,10 @@ class MainActivity : Activity() {
         task.execute(verifier)
     }
 
+
+
     companion object {
-
-
-        private val PERMISSION_REQUEST_CODE = 0
+        private const val PERMISSION_REQUEST_CODE = 0
     }
 
 }

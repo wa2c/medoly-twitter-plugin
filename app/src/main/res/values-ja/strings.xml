@@ -71,6 +71,19 @@
     <string name="pref_summary_about">About</string>
 
 
+
+    <!-- About Dialog -->
+    <string name="label_dialog_about_ver">Ver. %1$s</string>
+    <string name="label_dialog_about_developer">Developer</string>
+    <string name="label_dialog_about_email">Email</string>
+    <string name="label_dialog_about_license">License</string>
+    <string name="label_dialog_about_privacy_policy">Privacy Policy</string>
+    <string name="label_dialog_about_google_play">Google Play</string>
+    <string name="label_dialog_about_link">Link</string>
+    <string name="label_dialog_about_library">[Library]</string>
+
+
+
     <!-- System -->
     <string name="error_app">エラーが発生したため、操作に失敗しました。</string>
     <string name="error_dialog_dismissed">ダイアログ操作に失敗しました。再度ダイアログを開いてください。</string>

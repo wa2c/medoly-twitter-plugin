@@ -4,47 +4,36 @@ import android.content.ContentResolver
 import android.content.Intent
 import android.net.Uri
 import android.text.TextUtils
-
 import com.wa2c.android.medoly.library.PluginOperationCategory
-import com.wa2c.android.medoly.library.PluginTypeCategory
 import com.wa2c.android.medoly.plugin.action.tweet.R
 import com.wa2c.android.medoly.plugin.action.tweet.util.AppUtils
 import com.wa2c.android.medoly.plugin.action.tweet.util.Logger
 import com.wa2c.android.medoly.plugin.action.tweet.util.TwitterUtils
-
-import java.io.FileInputStream
-import java.io.InputStream
-
 import twitter4j.StatusUpdate
 import twitter4j.Twitter
+import java.io.FileInputStream
+import java.io.InputStream
 
 
 /**
  * Intent service
  */
-/**
- * Constructor.
- */
-class PluginPostService : AbstractPluginService(PluginPostService::class.java!!.getSimpleName()) {
+class PluginPostService : AbstractPluginService(PluginPostService::class.java.simpleName) {
     /** Twitter。  */
     private var twitter: Twitter? = null
 
     override fun onHandleIntent(intent: Intent?) {
         super.onHandleIntent(intent)
-        if (!pluginIntent.hasCategory(PluginTypeCategory.TYPE_POST_MESSAGE)) {
-            return
-        }
 
         try {
             twitter = TwitterUtils.getTwitterInstance(context)
 
-            if (receivedClassName == PluginReceivers.EventPostTweetReceiver::class.java!!.getName()) {
+            if (receivedClassName == PluginReceivers.EventPostTweetReceiver::class.java.name) {
                 tweet()
             }
         } catch (e: Exception) {
             Logger.e(e)
         }
-
     }
 
 
@@ -52,45 +41,39 @@ class PluginPostService : AbstractPluginService(PluginPostService::class.java!!.
      * Tweet.
      */
     private fun tweet() {
-        var result: AbstractPluginService.CommandResult = AbstractPluginService.CommandResult.IGNORE
+        var result: CommandResult = CommandResult.IGNORE
         var inputStream: InputStream? = null
         try {
-            if (propertyData == null || propertyData.isMediaEmpty) {
-                result = AbstractPluginService.CommandResult.NO_MEDIA
-                return
-            }
-
             // Check previous media
             val mediaUriText = propertyData.mediaUri.toString()
-            val previousMediaUri = sharedPreferences!!.getString(PREFKEY_PREVIOUS_MEDIA_URI, "")
-            val previousMediaEnabled = sharedPreferences!!.getBoolean(context!!.getString(R.string.prefkey_previous_media_enabled), false)
+            val previousMediaUri = preferences.getString(PREFKEY_PREVIOUS_MEDIA_URI, "")
+            val previousMediaEnabled = preferences.getBoolean(context.getString(R.string.prefkey_previous_media_enabled), false)
             if (!previousMediaEnabled && !TextUtils.isEmpty(mediaUriText) && !TextUtils.isEmpty(previousMediaUri) && mediaUriText == previousMediaUri) {
-                result = AbstractPluginService.CommandResult.IGNORE
+                result = CommandResult.IGNORE
                 return
             }
-            sharedPreferences!!.edit().putString(PREFKEY_PREVIOUS_MEDIA_URI, mediaUriText).apply()
+            preferences.edit().putString(PREFKEY_PREVIOUS_MEDIA_URI, mediaUriText).apply()
 
             if (!TwitterUtils.hasAccessToken(context)) {
-                result = AbstractPluginService.CommandResult.AUTH_FAILED
+                result = CommandResult.AUTH_FAILED
                 return
             }
-
 
             // Get message
             val message = tweetMessage
             if (TextUtils.isEmpty(message)) {
-                result = AbstractPluginService.CommandResult.IGNORE
+                result = CommandResult.IGNORE
                 return
             }
 
             // Get album art uri
             var albumArtUri: Uri? = null
-            if (sharedPreferences!!.getBoolean(getString(R.string.prefkey_send_album_art), true)) {
+            if (preferences.getBoolean(getString(R.string.prefkey_send_album_art), true)) {
                 albumArtUri = propertyData.albumArtUri
                 if (albumArtUri != null) {
                     try {
                         if (ContentResolver.SCHEME_CONTENT == albumArtUri.scheme) {
-                            inputStream = context!!.contentResolver.openInputStream(albumArtUri)
+                            inputStream = context.contentResolver.openInputStream(albumArtUri)
                         } else if (ContentResolver.SCHEME_FILE == albumArtUri.scheme) {
                             inputStream = FileInputStream(albumArtUri.path)
                         }
@@ -107,10 +90,10 @@ class PluginPostService : AbstractPluginService(PluginPostService::class.java!!.
             } else {
                 twitter!!.updateStatus(StatusUpdate(message).media(albumArtUri!!.lastPathSegment, inputStream))
             }
-            result = AbstractPluginService.CommandResult.SUCCEEDED
+            result = CommandResult.SUCCEEDED
         } catch (e: Exception) {
             Logger.e(e)
-            result = AbstractPluginService.CommandResult.FAILED
+            result = CommandResult.FAILED
         } finally {
             if (inputStream != null)
                 try {
@@ -118,15 +101,15 @@ class PluginPostService : AbstractPluginService(PluginPostService::class.java!!.
                 } catch (ignored: Exception) {
                 }
 
-            if (result == AbstractPluginService.CommandResult.AUTH_FAILED) {
+            if (result == CommandResult.AUTH_FAILED) {
                 AppUtils.showToast(context, R.string.message_account_not_auth)
-            } else if (result == AbstractPluginService.CommandResult.NO_MEDIA) {
+            } else if (result == CommandResult.NO_MEDIA) {
                 AppUtils.showToast(context, R.string.message_no_media)
-            } else if (result == AbstractPluginService.CommandResult.SUCCEEDED) {
-                if (pluginIntent.hasCategory(PluginOperationCategory.OPERATION_EXECUTE) || sharedPreferences!!.getBoolean(getString(R.string.prefkey_tweet_success_message_show), false))
+            } else if (result == CommandResult.SUCCEEDED) {
+                if (pluginIntent.hasCategory(PluginOperationCategory.OPERATION_EXECUTE) || preferences.getBoolean(getString(R.string.prefkey_tweet_success_message_show), false))
                     AppUtils.showToast(context, R.string.message_post_success)
-            } else if (result == AbstractPluginService.CommandResult.FAILED) {
-                if (pluginIntent.hasCategory(PluginOperationCategory.OPERATION_EXECUTE) || sharedPreferences!!.getBoolean(getString(R.string.prefkey_tweet_failure_message_show), true))
+            } else if (result == CommandResult.FAILED) {
+                if (pluginIntent.hasCategory(PluginOperationCategory.OPERATION_EXECUTE) || preferences.getBoolean(getString(R.string.prefkey_tweet_failure_message_show), true))
                     AppUtils.showToast(context, R.string.message_post_failure)
             }
         }

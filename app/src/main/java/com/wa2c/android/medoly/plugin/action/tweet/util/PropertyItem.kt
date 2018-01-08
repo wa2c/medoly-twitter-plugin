@@ -1,27 +1,18 @@
 package com.wa2c.android.medoly.plugin.action.tweet.util
 
 import android.content.Context
-import android.content.SharedPreferences
 import android.preference.PreferenceManager
-
-import com.wa2c.android.medoly.library.AlbumArtProperty
-import com.wa2c.android.medoly.library.IProperty
-import com.wa2c.android.medoly.library.LyricsProperty
-import com.wa2c.android.medoly.library.MediaProperty
-import com.wa2c.android.medoly.library.QueueProperty
+import com.wa2c.android.medoly.library.*
 import com.wa2c.android.medoly.plugin.action.tweet.R
-
-import java.util.ArrayList
-import java.util.HashSet
-import java.util.LinkedHashMap
+import java.util.*
 
 
 class PropertyItem {
 
     /** プロパティキー。  */
-    var propertyKey: String
+    var propertyKey: String? = null
     /** プロパティ名。  */
-    var propertyName: String
+    var propertyName: String? = null
     /** 短縮可。  */
     var shorten: Boolean = false
 
@@ -89,7 +80,7 @@ class PropertyItem {
          */
         fun loadPropertyPriority(context: Context): ArrayList<PropertyItem> {
             val itemList = getDefaultPropertyPriority(context)
-            val itemMap = LinkedHashMap<String, PropertyItem>()
+            val itemMap = LinkedHashMap<String?, PropertyItem>()
             for (item in itemList) {
                 itemMap.put(item.propertyKey, item)
             }
@@ -101,14 +92,19 @@ class PropertyItem {
                 val lines = text!!.split("\n".toRegex()).dropLastWhile({ it.isEmpty() }).toTypedArray()
                 for (line in lines) {
                     val items = line.split(",".toRegex()).dropLastWhile({ it.isEmpty() }).toTypedArray()
-                    if (items.size < 2) continue
+                    if (items.size < 2)
+                        continue
 
-                    val key = items[0]
-                    if (!itemMap.containsKey(key)) continue
+                    val item = itemMap.remove(items[0]) ?: continue
+                    item.shorten = items[1].toBoolean()
+                    outputItemList.add(item)
 
-                    val item = itemMap[key]
-                    item.shorten = java.lang.Boolean.parseBoolean(items[1])
-                    outputItemList.add(itemMap.remove(key)) // プロパティをリストに追加
+                    //val key = items[0]
+                    //if (!itemMap.containsKey(key))
+                    //    continue
+                    //val item = itemMap[key]
+                    //item.shorten = java.lang.Boolean.parseBoolean(items[1])
+                    //outputItemList.add(itemMap.remove(key)!!) // プロパティをリストに追加
                 }
                 for (item in itemMap.values) {
                     outputItemList.add(item) // 設定に無い項目を追加

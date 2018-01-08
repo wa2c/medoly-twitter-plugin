@@ -1,15 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
 
-    <!-- App Infos -->
+    <!-- App Info -->
     <string name="app_name">Medoly Twitter Plugin</string>
     <string name="base_app_name">Medoly</string>
     <string name="domain_name">wa2c.com</string>
+    <string name="package_name">com.wa2c.android.medoly.plugin.action.tweet</string>
     <string name="app_mail_name">medoly</string>
     <string name="app_mail_domain">wa2c.com</string>
     <string name="app_author">wa2c</string>
-    <string name="app_market">market://details?id=com.wa2c.android.medoly.plugin.action.twitter</string>
-    <string name="app_market_web">https://play.google.com/store/apps/details?id=com.wa2c.android.medoly.plugin.action.twitter</string>
+    <string name="app_license">MIT License</string>
+    <string name="app_license_url">https://bitbucket.org/wa2c/medoly-twitter-plugin/raw/e4dec842e2a0f0ba0807299e00bf3065bb1613d6/LICENSE.txt</string>
+    <string name="app_privacy_policy_url">https://wa2c.sakura.ne.jp/wa2c.com/documents/dokuwiki/doku.php?id=medoly_last.fm_plugin:privacy_policy</string>
+    <string name="app_market">market://details?id=com.wa2c.android.medoly.plugin.action.tweet</string>
+    <string name="app_market_web">https://play.google.com/store/apps/details?id=com.wa2c.android.medoly.plugin.action.tweet</string>
+
+    <string name="label_header_separator">:</string>
+
     <string name="twitter_callback_url">medoly://plugin_twitter</string>
     <string name="twitter_uri">http://twitter.com/</string>
 

@@ -3,31 +3,25 @@ package com.wa2c.android.medoly.plugin.action.tweet.service
 import android.content.ContentResolver
 import android.content.Intent
 import android.content.pm.PackageManager
-import android.content.pm.ResolveInfo
 import android.net.Uri
-import android.text.TextUtils
 
 import com.wa2c.android.medoly.library.AlbumArtProperty
 import com.wa2c.android.medoly.plugin.action.tweet.R
 import com.wa2c.android.medoly.plugin.action.tweet.util.AppUtils
 import com.wa2c.android.medoly.plugin.action.tweet.util.Logger
 
-
 /**
- * Download intent service.
+ * Plugin run service
  */
-/**
- * Constructor.
- */
-class PluginRunService : AbstractPluginService(PluginRunService::class.java!!.getSimpleName()) {
+class PluginRunService : AbstractPluginService(PluginRunService::class.java.simpleName) {
 
     override fun onHandleIntent(intent: Intent?) {
         super.onHandleIntent(intent)
 
         try {
-            if (receivedClassName == PluginReceivers.ExecutePostTweetReceiver::class.java!!.getName()) {
+            if (receivedClassName == PluginReceivers.ExecutePostTweetReceiver::class.java.name) {
                 shareTweet()
-            } else if (receivedClassName == PluginReceivers.ExecuteOpenTwitterReceiver::class.java!!.getName()) {
+            } else if (receivedClassName == PluginReceivers.ExecuteOpenTwitterReceiver::class.java.name) {
                 openTwitter()
             }
         } catch (e: Exception) {
@@ -36,22 +30,16 @@ class PluginRunService : AbstractPluginService(PluginRunService::class.java!!.ge
 
     }
 
-
     /**
      * Share tweet message.
      */
     private fun shareTweet() {
-        var result: AbstractPluginService.CommandResult = AbstractPluginService.CommandResult.IGNORE
+        var result: CommandResult = CommandResult.IGNORE
         try {
-            if (propertyData == null || propertyData.isMediaEmpty) {
-                result = AbstractPluginService.CommandResult.NO_MEDIA
-                return
-            }
-
             // Get message
             val message = tweetMessage
-            if (TextUtils.isEmpty(message)) {
-                result = AbstractPluginService.CommandResult.IGNORE
+            if (message.isEmpty()) {
+                result = CommandResult.IGNORE
                 return
             }
 
@@ -76,20 +64,20 @@ class PluginRunService : AbstractPluginService(PluginRunService::class.java!!.ge
                     val resolveInfoList = packageManager.queryIntentActivities(twitterIntent, PackageManager.MATCH_DEFAULT_ONLY or PackageManager.GET_RESOLVED_FILTER)
                     for (resolveInfo in resolveInfoList) {
                         val packageName = resolveInfo.activityInfo.packageName
-                        context!!.applicationContext.grantUriPermission(packageName, albumArtUri, Intent.FLAG_GRANT_READ_URI_PERMISSION)
+                        context.applicationContext.grantUriPermission(packageName, albumArtUri, Intent.FLAG_GRANT_READ_URI_PERMISSION)
                     }
                 }
             }
 
-            context!!.startActivity(twitterIntent)
-            result = AbstractPluginService.CommandResult.SUCCEEDED
+            context.startActivity(twitterIntent)
+            result = CommandResult.SUCCEEDED
         } catch (e: Exception) {
             Logger.e(e)
-            result = AbstractPluginService.CommandResult.FAILED
+            result = CommandResult.FAILED
         } finally {
-            if (result == AbstractPluginService.CommandResult.NO_MEDIA) {
+            if (result == CommandResult.NO_MEDIA) {
                 AppUtils.showToast(context, R.string.message_no_media)
-            } else if (result == AbstractPluginService.CommandResult.FAILED) {
+            } else if (result == CommandResult.FAILED) {
                 AppUtils.showToast(context, R.string.message_post_failure)
             }
         }
@@ -103,7 +91,7 @@ class PluginRunService : AbstractPluginService(PluginRunService::class.java!!.ge
         val launchIntent = Intent(Intent.ACTION_VIEW, Uri.parse(context!!.getString(R.string.twitter_uri)))
         try {
             launchIntent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
-            context!!.startActivity(launchIntent)
+            context.startActivity(launchIntent)
         } catch (e: android.content.ActivityNotFoundException) {
             Logger.d(e)
         }

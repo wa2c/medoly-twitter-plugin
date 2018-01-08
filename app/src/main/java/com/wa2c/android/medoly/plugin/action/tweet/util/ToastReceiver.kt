@@ -15,7 +15,7 @@ class ToastReceiver : BroadcastReceiver() {
     }
 
     companion object {
-        val MESSAGE_TOAST = "message"
+        private const val MESSAGE_TOAST = "message"
 
         fun showToast(context: Context, stringId: Int) {
             val intent = Intent(context, ToastReceiver::class.java)

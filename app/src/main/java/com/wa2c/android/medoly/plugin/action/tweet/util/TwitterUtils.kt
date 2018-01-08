@@ -1,8 +1,6 @@
 package com.wa2c.android.medoly.plugin.action.tweet.util
 
 import android.content.Context
-import android.content.SharedPreferences
-import android.content.SharedPreferences.Editor
 import android.text.TextUtils
 
 import com.wa2c.android.medoly.plugin.action.tweet.Token
@@ -13,9 +11,9 @@ import twitter4j.auth.AccessToken
 
 object TwitterUtils {
 
-    private val TOKEN = "token"
-    private val TOKEN_SECRET = "token_secret"
-    private val PREF_NAME = "twitter_access_token"
+    private const val TOKEN = "token"
+    private const val TOKEN_SECRET = "token_secret"
+    private const val PREF_NAME = "twitter_access_token"
 
     /**
      * Twitterインスタンスを取得します。アクセストークンが保存されていれば自動的にセットします。

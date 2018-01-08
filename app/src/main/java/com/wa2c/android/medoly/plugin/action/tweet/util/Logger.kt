@@ -8,21 +8,17 @@ import com.wa2c.android.medoly.plugin.action.tweet.BuildConfig
 import java.io.PrintWriter
 import java.io.StringWriter
 
-
 /**
- * ログ処理用クラス。
+ * Log utilities.
  */
 object Logger {
-    /**
-     * デバッグメッセージのタグ名。
-     */
-    val TAG = "Medoly"
-
+    /** Tag name.  */
+    private const val TAG = "Medoly"
 
     /**
-     * デバッグメッセージを出力する。
+     * Output debug message.
      *
-     * @param msg メッセージ。
+     * @param msg message.
      */
     fun d(msg: Any) {
         if (!BuildConfig.DEBUG) return
@@ -31,29 +27,29 @@ object Logger {
     }
 
     /**
-     * エラーメッセージを出力する。
+     * Output error message.
      *
-     * @param msg メッセージ。
+     * @param msg message.
      */
     fun e(msg: Any) {
-        var msg = msg
+        var message = msg
         if (!BuildConfig.DEBUG) return
 
-        if (msg is Exception) {
+        if (message is Exception) {
             val w = StringWriter()
             val pw = PrintWriter(w)
-            msg.printStackTrace(pw)
+            message.printStackTrace(pw)
             pw.flush()
-            msg = w.toString()
+            message = w.toString()
         }
 
-        Log.e(TAG, msg.toString())
+        Log.e(TAG, message.toString())
     }
 
     /**
-     * 情報メッセージを出力する。
+     * Output information message.
      *
-     * @param msg メッセージ。
+     * @param msg message.
      */
     fun i(msg: Any) {
         if (!BuildConfig.DEBUG) return
@@ -62,9 +58,9 @@ object Logger {
     }
 
     /**
-     * 詳細メッセージを出力する。
+     * Output verbose message.
      *
-     * @param msg メッセージ。
+     * @param msg message.
      */
     fun v(msg: Any) {
         if (!BuildConfig.DEBUG) return
@@ -73,9 +69,9 @@ object Logger {
     }
 
     /**
-     * 警告メッセージを出力する。
+     * Output warning message.
      *
-     * @param msg メッセージ。
+     * @param msg message.
      */
     fun w(msg: Any) {
         if (!BuildConfig.DEBUG) return
@@ -84,7 +80,7 @@ object Logger {
     }
 
     /**
-     * デバッグメッセージを出力する。
+     * Output heap message.
      */
     fun heap() {
         if (!BuildConfig.DEBUG) return
