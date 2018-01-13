@@ -14,6 +14,7 @@ import com.wa2c.android.medoly.library.MedolyEnvironment
 import com.wa2c.android.medoly.plugin.action.tweet.R
 import com.wa2c.android.medoly.plugin.action.tweet.util.AppUtils
 import com.wa2c.android.medoly.plugin.action.tweet.util.Logger
+import com.wa2c.android.medoly.plugin.action.tweet.util.Prefs
 import com.wa2c.android.medoly.plugin.action.tweet.util.TwitterUtils
 import kotlinx.android.synthetic.main.activity_main.*
 import twitter4j.Twitter
@@ -27,17 +28,19 @@ import twitter4j.auth.RequestToken
  */
 class MainActivity : Activity() {
 
-    /** コールバックURI。  */
-    private var callbackURL: String? = null
-    /** ツイッターオブジェクト。  */
+    /** preferences manager. */
+    private lateinit var  prefs: Prefs
+    /** Callback URL. */
+    private lateinit var callbackURL: String
+    /** Twitter. */
     private var twitter: Twitter? = null
-    /** リクエストトークン。  */
+    /** Request token. */
     private var requestToken: RequestToken? = null
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+        prefs = Prefs(this)
 
         // ActionBar
         actionBar.setDisplayShowHomeEnabled(true)
@@ -91,8 +94,7 @@ class MainActivity : Activity() {
             return
         }
 
-        val pref = PreferenceManager.getDefaultSharedPreferences(this)
-        if (!pref.getBoolean(getString(R.string.prefkey_send_album_art), true))
+        if (!prefs.getBoolean(R.string.prefkey_send_album_art, true))
             return
 
         // Check permission
@@ -171,12 +173,12 @@ class MainActivity : Activity() {
      * @param intent 処理結果のインテント。
      */
     private fun completeAuthorize(intent: Intent?) {
-        if (intent == null || intent.data == null || !intent.data!!.toString().startsWith(callbackURL!!)) {
+        if (intent == null || intent.data == null || !intent.data.toString().startsWith(callbackURL)) {
             return
         }
 
         // 認証結果取得
-        val verifier = intent.data!!.getQueryParameter("oauth_verifier")
+        val verifier = intent.data.getQueryParameter("oauth_verifier")
 
         val task = object : AsyncTask<String, Void, AccessToken>() {
             override fun doInBackground(vararg params: String): AccessToken? {

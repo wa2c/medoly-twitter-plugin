@@ -11,18 +11,19 @@ import com.wa2c.android.medoly.plugin.action.tweet.R
 import com.wa2c.android.medoly.plugin.action.tweet.dialog.ConfirmDialogFragment
 import com.wa2c.android.medoly.plugin.action.tweet.dialog.InsertPropertyDialogFragment
 import com.wa2c.android.medoly.plugin.action.tweet.dialog.PropertyPriorityDialogFragment
+import com.wa2c.android.medoly.plugin.action.tweet.util.Prefs
 import kotlinx.android.synthetic.main.activity_edit.*
 
 
 class EditActivity : Activity() {
 
-    /** Shared preferences  */
-    private lateinit var  preferences: SharedPreferences
+    /** preferences manager.  */
+    private lateinit var  prefs: Prefs
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_edit)
-        preferences = PreferenceManager.getDefaultSharedPreferences(this)
+        prefs = Prefs(this)
 
         // Action bar
         actionBar.setDisplayShowHomeEnabled(true)
@@ -31,7 +32,7 @@ class EditActivity : Activity() {
 
         // Insert album art button
         insertAlbumArtCheckBox.setOnCheckedChangeListener { _, isChecked ->
-            preferences.edit().putBoolean(getString(R.string.prefkey_content_album_art), isChecked).apply()
+            prefs.putValue(R.string.prefkey_content_album_art, isChecked)
         }
 
         // Insert button
@@ -73,8 +74,8 @@ class EditActivity : Activity() {
             dialogFragment.show(this@EditActivity)
         }
 
-        contentEditText!!.setText(preferences.getString(getString(R.string.prefkey_content_format), getString(R.string.format_content_default)))
-        insertAlbumArtCheckBox!!.isChecked = preferences.getBoolean(getString(R.string.prefkey_content_album_art), true)
+        contentEditText.setText(prefs.getString(R.string.prefkey_content_format, defRes = R.string.format_content_default))
+        insertAlbumArtCheckBox!!.isChecked = prefs.getBoolean(R.string.prefkey_content_album_art, true)
     }
 
     /**
@@ -83,7 +84,7 @@ class EditActivity : Activity() {
     public override fun onStop() {
         super.onStop()
 
-        preferences.edit().putString(getString(R.string.prefkey_content_format), contentEditText.text.toString()).apply()
+        prefs.putValue(R.string.prefkey_content_format, contentEditText.text)
     }
 
     /**

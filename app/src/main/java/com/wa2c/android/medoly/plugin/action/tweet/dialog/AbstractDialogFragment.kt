@@ -9,6 +9,7 @@ import android.content.SharedPreferences
 import android.content.res.Configuration
 import android.os.Bundle
 import android.preference.PreferenceManager
+import com.wa2c.android.medoly.plugin.action.tweet.util.Prefs
 import java.util.*
 
 /**
@@ -20,8 +21,8 @@ abstract class AbstractDialogFragment : DialogFragment() {
         private val shownDialogMap = HashMap<String, DialogFragment>()
     }
 
-    /** Shared preference  */
-    private lateinit var preferences: SharedPreferences
+    /** Preferences controller.  */
+    protected lateinit var prefs: Prefs
 
     /** Click listener  */
     var clickListener: DialogInterface.OnClickListener? = null
@@ -57,7 +58,7 @@ abstract class AbstractDialogFragment : DialogFragment() {
      * On create dialog event.
      */
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog? {
-        preferences = PreferenceManager.getDefaultSharedPreferences(activity)
+        prefs = Prefs(activity)
         return super.onCreateDialog(savedInstanceState)
     }
 

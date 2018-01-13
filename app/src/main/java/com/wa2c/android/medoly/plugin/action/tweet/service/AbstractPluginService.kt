@@ -15,6 +15,7 @@ import com.wa2c.android.medoly.library.MediaPluginIntent
 import com.wa2c.android.medoly.library.PropertyData
 import com.wa2c.android.medoly.plugin.action.tweet.R
 import com.wa2c.android.medoly.plugin.action.tweet.util.Logger
+import com.wa2c.android.medoly.plugin.action.tweet.util.Prefs
 import com.wa2c.android.medoly.plugin.action.tweet.util.PropertyItem
 import java.util.*
 import java.util.regex.Pattern
@@ -33,14 +34,12 @@ abstract class AbstractPluginService(name: String) : IntentService(name) {
 
         /** Received receiver class name.  */
         const val RECEIVED_CLASS_NAME = "RECEIVED_CLASS_NAME"
-        /** Previous data key.  */
-        const val PREFKEY_PREVIOUS_MEDIA_URI = "previous_media_uri"
     }
 
     /** Context.  */
     protected lateinit var context: Context
     /** Preferences.  */
-    protected lateinit var preferences: SharedPreferences
+    protected lateinit var prefs: Prefs
     /** Plugin intent.  */
     protected lateinit var pluginIntent: MediaPluginIntent
     /** Property data.  */
@@ -56,13 +55,12 @@ abstract class AbstractPluginService(name: String) : IntentService(name) {
      */
     protected val tweetMessage: String
         get() {
-
-            val format = preferences.getString(context!!.getString(R.string.prefkey_content_format), context!!.getString(R.string.format_content_default))
-            val TRIM_EXP = if (preferences.getBoolean(context!!.getString(R.string.prefkey_trim_before_empty_enabled), true)) "\\w*" else ""
+            val format = prefs.getString(R.string.prefkey_content_format, defRes = R.string.format_content_default)
+            val TRIM_EXP = if (prefs.getBoolean(R.string.prefkey_trim_before_empty_enabled, true)) "\\w*" else ""
             val priorityList = PropertyItem.loadPropertyPriority(context)
             val containsMap = LinkedHashSet<PropertyItem>()
             for (item in priorityList) {
-                val matcher = Pattern.compile(item.propertyTag, Pattern.MULTILINE).matcher(format!!)
+                val matcher = Pattern.compile(item.propertyTag, Pattern.MULTILINE).matcher(format)
                 if (matcher.find())
                     containsMap.add(item)
             }
@@ -120,7 +118,7 @@ abstract class AbstractPluginService(name: String) : IntentService(name) {
 
         try {
             context = applicationContext
-            preferences = PreferenceManager.getDefaultSharedPreferences(context)
+            prefs = Prefs(this)
             pluginIntent = MediaPluginIntent(intent)
             propertyData = pluginIntent.propertyData ?: PropertyData()
             receivedClassName = pluginIntent.getStringExtra(RECEIVED_CLASS_NAME)
@@ -155,7 +153,7 @@ abstract class AbstractPluginService(name: String) : IntentService(name) {
         }
 
         val newlineMatcher = Pattern.compile("\\r\\n|\\n|\\r").matcher(propertyText)
-        if (newlineMatcher.find() && preferences.getBoolean(context!!.getString(R.string.prefkey_omit_newline), true)) {
+        if (newlineMatcher.find() && prefs.getBoolean(R.string.prefkey_omit_newline, true)) {
             var returnText = ""
             while (newlineMatcher.find()) {
                 val result = TwitterTextParser.parseTweet(propertyText.substring(0, newlineMatcher.start()) + "...")

@@ -87,9 +87,9 @@ class PropertyItem {
 
             var outputItemList = ArrayList<PropertyItem>()
             try {
-                val p = PreferenceManager.getDefaultSharedPreferences(context)
-                val text = p.getString(PREFKEY_PROPERTY_PRIORITY, null)
-                val lines = text!!.split("\n".toRegex()).dropLastWhile({ it.isEmpty() }).toTypedArray()
+                val prefs = Prefs(context)
+                val text = prefs.getString(PREFKEY_PROPERTY_PRIORITY)
+                val lines = text.split("\n".toRegex()).dropLastWhile({ it.isEmpty() }).toTypedArray()
                 for (line in lines) {
                     val items = line.split(",".toRegex()).dropLastWhile({ it.isEmpty() }).toTypedArray()
                     if (items.size < 2)
@@ -123,12 +123,12 @@ class PropertyItem {
          * @param itemList プロパティ優先度。
          */
         fun savePropertyPriority(context: Context, itemList: ArrayList<PropertyItem>) {
-            val p = PreferenceManager.getDefaultSharedPreferences(context)
+            val prefs = Prefs(context)
             val builder = StringBuilder()
             for (item in itemList) {
                 builder.append(item.propertyKey).append(",").append(item.shorten).append("\n")
             }
-            p.edit().putString(PREFKEY_PROPERTY_PRIORITY, builder.toString()).apply()
+            prefs.putValue(PREFKEY_PROPERTY_PRIORITY, builder.toString())
         }
 
         /** 省略可のプロパティセット。  */

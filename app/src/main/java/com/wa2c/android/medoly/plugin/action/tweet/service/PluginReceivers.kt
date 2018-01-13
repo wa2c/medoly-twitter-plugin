@@ -12,6 +12,7 @@ import com.wa2c.android.medoly.library.PluginTypeCategory
 import com.wa2c.android.medoly.plugin.action.tweet.R
 import com.wa2c.android.medoly.plugin.action.tweet.util.AppUtils
 import com.wa2c.android.medoly.plugin.action.tweet.util.Logger
+import com.wa2c.android.medoly.plugin.action.tweet.util.Prefs
 
 /**
  * Plugin receiver.
@@ -24,14 +25,14 @@ class PluginReceivers {
 
             val pluginIntent = MediaPluginIntent(intent)
             val propertyData = pluginIntent.propertyData ?: return
-            val preferences = PreferenceManager.getDefaultSharedPreferences(context)
+            val prefs = Prefs(context)
 
             if (this is EventPostTweetReceiver) {
                 // checks
                 if (!pluginIntent.hasCategory(PluginTypeCategory.TYPE_POST_MESSAGE)) {
                     return
                 }
-                val operation = try { PluginOperationCategory.valueOf(preferences.getString(context.getString(R.string.prefkey_event_tweet_operation), "")) } catch (ignore : Exception) { null }
+                val operation = try { PluginOperationCategory.valueOf(prefs.getString(R.string.prefkey_event_tweet_operation)) } catch (ignore : Exception) { null }
                 if (!pluginIntent.hasCategory(PluginOperationCategory.OPERATION_EXECUTE) && !pluginIntent.hasCategory(operation)) {
                     return
                 }
