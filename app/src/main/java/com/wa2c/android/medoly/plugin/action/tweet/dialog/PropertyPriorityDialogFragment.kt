@@ -14,7 +14,7 @@ import com.mobeta.android.dslv.DragSortController
 import com.mobeta.android.dslv.DragSortListView
 import com.wa2c.android.medoly.plugin.action.tweet.R
 import com.wa2c.android.medoly.plugin.action.tweet.util.AppUtils
-import com.wa2c.android.medoly.plugin.action.tweet.util.PropertyItem
+import com.wa2c.android.medoly.plugin.action.tweet.activity.PropertyItem
 import kotlinx.android.synthetic.main.dialog_property_priority.view.*
 import java.util.*
 

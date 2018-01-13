@@ -2,11 +2,8 @@ package com.wa2c.android.medoly.plugin.action.tweet.activity
 
 import android.app.Activity
 import android.content.DialogInterface
-import android.content.SharedPreferences
 import android.os.Bundle
-import android.preference.PreferenceManager
 import android.view.MenuItem
-
 import com.wa2c.android.medoly.plugin.action.tweet.R
 import com.wa2c.android.medoly.plugin.action.tweet.dialog.ConfirmDialogFragment
 import com.wa2c.android.medoly.plugin.action.tweet.dialog.InsertPropertyDialogFragment

@@ -7,16 +7,15 @@ import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.content.Context
 import android.content.Intent
-import android.content.SharedPreferences
 import android.os.Build
-import android.preference.PreferenceManager
 import com.twitter.twittertext.TwitterTextParser
 import com.wa2c.android.medoly.library.MediaPluginIntent
 import com.wa2c.android.medoly.library.PropertyData
 import com.wa2c.android.medoly.plugin.action.tweet.R
 import com.wa2c.android.medoly.plugin.action.tweet.util.Logger
 import com.wa2c.android.medoly.plugin.action.tweet.util.Prefs
-import com.wa2c.android.medoly.plugin.action.tweet.util.PropertyItem
+import com.wa2c.android.medoly.plugin.action.tweet.activity.PropertyItem
+import com.wa2c.android.medoly.plugin.action.tweet.util.TwitterUtils
 import java.util.*
 import java.util.regex.Pattern
 
@@ -55,7 +54,7 @@ abstract class AbstractPluginService(name: String) : IntentService(name) {
      */
     protected val tweetMessage: String
         get() {
-            val format = prefs.getString(R.string.prefkey_content_format, defRes = R.string.format_content_default)
+            val format = prefs.getString(R.string.prefkey_content_format, defRes = R.string.format_content_default)!!
             val TRIM_EXP = if (prefs.getBoolean(R.string.prefkey_trim_before_empty_enabled, true)) "\\w*" else ""
             val priorityList = PropertyItem.loadPropertyPriority(context)
             val containsMap = LinkedHashSet<PropertyItem>()
@@ -78,15 +77,17 @@ abstract class AbstractPluginService(name: String) : IntentService(name) {
                 val matcher = Pattern.compile(regexpText).matcher(workText)
                 while (matcher.find()) {
                     workText = matcher.replaceFirst(propertyText)
-                    val removedText = getPropertyRemovedText(workText, containsMap)
+                    val removedText = TwitterUtils.getPropertyRemovedText(workText, containsMap)
                     val result = TwitterTextParser.parseTweet(removedText)
                     val remainWeight = 999 - result.permillage
                     if (remainWeight > 0) {
                         outputText = workText
                     } else {
                         if (propertyItem.shorten) {
-                            workText = matcher.replaceFirst(trimWeightedText(propertyText, TwitterTextParser.parseTweet(propertyText).permillage + remainWeight))
-                            outputText = getPropertyRemovedText(workText, containsMap)
+
+                            //, prefs.getBoolean(R.string.prefkey_omit_newline, true)
+                            workText = matcher.replaceFirst(TwitterUtils.trimWeightedText(propertyText, TwitterTextParser.parseTweet(propertyText).permillage + remainWeight, prefs.getBoolean(R.string.prefkey_omit_newline, true)))
+                            outputText = TwitterUtils.getPropertyRemovedText(workText, containsMap)
                         }
                         break
                     }
@@ -138,40 +139,40 @@ abstract class AbstractPluginService(name: String) : IntentService(name) {
         Logger.d("onDestroy: " + this.javaClass.simpleName)
     }
 
-
-    private fun getPropertyRemovedText(workText: String, containsMap: Set<PropertyItem>): String {
-        var parseText = workText
-        for (pi in containsMap) {
-            parseText = parseText.replace(("%" + pi.propertyKey + "%").toRegex(), "")
-        }
-        return parseText
-    }
-
-    private fun trimWeightedText(propertyText: String?, remainWeight: Int): String {
-        if (propertyText.isNullOrEmpty() || propertyText!!.length < "...".length) {
-            return ""
-        }
-
-        val newlineMatcher = Pattern.compile("\\r\\n|\\n|\\r").matcher(propertyText)
-        if (newlineMatcher.find() && prefs.getBoolean(R.string.prefkey_omit_newline, true)) {
-            var returnText = ""
-            while (newlineMatcher.find()) {
-                val result = TwitterTextParser.parseTweet(propertyText.substring(0, newlineMatcher.start()) + "...")
-                if (result.permillage >= remainWeight) {
-                    break
-                }
-                returnText = propertyText.substring(0, newlineMatcher.start()) + "..."
-            }
-            return returnText
-        } else {
-            for (i in 1 until propertyText.length) {
-                val result = TwitterTextParser.parseTweet(propertyText.substring(0, i) + "...")
-                if (result.permillage >= remainWeight) {
-                    return propertyText.substring(0, i - 1) + "..."
-                }
-            }
-            return propertyText
-        }
-    }
+//
+//    private fun getPropertyRemovedText(workText: String, containsMap: Set<PropertyItem>): String {
+//        var parseText = workText
+//        for (pi in containsMap) {
+//            parseText = parseText.replace(("%" + pi.propertyKey + "%").toRegex(), "")
+//        }
+//        return parseText
+//    }
+//
+//    private fun trimWeightedText(propertyText: String?, remainWeight: Int): String {
+//        if (propertyText.isNullOrEmpty() || propertyText!!.length < "...".length) {
+//            return ""
+//        }
+//
+//        val newlineMatcher = Pattern.compile("\\r\\n|\\n|\\r").matcher(propertyText)
+//        if (newlineMatcher.find() && prefs.getBoolean(R.string.prefkey_omit_newline, true)) {
+//            var returnText = ""
+//            while (newlineMatcher.find()) {
+//                val result = TwitterTextParser.parseTweet(propertyText.substring(0, newlineMatcher.start()) + "...")
+//                if (result.permillage >= remainWeight) {
+//                    break
+//                }
+//                returnText = propertyText.substring(0, newlineMatcher.start()) + "..."
+//            }
+//            return returnText
+//        } else {
+//            for (i in 1 until propertyText.length) {
+//                val result = TwitterTextParser.parseTweet(propertyText.substring(0, i) + "...")
+//                if (result.permillage >= remainWeight) {
+//                    return propertyText.substring(0, i - 1) + "..."
+//                }
+//            }
+//            return propertyText
+//        }
+//    }
 
 }

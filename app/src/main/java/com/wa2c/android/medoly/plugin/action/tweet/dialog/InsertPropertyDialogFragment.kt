@@ -9,7 +9,7 @@ import android.view.ViewGroup
 import android.view.ViewGroup.LayoutParams
 import android.widget.*
 import com.wa2c.android.medoly.plugin.action.tweet.R
-import com.wa2c.android.medoly.plugin.action.tweet.util.PropertyItem
+import com.wa2c.android.medoly.plugin.action.tweet.activity.PropertyItem
 import java.util.*
 
 /**

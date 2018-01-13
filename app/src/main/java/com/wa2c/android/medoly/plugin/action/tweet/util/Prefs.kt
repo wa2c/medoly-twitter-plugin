@@ -84,11 +84,11 @@ class Prefs(val context: Context, name : String? = null) {
     }
 
     /** Get a value from preference. */
-    fun getString(keyRes : Int, default: String = "", defRes : Int = -1) : String {
+    fun getString(keyRes : Int, default: String? = "", defRes : Int = -1) : String? {
         return getString(context.getString(keyRes), default, defRes)
     }
     /** Get a value from preference. */
-    fun getString(key : String, default: String = "", defRes : Int = -1) : String {
+    fun getString(key : String, default: String? = "", defRes : Int = -1) : String? {
         return if (defRes > 0)
             pref.getString(key, context.getString(defRes))
         else
@@ -96,11 +96,11 @@ class Prefs(val context: Context, name : String? = null) {
     }
 
     /** Get a value from preference. */
-    fun getStringSet(keyRes : Int, default: Set<String?> = HashSet(), defRes : Int = -1) : Set<String?> {
+    fun getStringSet(keyRes : Int, default: Set<String?>? = HashSet(), defRes : Int = -1) : Set<String?>? {
         return getStringSet(context.getString(keyRes), default, defRes)
     }
     /** Get a value from preference. */
-    fun getStringSet(key : String, default: Set<String?> = HashSet(), defRes : Int = -1) : Set<String?> {
+    fun getStringSet(key : String, default: Set<String?>? = HashSet(), defRes : Int = -1) : Set<String?>? {
         return if (defRes > 0)
             pref.getStringSet(key, context.resources.getStringArray(defRes).toSet())
         else
@@ -186,16 +186,17 @@ class Prefs(val context: Context, name : String? = null) {
     }
 
 //    /** Set a value to preference. */
-//    fun putObject(keyRes : Int, value : Any) : Prefs {
+//    fun putObject(keyRes : Int, value : Any?) : Prefs {
 //        putObject(context.getString(keyRes), value)
 //        return this
 //    }
 //    /** Set a value to preference. */
-//    fun putObject(key : String, value : Any) : Prefs {
+//    fun putObject(key : String, value : Any?) : Prefs {
 //        val json = Gson().toJson(value)
 //        pref.edit().putString(key, json).apply()
 //        return this
 //    }
+
 
 
 

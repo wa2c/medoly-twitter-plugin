@@ -2,12 +2,15 @@ package com.wa2c.android.medoly.plugin.action.tweet.util
 
 import android.content.Context
 import android.text.TextUtils
+import com.twitter.twittertext.TwitterTextParser
 
 import com.wa2c.android.medoly.plugin.action.tweet.Token
+import com.wa2c.android.medoly.plugin.action.tweet.activity.PropertyItem
 
 import twitter4j.Twitter
 import twitter4j.TwitterFactory
 import twitter4j.auth.AccessToken
+import java.util.regex.Pattern
 
 object TwitterUtils {
 
@@ -92,4 +95,47 @@ object TwitterUtils {
     fun hasAccessToken(context: Context): Boolean {
         return loadAccessToken(context) != null
     }
+
+
+    /**
+     * Get property tag removed text.
+     */
+    fun getPropertyRemovedText(workText: String, containsMap: Set<PropertyItem>): String {
+        var parseText = workText
+        for (pi in containsMap) {
+            parseText = parseText.replace(("%" + pi.propertyKey + "%").toRegex(), "")
+        }
+        return parseText
+    }
+
+    /**
+     * Get the text does not exceeded the limit length on Twitter.
+     */
+    fun trimWeightedText(propertyText: String?, remainWeight: Int, omitNewLine : Boolean): String {
+        if (propertyText.isNullOrEmpty() || propertyText!!.length < "...".length) {
+            return ""
+        }
+
+        val newlineMatcher = Pattern.compile("\\r\\n|\\n|\\r").matcher(propertyText)
+        if (newlineMatcher.find() && omitNewLine) {
+            var returnText = ""
+            while (newlineMatcher.find()) {
+                val result = TwitterTextParser.parseTweet(propertyText.substring(0, newlineMatcher.start()) + "...")
+                if (result.permillage >= remainWeight) {
+                    break
+                }
+                returnText = propertyText.substring(0, newlineMatcher.start()) + "..."
+            }
+            return returnText
+        } else {
+            for (i in 1 until propertyText.length) {
+                val result = TwitterTextParser.parseTweet(propertyText.substring(0, i) + "...")
+                if (result.permillage >= remainWeight) {
+                    return propertyText.substring(0, i - 1) + "..."
+                }
+            }
+            return propertyText
+        }
+    }
+
 }

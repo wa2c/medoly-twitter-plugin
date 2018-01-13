@@ -5,10 +5,8 @@ import android.app.Dialog
 import android.app.DialogFragment
 import android.app.Fragment
 import android.content.DialogInterface
-import android.content.SharedPreferences
 import android.content.res.Configuration
 import android.os.Bundle
-import android.preference.PreferenceManager
 import com.wa2c.android.medoly.plugin.action.tweet.util.Prefs
 import java.util.*
 

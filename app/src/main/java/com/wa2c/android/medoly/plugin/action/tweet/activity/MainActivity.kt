@@ -8,7 +8,6 @@ import android.net.Uri
 import android.os.AsyncTask
 import android.os.Build
 import android.os.Bundle
-import android.preference.PreferenceManager
 import android.text.TextUtils
 import com.wa2c.android.medoly.library.MedolyEnvironment
 import com.wa2c.android.medoly.plugin.action.tweet.R
@@ -46,7 +45,7 @@ class MainActivity : Activity() {
         actionBar.setDisplayShowHomeEnabled(true)
         actionBar.setDisplayShowTitleEnabled(true)
 
-        // パーミッション設定
+        // Set permission
         requestPermission()
 
         callbackURL = getString(R.string.twitter_callback_url)
@@ -138,7 +137,7 @@ class MainActivity : Activity() {
     }
 
     /**
-     * OAuth認証開始。
+     * Start OAuth.
      */
     private fun startAuthorize() {
         val task = object : AsyncTask<Void, Void, String>() {
@@ -169,8 +168,8 @@ class MainActivity : Activity() {
     }
 
     /**
-     * OAuth認証完了。
-     * @param intent 処理結果のインテント。
+     * OAuth completion
+     * @param intent intent.。
      */
     private fun completeAuthorize(intent: Intent?) {
         if (intent == null || intent.data == null || !intent.data.toString().startsWith(callbackURL)) {
