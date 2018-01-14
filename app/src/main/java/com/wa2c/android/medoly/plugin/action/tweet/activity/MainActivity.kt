@@ -8,7 +8,6 @@ import android.net.Uri
 import android.os.AsyncTask
 import android.os.Build
 import android.os.Bundle
-import android.text.TextUtils
 import com.wa2c.android.medoly.library.MedolyEnvironment
 import com.wa2c.android.medoly.plugin.action.tweet.R
 import com.wa2c.android.medoly.plugin.action.tweet.util.AppUtils
@@ -181,7 +180,7 @@ class MainActivity : Activity() {
 
         val task = object : AsyncTask<String, Void, AccessToken>() {
             override fun doInBackground(vararg params: String): AccessToken? {
-                if (params != null && params.size > 0 && !TextUtils.isEmpty(params[0])) {
+                if (params != null && params.size > 0 && !params[0].isNullOrEmpty()) {
                     try {
                         return twitter!!.getOAuthAccessToken(requestToken, params[0])
                     } catch (e: TwitterException) {

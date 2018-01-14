@@ -27,34 +27,46 @@ class PluginReceivers {
             val prefs = Prefs(context)
 
             if (this is EventPostTweetReceiver) {
-                // checks
+                // category
                 if (!pluginIntent.hasCategory(PluginTypeCategory.TYPE_POST_MESSAGE)) {
                     return
                 }
-                val operation = try { PluginOperationCategory.valueOf(prefs.getString(R.string.prefkey_event_tweet_operation)!!) } catch (ignore : Exception) { null }
-                if (!pluginIntent.hasCategory(PluginOperationCategory.OPERATION_EXECUTE) && !pluginIntent.hasCategory(operation)) {
-                    return
-                }
+                // media
                 if (propertyData.isMediaEmpty) {
                     AppUtils.showToast(context, R.string.message_no_media)
                     return
                 }
+                // property
                 if (propertyData.getFirst(MediaProperty.TITLE).isNullOrEmpty() || propertyData.getFirst(MediaProperty.ARTIST).isNullOrEmpty()) {
+                    return
+                }
+                // operation
+                val operation = try { PluginOperationCategory.valueOf(prefs.getString(R.string.prefkey_event_tweet_operation)!!) } catch (ignore : Exception) { null }
+                if (!pluginIntent.hasCategory(PluginOperationCategory.OPERATION_EXECUTE) && !pluginIntent.hasCategory(operation)) {
+                    return
+                }
+                // previous media
+                val mediaUriText = propertyData.mediaUri.toString()
+                val previousMediaUri = prefs.getString(AbstractPluginService.PREFKEY_PREVIOUS_MEDIA_URI)
+                val previousMediaEnabled = prefs.getBoolean(R.string.prefkey_previous_media_enabled)
+                if (!previousMediaEnabled && !mediaUriText.isNullOrEmpty() && !previousMediaUri.isNullOrEmpty() && mediaUriText == previousMediaUri) {
                     return
                 }
 
                 // service
                 pluginIntent.setClass(context, PluginPostService::class.java)
             } else if (this is ExecutePostTweetReceiver || this is ExecuteOpenTwitterReceiver) {
-                // check
+                // category
                 if (!pluginIntent.hasCategory(PluginTypeCategory.TYPE_RUN)) {
                     return
                 }
                 if (this is ExecutePostTweetReceiver) {
+                    // media
                     if (propertyData.isMediaEmpty) {
                         AppUtils.showToast(context, R.string.message_no_media)
                         return
                     }
+                    // property
                     if (propertyData.getFirst(MediaProperty.TITLE).isNullOrEmpty() || propertyData.getFirst(MediaProperty.ARTIST).isNullOrEmpty()) {
                         return
                     }

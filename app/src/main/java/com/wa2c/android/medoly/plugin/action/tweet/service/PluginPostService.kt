@@ -3,7 +3,6 @@ package com.wa2c.android.medoly.plugin.action.tweet.service
 import android.content.ContentResolver
 import android.content.Intent
 import android.net.Uri
-import android.text.TextUtils
 import com.wa2c.android.medoly.library.PluginOperationCategory
 import com.wa2c.android.medoly.plugin.action.tweet.R
 import com.wa2c.android.medoly.plugin.action.tweet.util.AppUtils
@@ -16,7 +15,7 @@ import java.io.InputStream
 
 
 /**
- * Intent service
+ * Post plugin service.
  */
 class PluginPostService : AbstractPluginService(PluginPostService::class.java.simpleName) {
     /** Twitter。  */
@@ -44,16 +43,6 @@ class PluginPostService : AbstractPluginService(PluginPostService::class.java.si
         var result: CommandResult = CommandResult.IGNORE
         var inputStream: InputStream? = null
         try {
-            // Check previous media
-            val mediaUriText = propertyData.mediaUri.toString()
-            val previousMediaUri = prefs.getString(PREFKEY_PREVIOUS_MEDIA_URI)
-            val previousMediaEnabled = prefs.getBoolean(R.string.prefkey_previous_media_enabled)
-            if (!previousMediaEnabled && !TextUtils.isEmpty(mediaUriText) && !TextUtils.isEmpty(previousMediaUri) && mediaUriText == previousMediaUri) {
-                result = CommandResult.IGNORE
-                return
-            }
-            prefs.putValue(PREFKEY_PREVIOUS_MEDIA_URI, mediaUriText)
-
             if (!TwitterUtils.hasAccessToken(context)) {
                 result = CommandResult.AUTH_FAILED
                 return
@@ -61,7 +50,7 @@ class PluginPostService : AbstractPluginService(PluginPostService::class.java.si
 
             // Get message
             val message = tweetMessage
-            if (TextUtils.isEmpty(message)) {
+            if (message.isNullOrEmpty()) {
                 result = CommandResult.IGNORE
                 return
             }
@@ -95,6 +84,9 @@ class PluginPostService : AbstractPluginService(PluginPostService::class.java.si
             Logger.e(e)
             result = CommandResult.FAILED
         } finally {
+            // save previous media
+            prefs.putValue(PREFKEY_PREVIOUS_MEDIA_URI, propertyData.mediaUri.toString())
+
             if (inputStream != null)
                 try {
                     inputStream.close()
@@ -113,12 +105,6 @@ class PluginPostService : AbstractPluginService(PluginPostService::class.java.si
                     AppUtils.showToast(context, R.string.message_post_failure)
             }
         }
-    }
-
-    companion object {
-
-        /** Previous data key.  */
-        private val PREFKEY_PREVIOUS_MEDIA_URI = "previous_media_uri"
     }
 
 }

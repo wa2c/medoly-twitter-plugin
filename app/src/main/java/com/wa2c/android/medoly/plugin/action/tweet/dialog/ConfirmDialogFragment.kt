@@ -3,7 +3,6 @@ package com.wa2c.android.medoly.plugin.action.tweet.dialog
 import android.app.AlertDialog
 import android.app.Dialog
 import android.os.Bundle
-import android.text.TextUtils
 
 /**
  * Confirmation dialog
@@ -29,17 +28,17 @@ class ConfirmDialogFragment : AbstractDialogFragment() {
         } else {
             // Positive button
             val positive = args.getString(ARG_POSITIVE_BUTTON)
-            if (!TextUtils.isEmpty(positive)) {
+            if (!positive.isNullOrEmpty()) {
                 builder.setPositiveButton(positive, clickListener)
             }
             // Neutral button
             val neutral = args.getString(ARG_NEUTRAL_BUTTON)
-            if (!TextUtils.isEmpty(neutral)) {
+            if (!neutral.isNullOrEmpty()) {
                 builder.setNeutralButton(neutral, clickListener)
             }
             // Negative button
             val negative = args.getString(ARG_NEGATIVE_BUTTON)
-            if (!TextUtils.isEmpty(negative)) {
+            if (!negative.isNullOrEmpty()) {
                 builder.setNegativeButton(negative, clickListener)
             }
         }

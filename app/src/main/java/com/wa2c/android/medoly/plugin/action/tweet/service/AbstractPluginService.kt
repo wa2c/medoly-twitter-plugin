@@ -12,16 +12,16 @@ import com.twitter.twittertext.TwitterTextParser
 import com.wa2c.android.medoly.library.MediaPluginIntent
 import com.wa2c.android.medoly.library.PropertyData
 import com.wa2c.android.medoly.plugin.action.tweet.R
+import com.wa2c.android.medoly.plugin.action.tweet.activity.PropertyItem
 import com.wa2c.android.medoly.plugin.action.tweet.util.Logger
 import com.wa2c.android.medoly.plugin.action.tweet.util.Prefs
-import com.wa2c.android.medoly.plugin.action.tweet.activity.PropertyItem
 import com.wa2c.android.medoly.plugin.action.tweet.util.TwitterUtils
 import java.util.*
 import java.util.regex.Pattern
 
 
 /**
- * Plugin service base.
+ * Abstract plugin service.
  */
 abstract class AbstractPluginService(name: String) : IntentService(name) {
 
@@ -33,6 +33,8 @@ abstract class AbstractPluginService(name: String) : IntentService(name) {
 
         /** Received receiver class name.  */
         const val RECEIVED_CLASS_NAME = "RECEIVED_CLASS_NAME"
+        /** Previous data key.  */
+        const val PREFKEY_PREVIOUS_MEDIA_URI = "previous_media_uri"
     }
 
     /** Context.  */
@@ -138,41 +140,5 @@ abstract class AbstractPluginService(name: String) : IntentService(name) {
         super.onDestroy()
         Logger.d("onDestroy: " + this.javaClass.simpleName)
     }
-
-//
-//    private fun getPropertyRemovedText(workText: String, containsMap: Set<PropertyItem>): String {
-//        var parseText = workText
-//        for (pi in containsMap) {
-//            parseText = parseText.replace(("%" + pi.propertyKey + "%").toRegex(), "")
-//        }
-//        return parseText
-//    }
-//
-//    private fun trimWeightedText(propertyText: String?, remainWeight: Int): String {
-//        if (propertyText.isNullOrEmpty() || propertyText!!.length < "...".length) {
-//            return ""
-//        }
-//
-//        val newlineMatcher = Pattern.compile("\\r\\n|\\n|\\r").matcher(propertyText)
-//        if (newlineMatcher.find() && prefs.getBoolean(R.string.prefkey_omit_newline, true)) {
-//            var returnText = ""
-//            while (newlineMatcher.find()) {
-//                val result = TwitterTextParser.parseTweet(propertyText.substring(0, newlineMatcher.start()) + "...")
-//                if (result.permillage >= remainWeight) {
-//                    break
-//                }
-//                returnText = propertyText.substring(0, newlineMatcher.start()) + "..."
-//            }
-//            return returnText
-//        } else {
-//            for (i in 1 until propertyText.length) {
-//                val result = TwitterTextParser.parseTweet(propertyText.substring(0, i) + "...")
-//                if (result.permillage >= remainWeight) {
-//                    return propertyText.substring(0, i - 1) + "..."
-//                }
-//            }
-//            return propertyText
-//        }
-//    }
 
 }

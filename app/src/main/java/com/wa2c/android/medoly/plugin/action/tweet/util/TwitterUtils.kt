@@ -1,7 +1,6 @@
 package com.wa2c.android.medoly.plugin.action.tweet.util
 
 import android.content.Context
-import android.text.TextUtils
 import com.twitter.twittertext.TwitterTextParser
 
 import com.wa2c.android.medoly.plugin.action.tweet.Token
@@ -38,7 +37,7 @@ object TwitterUtils {
         }
 
         // キー未取得
-        if (TextUtils.isEmpty(t1) || TextUtils.isEmpty(t2)) {
+        if (t1.isNullOrEmpty() || t2.isNullOrEmpty()) {
             return null
         }
 
@@ -80,7 +79,7 @@ object TwitterUtils {
         val preferences = context.getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE)
         val token = preferences.getString(TOKEN, null)
         val tokenSecret = preferences.getString(TOKEN_SECRET, null)
-        return if (!TextUtils.isEmpty(token) && !TextUtils.isEmpty(tokenSecret)) {
+        return if (!token.isNullOrEmpty() && !tokenSecret.isNullOrEmpty()) {
             AccessToken(token!!, tokenSecret!!)
         } else {
             null

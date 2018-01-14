@@ -7,7 +7,6 @@ import android.os.Bundle
 import android.preference.*
 import android.provider.Settings
 import android.text.InputType
-import android.text.TextUtils
 import com.wa2c.android.medoly.plugin.action.tweet.R
 import com.wa2c.android.medoly.plugin.action.tweet.dialog.AboutDialogFragment
 import java.util.*
@@ -87,7 +86,7 @@ class SettingsFragment : PreferenceFragment() {
     private fun initSummary(p: Preference) {
         // get summary length
         val summary = p.summary
-        if (!TextUtils.isEmpty(summary)) {
+        if (!summary.isNullOrEmpty()) {
             if (summary.toString().lastIndexOf("\n") != 0) p.summary = summary.toString() + "\n" // add break
             summaryLengthMap.put(p, p.summary.length)
         } else {
@@ -119,8 +118,10 @@ class SettingsFragment : PreferenceFragment() {
     private fun updatePrefSummary(p: Preference) {
         val key = p.key
         var summary = p.summary
-        if (TextUtils.isEmpty(key)) return
-        if (TextUtils.isEmpty(summary)) summary = ""
+        if (key.isNullOrEmpty())
+            return
+        if (summary.isNullOrEmpty())
+            summary = ""
 
         val labelSize = summaryLengthMap[p] ?: 0
 

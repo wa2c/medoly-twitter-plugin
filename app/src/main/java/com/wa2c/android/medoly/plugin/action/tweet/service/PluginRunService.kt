@@ -11,7 +11,7 @@ import com.wa2c.android.medoly.plugin.action.tweet.util.AppUtils
 import com.wa2c.android.medoly.plugin.action.tweet.util.Logger
 
 /**
- * Plugin run service
+ * Run plugin service.
  */
 class PluginRunService : AbstractPluginService(PluginRunService::class.java.simpleName) {
 
