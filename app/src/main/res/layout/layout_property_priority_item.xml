@@ -1,25 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?><!--
-<CheckedTextView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@android:id/text1"
-    android:layout_width="match_parent"
-    android:layout_height="48dp"
-    android:textAppearance="?android:attr/textAppearance"
-    android:gravity="center_vertical"
-    android:checkMark="@drawable/sort_check_box"
-    android:paddingLeft="6dip"
-    android:paddingRight="6dip"
-/>
-
-<CheckedTextView xmlns:android="http://schemas.android.com/apk/res/android"
-android:id="@android:id/text1"
-android:layout_width="match_parent"
-android:layout_height="48dp"
-android:gravity="center_vertical"
-android:paddingLeft="6dip"
-android:paddingRight="6dip"
-    />
--->
-
+<?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"

@@ -72,6 +72,19 @@
     <string name="pref_summary_about">About</string>
 
 
+
+    <!-- About Dialog -->
+    <string name="label_dialog_about_ver">Ver. %1$s</string>
+    <string name="label_dialog_about_developer">Developer</string>
+    <string name="label_dialog_about_email">Email</string>
+    <string name="label_dialog_about_license">License</string>
+    <string name="label_dialog_about_privacy_policy">Privacy Policy</string>
+    <string name="label_dialog_about_google_play">Google Play</string>
+    <string name="label_dialog_about_link">Link</string>
+    <string name="label_dialog_about_library">[Library]</string>
+
+
+
     <!-- System -->
     <string name="error_app">The operation failed due to an error.</string>
     <string name="error_dialog_dismissed">Open the dialog again.</string>

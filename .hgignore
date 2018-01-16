@@ -33,6 +33,7 @@ proguard/
 
 # App
 Token.java
+Token.kt
 syntax: glob
 *.iml
 .idea/libraries

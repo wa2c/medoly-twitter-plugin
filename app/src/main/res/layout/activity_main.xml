@@ -14,7 +14,7 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:orientation="vertical">
 
             <Button
@@ -50,15 +50,6 @@
                 android:text="@string/label_button_launch_medoly" />
 
             <TextView
-                android:id="@+id/noMedolyTextView"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:text="@string/message_no_medoly"
-                android:textAppearance="?android:attr/textAppearanceMedium"
-                android:layout_margin="@dimen/main_button_margin" />
-
-            <TextView
                 android:id="@+id/twitterAuthTextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -70,11 +61,6 @@
         </LinearLayout>
     </ScrollView>
 
-    <LinearLayout
-        android:orientation="vertical"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_gravity="right|top"></LinearLayout>
 </FrameLayout>
 
 
