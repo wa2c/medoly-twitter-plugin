@@ -2,20 +2,19 @@ package com.wa2c.android.medoly.plugin.action.tweet.dialog
 
 import android.app.AlertDialog
 import android.app.Dialog
+import android.content.Context
 import android.content.DialogInterface
 import android.os.Bundle
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
-import android.widget.CheckBox
-import android.widget.ImageView
-import android.widget.TextView
 import com.mobeta.android.dslv.DragSortController
 import com.mobeta.android.dslv.DragSortListView
 import com.wa2c.android.medoly.plugin.action.tweet.R
 import com.wa2c.android.medoly.plugin.action.tweet.activity.PropertyItem
 import com.wa2c.android.medoly.plugin.action.tweet.util.AppUtils
 import kotlinx.android.synthetic.main.dialog_property_priority.view.*
+import kotlinx.android.synthetic.main.layout_property_priority_item.view.*
 import java.util.*
 
 
@@ -45,33 +44,34 @@ class PropertyPriorityDialogFragment : AbstractDialogFragment() {
             }
 
             override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
-                var view = convertView
+                var itemView = convertView
                 val holder: ListItemViewHolder
-
-                if (view == null) {
-                    view = View.inflate(context, R.layout.layout_property_priority_item, null)
-                    holder = ListItemViewHolder()
-                    holder.titleTextView = view.findViewById(R.id.propertyItemTitle) as TextView
-                    holder.dragImageView = view.findViewById(R.id.propertyItemImageView) as ImageView
-                    holder.shortenCheckBox = view.findViewById(R.id.propertyItemCheckBox) as CheckBox
-                    view.tag = holder
+                if (itemView == null) {
+                    holder =ListItemViewHolder(parent.context)
+                    itemView = holder.itemView
                 } else {
-                    holder = view.tag as ListItemViewHolder
+                    holder = itemView.tag as ListItemViewHolder
                 }
 
                 val item = getItem(position)
-                holder.shortenCheckBox!!.setOnCheckedChangeListener { _, isChecked -> item.shorten = isChecked }
-                holder.shortenCheckBox!!.isChecked = item.shorten
-                holder.titleTextView!!.text = item.propertyName
-
-                return view!!
+                holder.bind(item)
+                return itemView
             }
 
-            /** リスト項目のビュー情報を保持するHolder。  */
-            internal inner class ListItemViewHolder {
-                var titleTextView: TextView? = null
-                var dragImageView: ImageView? = null
-                var shortenCheckBox: CheckBox? = null
+            /** List item view holder  */
+            private inner class ListItemViewHolder(val context: Context) {
+                val itemView = View.inflate(context, R.layout.layout_property_priority_item, null)!!
+                init {
+                    itemView.tag = this
+                }
+
+                fun bind(item: PropertyItem) {
+                    itemView.propertyItemTitle.text = item.propertyName
+                    itemView.propertyItemCheckBox.setOnCheckedChangeListener({ _, isChecked ->
+                        item.shorten = isChecked
+                    })
+                    itemView.propertyItemCheckBox.isChecked = item.shorten
+                }
             }
         }
 

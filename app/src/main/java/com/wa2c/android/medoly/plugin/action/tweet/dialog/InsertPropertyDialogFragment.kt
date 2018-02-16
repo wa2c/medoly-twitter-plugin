@@ -83,7 +83,7 @@ class InsertPropertyDialogFragment : AbstractDialogFragment() {
         }
 
         /** リスト項目のビュー情報を保持するHolder。  */
-        internal inner class ListItemViewHolder {
+        private inner class ListItemViewHolder {
             var titleTextView: TextView? = null
         }
 
