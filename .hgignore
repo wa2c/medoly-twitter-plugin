@@ -40,3 +40,4 @@ syntax: glob
 .idea/misc.xml
 .idea\modules.xml
 captures/
+.idea/caches/

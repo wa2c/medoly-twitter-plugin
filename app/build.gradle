@@ -4,7 +4,7 @@ apply plugin: 'kotlin-android-extensions'
 
 android {
     compileSdkVersion 26
-    buildToolsVersion '26.0.2'
+    buildToolsVersion '27.0.3'
 
     defaultConfig {
         applicationId "com.wa2c.android.medoly.plugin.action.tweet"
@@ -34,11 +34,11 @@ repositories {
 
 dependencies {
     // Medoly library
-    compile 'com.wa2c.android:medolylibrary:1.2.0'
+    implementation 'com.wa2c.android:medolylibrary:1.2.3'
     // https://mvnrepository.com/artifact/org.twitter4j/twitter4j-core
-    compile group: 'org.twitter4j', name: 'twitter4j-core', version: '4.0.6'
+    implementation group: 'org.twitter4j', name: 'twitter4j-core', version: '4.0.6'
     // https://github.com/twitter/twitter-text/tree/master/java
-    compile group: 'com.twitter.twittertext', name: 'twitter-text', version: '2.0.8'
+    implementation group: 'com.twitter.twittertext', name: 'twitter-text', version: '2.0.8'
     // https://mvnrepository.com/artifact/asia.ivity.android/drag-sort-listview
-    compile group: 'asia.ivity.android', name: 'drag-sort-listview', version: '1.0'
+    implementation group: 'asia.ivity.android', name: 'drag-sort-listview', version: '1.0'
 }
