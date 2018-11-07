@@ -8,7 +8,7 @@ import com.wa2c.android.medoly.plugin.action.tweet.R
 import com.wa2c.android.medoly.plugin.action.tweet.dialog.ConfirmDialogFragment
 import com.wa2c.android.medoly.plugin.action.tweet.dialog.InsertPropertyDialogFragment
 import com.wa2c.android.medoly.plugin.action.tweet.dialog.PropertyPriorityDialogFragment
-import com.wa2c.android.medoly.plugin.action.tweet.util.Prefs
+import com.wa2c.android.prefs.Prefs
 import kotlinx.android.synthetic.main.activity_edit.*
 
 
@@ -29,7 +29,7 @@ class EditActivity : Activity() {
 
         // Insert album art button
         insertAlbumArtCheckBox.setOnCheckedChangeListener { _, isChecked ->
-            prefs.putValue(R.string.prefkey_content_album_art, isChecked)
+            prefs.putBoolean(R.string.prefkey_content_album_art, isChecked)
         }
 
         // Insert button
@@ -81,7 +81,7 @@ class EditActivity : Activity() {
     public override fun onStop() {
         super.onStop()
 
-        prefs.putValue(R.string.prefkey_content_format, contentEditText.text)
+        prefs.putString(R.string.prefkey_content_format, contentEditText.text)
     }
 
     /**

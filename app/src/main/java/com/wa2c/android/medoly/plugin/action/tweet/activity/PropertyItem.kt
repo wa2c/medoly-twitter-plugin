@@ -3,7 +3,7 @@ package com.wa2c.android.medoly.plugin.action.tweet.activity
 import android.content.Context
 import com.wa2c.android.medoly.library.*
 import com.wa2c.android.medoly.plugin.action.tweet.R
-import com.wa2c.android.medoly.plugin.action.tweet.util.Prefs
+import com.wa2c.android.prefs.Prefs
 import java.util.*
 
 
@@ -24,7 +24,7 @@ class PropertyItem {
 
 
         /** 設定保存キー。  */
-        private val PREFKEY_PROPERTY_PRIORITY = "property_priority"
+        private const val PREFKEY_PROPERTY_PRIORITY = "property_priority"
 
         /**
          * 標準プロパティ優先度を取得する。
@@ -82,16 +82,16 @@ class PropertyItem {
             val itemList = getDefaultPropertyPriority(context)
             val itemMap = LinkedHashMap<String?, PropertyItem>()
             for (item in itemList) {
-                itemMap.put(item.propertyKey, item)
+                itemMap[item.propertyKey] = item
             }
 
             var outputItemList = ArrayList<PropertyItem>()
             try {
                 val prefs = Prefs(context)
-                val text = prefs.getString(PREFKEY_PROPERTY_PRIORITY)!!
-                val lines = text.split("\n".toRegex()).dropLastWhile({ it.isEmpty() }).toTypedArray()
+                val text = prefs.getString(PREFKEY_PROPERTY_PRIORITY)
+                val lines = text.split("\n".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()
                 for (line in lines) {
-                    val items = line.split(",".toRegex()).dropLastWhile({ it.isEmpty() }).toTypedArray()
+                    val items = line.split(",".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()
                     if (items.size < 2)
                         continue
 
@@ -121,7 +121,7 @@ class PropertyItem {
             for (item in itemList) {
                 builder.append(item.propertyKey).append(",").append(item.shorten).append("\n")
             }
-            prefs.putValue(PREFKEY_PROPERTY_PRIORITY, builder.toString())
+            prefs.putString(PREFKEY_PROPERTY_PRIORITY, builder.toString())
         }
 
         /** 省略可のプロパティセット。  */

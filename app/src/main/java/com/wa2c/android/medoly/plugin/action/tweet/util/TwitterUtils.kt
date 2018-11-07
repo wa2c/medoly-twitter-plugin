@@ -80,7 +80,7 @@ object TwitterUtils {
         val token = preferences.getString(TOKEN, null)
         val tokenSecret = preferences.getString(TOKEN_SECRET, null)
         return if (!token.isNullOrEmpty() && !tokenSecret.isNullOrEmpty()) {
-            AccessToken(token!!, tokenSecret!!)
+            AccessToken(token, tokenSecret)
         } else {
             null
         }
@@ -111,7 +111,7 @@ object TwitterUtils {
      * Get the text does not exceeded the limit length on Twitter.
      */
     fun trimWeightedText(propertyText: String?, remainWeight: Int, omitNewLine : Boolean): String {
-        if (propertyText.isNullOrEmpty() || propertyText!!.length < "...".length) {
+        if (propertyText.isNullOrEmpty() || propertyText.length < "...".length) {
             return ""
         }
 

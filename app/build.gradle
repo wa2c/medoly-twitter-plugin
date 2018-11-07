@@ -4,7 +4,7 @@ apply plugin: 'kotlin-android-extensions'
 
 android {
     compileSdkVersion 26
-    buildToolsVersion '27.0.3'
+    //buildToolsVersion '28.0.3'
 
     defaultConfig {
         applicationId "com.wa2c.android.medoly.plugin.action.tweet"
@@ -28,15 +28,19 @@ android {
 }
 
 repositories {
-    maven { url 'https://api.bitbucket.org/1.0/repositories/wa2c/medoly-library/raw/master/repository/' }
     mavenCentral()
+    maven { url 'https://github.com/wa2c/medoly-library/raw/master/repository/' }
+    maven { url 'https://github.com/wa2c/prefs/raw/master/repository/' }
 }
 
 dependencies {
     // Medoly library
-    implementation 'com.wa2c.android:medolylibrary:1.2.3'
+    implementation 'com.wa2c.android:medolylibrary:1.2.4'
+    // Prefs
+    implementation 'com.wa2c.android:prefs:0.1.0'
+
     // https://mvnrepository.com/artifact/org.twitter4j/twitter4j-core
-    implementation group: 'org.twitter4j', name: 'twitter4j-core', version: '4.0.6'
+    implementation group: 'org.twitter4j', name: 'twitter4j-core', version: '4.0.7'
     // https://github.com/twitter/twitter-text/tree/master/java
     implementation group: 'com.twitter.twittertext', name: 'twitter-text', version: '2.0.8'
     // https://mvnrepository.com/artifact/asia.ivity.android/drag-sort-listview

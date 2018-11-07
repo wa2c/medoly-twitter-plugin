@@ -14,8 +14,8 @@ import com.wa2c.android.medoly.library.PropertyData
 import com.wa2c.android.medoly.plugin.action.tweet.R
 import com.wa2c.android.medoly.plugin.action.tweet.activity.PropertyItem
 import com.wa2c.android.medoly.plugin.action.tweet.util.Logger
-import com.wa2c.android.medoly.plugin.action.tweet.util.Prefs
 import com.wa2c.android.medoly.plugin.action.tweet.util.TwitterUtils
+import com.wa2c.android.prefs.Prefs
 import java.util.*
 import java.util.regex.Pattern
 
@@ -56,7 +56,7 @@ abstract class AbstractPluginService(name: String) : IntentService(name) {
      */
     protected val tweetMessage: String
         get() {
-            val format = prefs.getString(R.string.prefkey_content_format, defRes = R.string.format_content_default)!!
+            val format = prefs.getString(R.string.prefkey_content_format, defRes = R.string.format_content_default)
             val TRIM_EXP = if (prefs.getBoolean(R.string.prefkey_trim_before_empty_enabled, true)) "\\w*" else ""
             val priorityList = PropertyItem.loadPropertyPriority(context)
             val containsMap = LinkedHashSet<PropertyItem>()

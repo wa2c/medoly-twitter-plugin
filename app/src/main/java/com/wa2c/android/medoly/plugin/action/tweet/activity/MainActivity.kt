@@ -12,8 +12,8 @@ import com.wa2c.android.medoly.library.MedolyEnvironment
 import com.wa2c.android.medoly.plugin.action.tweet.R
 import com.wa2c.android.medoly.plugin.action.tweet.util.AppUtils
 import com.wa2c.android.medoly.plugin.action.tweet.util.Logger
-import com.wa2c.android.medoly.plugin.action.tweet.util.Prefs
 import com.wa2c.android.medoly.plugin.action.tweet.util.TwitterUtils
+import com.wa2c.android.prefs.Prefs
 import kotlinx.android.synthetic.main.activity_main.*
 import twitter4j.Twitter
 import twitter4j.TwitterException

@@ -88,7 +88,7 @@ class PluginRunService : AbstractPluginService(PluginRunService::class.java.simp
      */
     private fun openTwitter() {
         // Twitter.com
-        val launchIntent = Intent(Intent.ACTION_VIEW, Uri.parse(context!!.getString(R.string.twitter_uri)))
+        val launchIntent = Intent(Intent.ACTION_VIEW, Uri.parse(context.getString(R.string.twitter_uri)))
         try {
             launchIntent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
             context.startActivity(launchIntent)

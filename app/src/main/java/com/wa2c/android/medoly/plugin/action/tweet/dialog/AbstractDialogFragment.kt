@@ -7,7 +7,7 @@ import android.app.Fragment
 import android.content.DialogInterface
 import android.content.res.Configuration
 import android.os.Bundle
-import com.wa2c.android.medoly.plugin.action.tweet.util.Prefs
+import com.wa2c.android.prefs.Prefs
 import java.util.*
 
 /**

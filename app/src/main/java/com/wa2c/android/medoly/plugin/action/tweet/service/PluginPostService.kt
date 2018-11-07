@@ -50,7 +50,7 @@ class PluginPostService : AbstractPluginService(PluginPostService::class.java.si
 
             // Get message
             val message = tweetMessage
-            if (message.isNullOrEmpty()) {
+            if (message.isEmpty()) {
                 result = CommandResult.IGNORE
                 return
             }
@@ -85,7 +85,7 @@ class PluginPostService : AbstractPluginService(PluginPostService::class.java.si
             result = CommandResult.FAILED
         } finally {
             // save previous media
-            prefs.putValue(PREFKEY_PREVIOUS_MEDIA_URI, propertyData.mediaUri.toString())
+            prefs.putString(PREFKEY_PREVIOUS_MEDIA_URI, propertyData.mediaUri.toString())
 
             if (inputStream != null)
                 try {

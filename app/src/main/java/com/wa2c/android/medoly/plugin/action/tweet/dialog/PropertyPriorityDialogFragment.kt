@@ -59,7 +59,7 @@ class PropertyPriorityDialogFragment : AbstractDialogFragment() {
             }
 
             /** List item view holder  */
-            private inner class ListItemViewHolder(val context: Context) {
+            private inner class ListItemViewHolder(context: Context) {
                 val itemView = View.inflate(context, R.layout.layout_property_priority_item, null)!!
                 init {
                     itemView.tag = this
@@ -67,9 +67,9 @@ class PropertyPriorityDialogFragment : AbstractDialogFragment() {
 
                 fun bind(item: PropertyItem) {
                     itemView.propertyItemTitle.text = item.propertyName
-                    itemView.propertyItemCheckBox.setOnCheckedChangeListener({ _, isChecked ->
+                    itemView.propertyItemCheckBox.setOnCheckedChangeListener { _, isChecked ->
                         item.shorten = isChecked
-                    })
+                    }
                     itemView.propertyItemCheckBox.isChecked = item.shorten
                 }
             }
