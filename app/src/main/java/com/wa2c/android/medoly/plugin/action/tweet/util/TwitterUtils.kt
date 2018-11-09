@@ -2,14 +2,14 @@ package com.wa2c.android.medoly.plugin.action.tweet.util
 
 import android.content.Context
 import com.twitter.twittertext.TwitterTextParser
-
 import com.wa2c.android.medoly.plugin.action.tweet.Token
 import com.wa2c.android.medoly.plugin.action.tweet.activity.PropertyItem
-
+import timber.log.Timber
 import twitter4j.Twitter
 import twitter4j.TwitterFactory
 import twitter4j.auth.AccessToken
 import java.util.regex.Pattern
+
 
 object TwitterUtils {
 
@@ -31,7 +31,7 @@ object TwitterUtils {
             t1 = Token.getConsumerKey(context)
             t2 = Token.getConsumerSecret(context)
         } catch (e: Exception) {
-            Logger.e(e)
+            Timber.e(e)
             AppUtils.showToast(context, "There is no Token class.")
             return null
         }

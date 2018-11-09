@@ -25,6 +25,16 @@ android {
         }
     }
 
+    gradle.projectsEvaluated {
+        tasks.withType(JavaCompile) {
+            options.compilerArgs << "-Xlint:deprecation"
+        }
+    }
+
+    packagingOptions {
+        exclude 'META-INF/LICENSE'
+    }
+
 }
 
 repositories {
@@ -39,10 +49,26 @@ dependencies {
     // Prefs
     implementation 'com.wa2c.android:prefs:0.1.0'
 
+    // https://mvnrepository.com/artifact/com.jakewharton.timber/timber
+    implementation group: 'com.jakewharton.timber', name: 'timber', version: '4.7.1'
     // https://mvnrepository.com/artifact/org.twitter4j/twitter4j-core
     implementation group: 'org.twitter4j', name: 'twitter4j-core', version: '4.0.7'
     // https://github.com/twitter/twitter-text/tree/master/java
     implementation group: 'com.twitter.twittertext', name: 'twitter-text', version: '2.0.8'
     // https://mvnrepository.com/artifact/asia.ivity.android/drag-sort-listview
-    implementation group: 'asia.ivity.android', name: 'drag-sort-listview', version: '1.0'
+    implementation (group: 'asia.ivity.android', name: 'drag-sort-listview', version: '1.0') {
+        exclude module: 'support-v4'
+    }
+
+    // Kotlin
+    // https://mvnrepository.com/artifact/org.jetbrains.kotlinx/kotlinx-coroutines-core
+    implementation group: 'org.jetbrains.kotlinx', name: 'kotlinx-coroutines-core', version: '1.0.1'
+    // https://mvnrepository.com/artifact/org.jetbrains.kotlinx/kotlinx-coroutines-android
+    implementation group: 'org.jetbrains.kotlinx', name: 'kotlinx-coroutines-android', version: '1.0.1'
+}
+
+kotlin {
+    experimental {
+        coroutines "enable"
+    }
 }

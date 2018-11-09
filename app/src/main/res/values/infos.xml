@@ -18,7 +18,7 @@
     <string name="label_header_separator">:</string>
 
     <string name="twitter_callback_url">medoly://plugin_twitter</string>
-    <string name="twitter_uri">http://twitter.com/</string>
+    <string name="twitter_uri">https://twitter.com/</string>
 
     <!-- Library  -->
     <string-array name="about_library_names">

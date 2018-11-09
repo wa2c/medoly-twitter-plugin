@@ -13,9 +13,9 @@ import com.wa2c.android.medoly.library.MediaPluginIntent
 import com.wa2c.android.medoly.library.PropertyData
 import com.wa2c.android.medoly.plugin.action.tweet.R
 import com.wa2c.android.medoly.plugin.action.tweet.activity.PropertyItem
-import com.wa2c.android.medoly.plugin.action.tweet.util.Logger
 import com.wa2c.android.medoly.plugin.action.tweet.util.TwitterUtils
 import com.wa2c.android.prefs.Prefs
+import timber.log.Timber
 import java.util.*
 import java.util.regex.Pattern
 
@@ -102,7 +102,7 @@ abstract class AbstractPluginService(name: String) : IntentService(name) {
 
     @SuppressLint("NewApi")
     override fun onHandleIntent(intent: Intent?) {
-        Logger.d("onHandleIntent")
+        Timber.d("onHandleIntent")
 
         var notificationManager : NotificationManager? = null
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
@@ -126,7 +126,7 @@ abstract class AbstractPluginService(name: String) : IntentService(name) {
             propertyData = pluginIntent.propertyData ?: PropertyData()
             receivedClassName = pluginIntent.getStringExtra(RECEIVED_CLASS_NAME)
         } catch (e: Exception) {
-            Logger.e(e)
+            Timber.e(e)
         } finally {
             if (notificationManager != null) {
                 notificationManager.deleteNotificationChannel(NOTIFICATION_CHANNEL_ID)
@@ -138,7 +138,7 @@ abstract class AbstractPluginService(name: String) : IntentService(name) {
 
     override fun onDestroy() {
         super.onDestroy()
-        Logger.d("onDestroy: " + this.javaClass.simpleName)
+        Timber.d("onDestroy: " + this.javaClass.simpleName)
     }
 
 }

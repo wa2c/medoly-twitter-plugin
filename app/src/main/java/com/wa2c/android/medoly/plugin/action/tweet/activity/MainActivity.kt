@@ -5,19 +5,21 @@ import android.app.Activity
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.net.Uri
-import android.os.AsyncTask
 import android.os.Build
 import android.os.Bundle
 import com.wa2c.android.medoly.library.MedolyEnvironment
 import com.wa2c.android.medoly.plugin.action.tweet.R
 import com.wa2c.android.medoly.plugin.action.tweet.util.AppUtils
-import com.wa2c.android.medoly.plugin.action.tweet.util.Logger
 import com.wa2c.android.medoly.plugin.action.tweet.util.TwitterUtils
 import com.wa2c.android.prefs.Prefs
 import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.async
+import kotlinx.coroutines.launch
+import timber.log.Timber
 import twitter4j.Twitter
 import twitter4j.TwitterException
-import twitter4j.auth.AccessToken
 import twitter4j.auth.RequestToken
 
 
@@ -139,31 +141,26 @@ class MainActivity : Activity() {
      * Start OAuth.
      */
     private fun startAuthorize() {
-        val task = object : AsyncTask<Void, Void, String>() {
-            override fun doInBackground(vararg params: Void): String? {
+        GlobalScope.launch(Dispatchers.Main) {
+            val url = async(Dispatchers.Default) {
                 try {
-                    // 新規登録
-                    twitter!!.oAuthAccessToken = null // リセット
-                    requestToken = twitter!!.getOAuthRequestToken(callbackURL)
-                    return requestToken!!.authorizationURL
+                    val t = twitter ?: return@async null
+                    t.oAuthAccessToken = null // リセット
+                    requestToken = t.getOAuthRequestToken(callbackURL)
+                    return@async t.getOAuthRequestToken(callbackURL)?.authorizationURL
                 } catch (e: Exception) {
-                    Logger.e(e)
+                    Timber.e(e)
+                    return@async null
                 }
+            }.await()
 
-                return null
-            }
-
-            override fun onPostExecute(url: String?) {
-                if (url != null) {
-                    val intent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
-                    startActivity(intent)
-                } else {
-                    AppUtils.showToast(this@MainActivity, R.string.message_auth_failure)
-                }
+            if (url != null) {
+                val intent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
+                startActivity(intent)
+            } else {
+                AppUtils.showToast(this@MainActivity, R.string.message_auth_failure)
             }
         }
-        task.execute()
-
     }
 
     /**
@@ -178,34 +175,28 @@ class MainActivity : Activity() {
         // 認証結果取得
         val verifier = intent.data.getQueryParameter("oauth_verifier")
 
-        val task = object : AsyncTask<String, Void, AccessToken>() {
-            override fun doInBackground(vararg params: String): AccessToken? {
-                if (params != null && params.size > 0 && !params[0].isNullOrEmpty()) {
-                    try {
-                        return twitter!!.getOAuthAccessToken(requestToken, params[0])
-                    } catch (e: TwitterException) {
-                        e.printStackTrace()
-                    }
-
+        GlobalScope.launch(Dispatchers.Main) {
+            val token = async(Dispatchers.Default) {
+                return@async try {
+                    twitter?.getOAuthAccessToken(requestToken, verifier)
+                } catch (e: TwitterException) {
+                    Timber.e(e)
+                    null
                 }
-                return null
-            }
+            }.await()
 
-            override fun onPostExecute(accessToken: AccessToken?) {
-                if (accessToken != null) {
-                    // 認証成功
-                    AppUtils.showToast(this@MainActivity, R.string.message_auth_success)
-                    // 認証情報を保存
-                    TwitterUtils.storeAccessToken(this@MainActivity, accessToken)
-                } else {
-                    // 認証失敗
-                    AppUtils.showToast(this@MainActivity, R.string.message_auth_failure)
-                    TwitterUtils.storeAccessToken(this@MainActivity, null)
-                }
-                updateAuthMessage()
+            if (token != null) {
+                // 認証成功
+                AppUtils.showToast(this@MainActivity, R.string.message_auth_success)
+                // 認証情報を保存
+                TwitterUtils.storeAccessToken(this@MainActivity, token)
+            } else {
+                // 認証失敗
+                AppUtils.showToast(this@MainActivity, R.string.message_auth_failure)
+                TwitterUtils.storeAccessToken(this@MainActivity, null)
             }
+            updateAuthMessage()
         }
-        task.execute(verifier)
     }
 
 
