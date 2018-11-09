@@ -8,7 +8,7 @@ import android.net.Uri
 import com.wa2c.android.medoly.library.AlbumArtProperty
 import com.wa2c.android.medoly.plugin.action.tweet.R
 import com.wa2c.android.medoly.plugin.action.tweet.util.AppUtils
-import com.wa2c.android.medoly.plugin.action.tweet.util.Logger
+import timber.log.Timber
 
 /**
  * Run plugin service.
@@ -25,7 +25,7 @@ class PluginRunService : AbstractPluginService(PluginRunService::class.java.simp
                 openTwitter()
             }
         } catch (e: Exception) {
-            Logger.e(e)
+            Timber.e(e)
         }
 
     }
@@ -72,7 +72,7 @@ class PluginRunService : AbstractPluginService(PluginRunService::class.java.simp
             context.startActivity(twitterIntent)
             result = CommandResult.SUCCEEDED
         } catch (e: Exception) {
-            Logger.e(e)
+            Timber.e(e)
             result = CommandResult.FAILED
         } finally {
             if (result == CommandResult.NO_MEDIA) {
@@ -93,7 +93,7 @@ class PluginRunService : AbstractPluginService(PluginRunService::class.java.simp
             launchIntent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
             context.startActivity(launchIntent)
         } catch (e: android.content.ActivityNotFoundException) {
-            Logger.d(e)
+            Timber.d(e)
         }
 
     }

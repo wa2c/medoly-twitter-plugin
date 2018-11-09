@@ -6,8 +6,8 @@ import android.net.Uri
 import com.wa2c.android.medoly.library.PluginOperationCategory
 import com.wa2c.android.medoly.plugin.action.tweet.R
 import com.wa2c.android.medoly.plugin.action.tweet.util.AppUtils
-import com.wa2c.android.medoly.plugin.action.tweet.util.Logger
 import com.wa2c.android.medoly.plugin.action.tweet.util.TwitterUtils
+import timber.log.Timber
 import twitter4j.StatusUpdate
 import twitter4j.Twitter
 import java.io.FileInputStream
@@ -31,7 +31,7 @@ class PluginPostService : AbstractPluginService(PluginPostService::class.java.si
                 tweet()
             }
         } catch (e: Exception) {
-            Logger.e(e)
+            Timber.e(e)
         }
     }
 
@@ -81,7 +81,7 @@ class PluginPostService : AbstractPluginService(PluginPostService::class.java.si
             }
             result = CommandResult.SUCCEEDED
         } catch (e: Exception) {
-            Logger.e(e)
+            Timber.e(e)
             result = CommandResult.FAILED
         } finally {
             // save previous media
