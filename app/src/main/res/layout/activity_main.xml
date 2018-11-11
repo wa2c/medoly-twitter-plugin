@@ -23,6 +23,8 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
                 android:layout_margin="@dimen/main_button_margin"
+                android:drawableStart="@drawable/ic_account"
+                android:drawableLeft="@drawable/ic_account"
                 android:text="@string/label_button_account_auth" />
 
             <Button
@@ -31,6 +33,8 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
                 android:layout_margin="@dimen/main_button_margin"
+                android:drawableStart="@drawable/ic_edit"
+                android:drawableLeft="@drawable/ic_edit"
                 android:text="@string/label_button_edit" />
 
             <Button
@@ -39,6 +43,8 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_margin="@dimen/main_button_margin"
+                android:drawableStart="@drawable/ic_settings"
+                android:drawableLeft="@drawable/ic_settings"
                 android:text="@string/label_button_settings" />
 
             <Button
@@ -47,6 +53,8 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_margin="@dimen/main_button_margin"
+                android:drawableStart="@drawable/ic_medoly"
+                android:drawableLeft="@drawable/ic_medoly"
                 android:text="@string/label_button_launch_medoly" />
 
             <TextView

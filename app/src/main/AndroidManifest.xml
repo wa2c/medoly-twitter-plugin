@@ -17,6 +17,7 @@
             android:launchMode="singleTask">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+                <action android:name="android.intent.action.VIEW" />
                 <category android:name="android.intent.category.DEFAULT" />
                 <!-- <category android:name="android.intent.category.LAUNCHER" /> -->
             </intent-filter>
@@ -54,7 +55,7 @@
         <receiver
             android:name=".service.PluginReceivers$EventPostTweetReceiver"
             android:exported="true"
-            android:icon="@drawable/ic_action_tweet"
+            android:icon="@drawable/ic_post"
             android:label="@string/label_event_tweet">
 
             <!-- Tweet -->
@@ -75,7 +76,7 @@
         <receiver
             android:name=".service.PluginReceivers$ExecutePostTweetReceiver"
             android:exported="true"
-            android:icon="@drawable/ic_action_tweet"
+            android:icon="@drawable/ic_post"
             android:label="@string/label_execute_tweet">
             <intent-filter>
                 <action android:name="com.wa2c.android.medoly.plugin.action.ACTION_MEDIA" />
@@ -89,7 +90,7 @@
         <receiver
             android:name=".service.PluginReceivers$ExecuteOpenTwitterReceiver"
             android:exported="true"
-            android:icon="@drawable/ic_action_twitter"
+            android:icon="@drawable/ic_twitter"
             android:label="@string/label_execute_site">
             <intent-filter>
                 <action android:name="com.wa2c.android.medoly.plugin.action.ACTION_MEDIA" />

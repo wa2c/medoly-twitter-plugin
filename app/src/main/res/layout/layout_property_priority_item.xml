@@ -11,27 +11,27 @@
         android:layout_width="@dimen/list_item_size"
         android:layout_height="@dimen/list_item_size"
         android:contentDescription="@null"
-        android:src="@drawable/drag"
-        android:padding="4dp" />
+        android:padding="4dp"
+        android:src="@drawable/ic_drag" />
 
 
     <TextView
         android:id="@+id/propertyItemTitle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:focusable="false"
-        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:layout_toLeftOf="@+id/propertyItemCheckBox"
         android:layout_toRightOf="@+id/propertyItemImageView"
-        android:layout_toLeftOf="@+id/propertyItemCheckBox" />
+        android:focusable="false"
+        android:textAppearance="?android:attr/textAppearanceMedium" />
 
 
     <CheckBox
         android:id="@+id/propertyItemCheckBox"
         android:layout_width="@dimen/list_item_size"
         android:layout_height="@dimen/list_item_size"
-        android:layout_alignParentRight="true"
         android:layout_alignParentTop="true"
-        android:focusable="false"
+        android:layout_alignParentRight="true"
         android:checked="false"
-        android:elegantTextHeight="false" />
+        android:elegantTextHeight="false"
+        android:focusable="false" />
 </RelativeLayout>
