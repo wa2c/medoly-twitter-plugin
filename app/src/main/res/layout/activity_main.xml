@@ -1,75 +1,77 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/container"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical"
-    tools:context="com.wa2c.android.medoly.plugin.action.tweet.activity.MainActivity"
-    tools:ignore="MergeRootFrame">
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
 
-    <ScrollView
-        android:id="@+id/scrollView"
+    <FrameLayout
+        android:id="@+id/container"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        tools:context="com.wa2c.android.medoly.plugin.action.tweet.activity.MainActivity"
+        tools:ignore="MergeRootFrame">
 
-        <LinearLayout
+        <ScrollView
+            android:id="@+id/scrollView"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:layout_height="match_parent">
 
-            <Button
-                android:id="@+id/twitterOAuthButton"
-                android:layout_width="@dimen/main_button_width"
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:layout_margin="@dimen/main_button_margin"
-                android:drawableStart="@drawable/ic_account"
-                android:drawableLeft="@drawable/ic_account"
-                android:text="@string/label_button_account_auth" />
+                android:orientation="vertical">
 
-            <Button
-                android:id="@+id/editButton"
-                android:layout_width="@dimen/main_button_width"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:layout_margin="@dimen/main_button_margin"
-                android:drawableStart="@drawable/ic_edit"
-                android:drawableLeft="@drawable/ic_edit"
-                android:text="@string/label_button_edit" />
+                <Button
+                    android:id="@+id/twitterOAuthButton"
+                    android:layout_width="@dimen/main_button_width"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_margin="@dimen/main_button_margin"
+                    android:drawableStart="@drawable/ic_account"
+                    android:drawableLeft="@drawable/ic_account"
+                    android:text="@string/label_button_account_auth" />
 
-            <Button
-                android:id="@+id/settingsButton"
-                android:layout_width="@dimen/main_button_width"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_margin="@dimen/main_button_margin"
-                android:drawableStart="@drawable/ic_settings"
-                android:drawableLeft="@drawable/ic_settings"
-                android:text="@string/label_button_settings" />
+                <Button
+                    android:id="@+id/editButton"
+                    android:layout_width="@dimen/main_button_width"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_margin="@dimen/main_button_margin"
+                    android:drawableStart="@drawable/ic_edit"
+                    android:drawableLeft="@drawable/ic_edit"
+                    android:text="@string/label_button_edit" />
 
-            <Button
-                android:id="@+id/launchMedolyButton"
-                android:layout_width="@dimen/main_button_width"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_margin="@dimen/main_button_margin"
-                android:drawableStart="@drawable/ic_medoly"
-                android:drawableLeft="@drawable/ic_medoly"
-                android:text="@string/label_button_launch_medoly" />
+                <Button
+                    android:id="@+id/settingsButton"
+                    android:layout_width="@dimen/main_button_width"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_margin="@dimen/main_button_margin"
+                    android:drawableStart="@drawable/ic_settings"
+                    android:drawableLeft="@drawable/ic_settings"
+                    android:text="@string/label_button_settings" />
 
-            <TextView
-                android:id="@+id/twitterAuthTextView"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:text="@string/message_account_auth"
-                android:textAppearance="?android:attr/textAppearanceMedium"
-                android:layout_margin="@dimen/main_button_margin" />
+                <Button
+                    android:id="@+id/launchMedolyButton"
+                    android:layout_width="@dimen/main_button_width"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_margin="@dimen/main_button_margin"
+                    android:drawableStart="@drawable/ic_medoly"
+                    android:drawableLeft="@drawable/ic_medoly"
+                    android:text="@string/label_button_launch_medoly" />
 
-        </LinearLayout>
-    </ScrollView>
+                <TextView
+                    android:id="@+id/twitterAuthTextView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_margin="@dimen/main_button_margin"
+                    android:text="@string/message_account_auth"
+                    android:textAppearance="?android:attr/textAppearanceMedium" />
 
-</FrameLayout>
+            </LinearLayout>
+        </ScrollView>
 
+    </FrameLayout>
 
-
+</layout>

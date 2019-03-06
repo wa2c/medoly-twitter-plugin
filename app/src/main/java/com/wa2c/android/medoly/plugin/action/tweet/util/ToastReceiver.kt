@@ -3,7 +3,10 @@ package com.wa2c.android.medoly.plugin.action.tweet.util
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
+import android.support.v4.content.ContextCompat
 import android.widget.Toast
+import com.pranavpandey.android.dynamic.toasts.DynamicToast
+import com.wa2c.android.medoly.plugin.action.tweet.R
 import timber.log.Timber
 
 /**
@@ -12,7 +15,8 @@ import timber.log.Timber
 class ToastReceiver : BroadcastReceiver() {
 
     override fun onReceive(context: Context, intent: Intent) {
-        Toast.makeText(context, intent.getStringExtra(MESSAGE_TOAST), Toast.LENGTH_SHORT).show()
+        //Toast.makeText(context, intent.getStringExtra(MESSAGE_TOAST), Toast.LENGTH_SHORT).show()
+        DynamicToast.make(context, intent.getStringExtra(MESSAGE_TOAST), ContextCompat.getDrawable(context, R.drawable.ic_launcher)).show()
     }
 
     companion object {

@@ -55,14 +55,14 @@ class EditActivity : Activity() {
         // Priority
         priorityButton.setOnClickListener {
             val dialogFragment = PropertyPriorityDialogFragment.newInstance()
-            dialogFragment.clickListener = DialogInterface.OnClickListener { _, _ -> }
+            dialogFragment.clickListener = listener@{ _, _, _ -> }
             dialogFragment.show(this@EditActivity)
         }
 
         // Initialize
         initializeButton.setOnClickListener {
             val dialogFragment = ConfirmDialogFragment.newInstance(getString(R.string.message_confirm_initialize_format), getString(R.string.label_confirm))
-            dialogFragment.clickListener = DialogInterface.OnClickListener { _, which ->
+            dialogFragment.clickListener = listener@{ _, which, _ ->
                 if (which == DialogInterface.BUTTON_POSITIVE) {
                     contentEditText!!.setText(getString(R.string.format_content_default))
                     insertAlbumArtCheckBox!!.isChecked = true

@@ -10,7 +10,9 @@ import twitter4j.TwitterFactory
 import twitter4j.auth.AccessToken
 import java.util.regex.Pattern
 
-
+/**
+ * Twitter Utils
+ */
 object TwitterUtils {
 
     private const val TOKEN = "token"
@@ -18,25 +20,25 @@ object TwitterUtils {
     private const val PREF_NAME = "twitter_access_token"
 
     /**
-     * Twitterインスタンスを取得します。アクセストークンが保存されていれば自動的にセットします。
+     * Get a twitter instance. Auto setting the saved Access token.
      *
-     * @param context コンテキスト。
-     * @return Twitterインスタンス。
+     * @param context A context
+     * @return A twitter instance.
      */
     fun getTwitterInstance(context: Context): Twitter? {
         val t1: String?
         val t2: String?
 
         try {
-            t1 = Token.getConsumerKey(context)
-            t2 = Token.getConsumerSecret(context)
+            t1 = Token.getConsumerKey()
+            t2 = Token.getConsumerSecret()
         } catch (e: Exception) {
             Timber.e(e)
             AppUtils.showToast(context, "There is no Token class.")
             return null
         }
 
-        // キー未取得
+        // Get key
         if (t1.isNullOrEmpty() || t2.isNullOrEmpty()) {
             return null
         }
@@ -52,10 +54,10 @@ object TwitterUtils {
     }
 
     /**
-     * アクセストークンをプリファレンスに保存します。
+     * Save the access token.
      *
-     * @param context コンテキスト。
-     * @param accessToken アクセストークン。
+     * @param context A context
+     * @param accessToken The access token.
      */
     fun storeAccessToken(context: Context, accessToken: AccessToken?) {
         val preferences = context.getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE)
@@ -70,10 +72,10 @@ object TwitterUtils {
     }
 
     /**
-     * アクセストークンをプリファレンスから読み込みます。
+     * Load the access token.
      *
-     * @param context コンテキスト。
-     * @return アクセストークン。
+     * @param context A context.
+     * @return The access token.
      */
     fun loadAccessToken(context: Context): AccessToken? {
         val preferences = context.getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE)
@@ -87,9 +89,9 @@ object TwitterUtils {
     }
 
     /**
-     * アクセストークンが存在する場合はtrueを返します。
+     * Return true if an access token exists.
      *
-     * @return アクセストークンが存在する場合はtrue。
+     * @return True if an access token exists.
      */
     fun hasAccessToken(context: Context): Boolean {
         return loadAccessToken(context) != null

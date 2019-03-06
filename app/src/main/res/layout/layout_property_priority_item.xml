@@ -1,37 +1,41 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:focusable="false"
-    android:orientation="horizontal">
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
 
-
-    <ImageView
-        android:id="@+id/propertyItemImageView"
-        android:layout_width="@dimen/list_item_size"
-        android:layout_height="@dimen/list_item_size"
-        android:contentDescription="@null"
-        android:padding="4dp"
-        android:src="@drawable/ic_drag" />
-
-
-    <TextView
-        android:id="@+id/propertyItemTitle"
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_toLeftOf="@+id/propertyItemCheckBox"
-        android:layout_toRightOf="@+id/propertyItemImageView"
         android:focusable="false"
-        android:textAppearance="?android:attr/textAppearanceMedium" />
+        android:orientation="horizontal">
 
 
-    <CheckBox
-        android:id="@+id/propertyItemCheckBox"
-        android:layout_width="@dimen/list_item_size"
-        android:layout_height="@dimen/list_item_size"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentRight="true"
-        android:checked="false"
-        android:elegantTextHeight="false"
-        android:focusable="false" />
-</RelativeLayout>
+        <ImageView
+            android:id="@+id/propertyItemImageView"
+            android:layout_width="@dimen/list_item_size"
+            android:layout_height="@dimen/list_item_size"
+            android:contentDescription="@null"
+            android:padding="4dp"
+            android:src="@drawable/ic_drag" />
+
+
+        <TextView
+            android:id="@+id/propertyItemTitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_toLeftOf="@+id/propertyItemCheckBox"
+            android:layout_toRightOf="@+id/propertyItemImageView"
+            android:focusable="false"
+            android:textAppearance="?android:attr/textAppearanceMedium" />
+
+
+        <CheckBox
+            android:id="@+id/propertyItemCheckBox"
+            android:layout_width="@dimen/list_item_size"
+            android:layout_height="@dimen/list_item_size"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentRight="true"
+            android:checked="false"
+            android:elegantTextHeight="false"
+            android:focusable="false" />
+    </RelativeLayout>
+
+</layout>

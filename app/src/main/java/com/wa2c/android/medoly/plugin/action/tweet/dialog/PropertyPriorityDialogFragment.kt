@@ -8,6 +8,7 @@ import android.os.Bundle
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
+import android.widget.Button
 import com.mobeta.android.dslv.DragSortController
 import com.mobeta.android.dslv.DragSortListView
 import com.wa2c.android.medoly.plugin.action.tweet.R
@@ -93,35 +94,34 @@ class PropertyPriorityDialogFragment : AbstractDialogFragment() {
         })
 
         // Dialog build`
-        val listener = DialogInterface.OnClickListener { dialog, which -> onClickButton(dialog, which) }
         val builder = AlertDialog.Builder(activity)
         builder.setTitle(R.string.label_dialog_property_priority_title)
         builder.setView(content)
-        builder.setPositiveButton(android.R.string.ok, listener)
-        builder.setNegativeButton(R.string.label_default, listener)
-        builder.setNeutralButton(android.R.string.cancel, listener)
+        builder.setPositiveButton(android.R.string.ok, null)
+        builder.setNegativeButton(R.string.label_default, null)
+        builder.setNeutralButton(android.R.string.cancel, null)
 
         return builder.create()
     }
 
-    /**
-     * On click action.
-     * @param dialog A dialog.
-     * @param which A clicked button.
-     * @param close True if dialog closing.
-     */
-    override fun onClickButton(dialog: DialogInterface?, which: Int, close: Boolean) {
-        if (which == DialogInterface.BUTTON_POSITIVE) {
-            // OK
+
+
+    override fun setPositiveButton(dialog: AlertDialog, button: Button) {
+        button.setOnClickListener {
             PropertyItem.savePropertyPriority(activity, itemList)
-        } else if (which == DialogInterface.BUTTON_NEGATIVE) {
-            // Initialize
+            dialog.dismiss()
+        }
+    }
+
+    override fun setNegativeButton(dialog: AlertDialog, button: Button) {
+        button.setOnClickListener {
             PropertyItem.savePropertyPriority(activity, PropertyItem.getDefaultPropertyPriority(activity))
             AppUtils.showToast(activity, R.string.message_initialize_priority)
+            dialog.dismiss()
         }
-
-        super.onClickButton(dialog, which, close)
     }
+
+
 
     companion object {
         /**
