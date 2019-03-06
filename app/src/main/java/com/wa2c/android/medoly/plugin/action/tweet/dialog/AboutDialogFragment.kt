@@ -12,11 +12,9 @@ import android.text.util.Linkify
 import android.util.TypedValue
 import android.view.Gravity
 import android.view.LayoutInflater
-import android.view.View
 import android.widget.TextView
 import com.wa2c.android.medoly.plugin.action.tweet.R
 import com.wa2c.android.medoly.plugin.action.tweet.databinding.DialogAboutBinding
-import kotlinx.android.synthetic.main.dialog_about.view.*
 import timber.log.Timber
 import java.util.regex.Pattern
 

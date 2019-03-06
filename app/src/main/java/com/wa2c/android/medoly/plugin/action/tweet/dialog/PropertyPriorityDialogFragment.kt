@@ -3,7 +3,6 @@ package com.wa2c.android.medoly.plugin.action.tweet.dialog
 import android.app.AlertDialog
 import android.app.Dialog
 import android.content.Context
-import android.content.DialogInterface
 import android.os.Bundle
 import android.view.View
 import android.view.ViewGroup
