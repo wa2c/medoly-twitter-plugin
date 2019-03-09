@@ -8,6 +8,7 @@ import android.net.Uri
 import com.wa2c.android.medoly.library.AlbumArtProperty
 import com.wa2c.android.medoly.plugin.action.tweet.R
 import com.wa2c.android.medoly.plugin.action.tweet.util.AppUtils
+import com.wa2c.android.medoly.plugin.action.tweet.util.TwitterUtils
 import timber.log.Timber
 
 /**
@@ -37,7 +38,7 @@ class PluginRunService : AbstractPluginService(PluginRunService::class.java.simp
         var result: CommandResult = CommandResult.IGNORE
         try {
             // Get message
-            val message = tweetMessage
+            val message = TwitterUtils.getTweetMessage(context, propertyData)
             if (message.isEmpty()) {
                 result = CommandResult.IGNORE
                 return

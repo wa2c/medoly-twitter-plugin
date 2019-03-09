@@ -49,7 +49,7 @@ class PluginPostService : AbstractPluginService(PluginPostService::class.java.si
             }
 
             // Get message
-            val message = tweetMessage
+            val message = TwitterUtils.getTweetMessage(context, propertyData)
             if (message.isEmpty()) {
                 result = CommandResult.IGNORE
                 return

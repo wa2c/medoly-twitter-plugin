@@ -1,11 +1,8 @@
 package com.wa2c.android.medoly.plugin.action.tweet
 
-import android.content.Context
 import android.util.Base64
-
 import java.security.InvalidKeyException
 import java.security.NoSuchAlgorithmException
-
 import javax.crypto.BadPaddingException
 import javax.crypto.Cipher
 import javax.crypto.IllegalBlockSizeException

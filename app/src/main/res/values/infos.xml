@@ -46,7 +46,7 @@
     <string name="prefkey_application_details">application_details</string>
     <string name="prefkey_about">about</string>
 
-
+    <string name="prefkey_app_version_code">app_version_code</string>
 
     <!-- List -->
 

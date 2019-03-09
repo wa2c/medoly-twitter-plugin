@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-
     <!-- Package -->
     <string name="app_description">Post messages to Twitter from Medoly.</string>
     <string name="class_receiver_label">Twitter actions.</string>

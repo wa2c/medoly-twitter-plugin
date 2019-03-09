@@ -7,7 +7,6 @@ if (file('./token.gradle').exists()) {
 
 android {
     compileSdkVersion 27
-    //buildToolsVersion '28.0.3'
 
     defaultConfig {
         applicationId "com.wa2c.android.medoly.plugin.action.tweet"
@@ -49,7 +48,8 @@ android {
 }
 
 repositories {
-    mavenCentral()
+    google()
+    jcenter()
     maven { url 'https://github.com/wa2c/medoly-library/raw/master/repository/' }
     maven { url 'https://github.com/wa2c/prefs/raw/master/repository/' }
 }
@@ -66,7 +66,7 @@ dependencies {
     implementation group: 'org.jetbrains.kotlinx', name: 'kotlinx-coroutines-android', version: '1.1.1'
 
     // https://mvnrepository.com/artifact/org.twitter4j/twitter4j-core
-    implementation group: 'org.twitter4j', name: 'twitter4j-core', version: '4.0.7'
+    api group: 'org.twitter4j', name: 'twitter4j-core', version: '4.0.7'
     // https://mvnrepository.com/artifact/com.twitter.twittertext/twitter-text
     implementation group: 'com.twitter.twittertext', name: 'twitter-text', version: '3.0.1'
     // https://mvnrepository.com/artifact/asia.ivity.android/drag-sort-listview

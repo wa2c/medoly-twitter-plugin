@@ -3,7 +3,9 @@ package com.wa2c.android.medoly.plugin.action.tweet.dialog
 import android.app.AlertDialog
 import android.app.Dialog
 import android.content.Context
+import android.databinding.DataBindingUtil
 import android.os.Bundle
+import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
@@ -12,8 +14,8 @@ import com.mobeta.android.dslv.DragSortController
 import com.mobeta.android.dslv.DragSortListView
 import com.wa2c.android.medoly.plugin.action.tweet.R
 import com.wa2c.android.medoly.plugin.action.tweet.activity.PropertyItem
+import com.wa2c.android.medoly.plugin.action.tweet.databinding.DialogPropertyPriorityBinding
 import com.wa2c.android.medoly.plugin.action.tweet.util.AppUtils
-import kotlinx.android.synthetic.main.dialog_property_priority.view.*
 import kotlinx.android.synthetic.main.layout_property_priority_item.view.*
 import java.util.*
 
@@ -23,6 +25,8 @@ import java.util.*
  */
 class PropertyPriorityDialogFragment : AbstractDialogFragment() {
 
+    private lateinit var binding: DialogPropertyPriorityBinding
+
     /** Item list. */
     private val itemList = ArrayList<PropertyItem>()
 
@@ -30,14 +34,15 @@ class PropertyPriorityDialogFragment : AbstractDialogFragment() {
      * onCreateDialog
      */
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
-        val content = View.inflate(activity, R.layout.dialog_property_priority, null)
+        super.onCreateDialog(savedInstanceState)
+        binding = DataBindingUtil.inflate(LayoutInflater.from(activity), R.layout.dialog_property_priority, null, false)
 
         // Loading
         itemList.addAll(PropertyItem.loadPropertyPriority(activity))
 
         // Set data
-        content.propertyPriorityListView.choiceMode = DragSortListView.CHOICE_MODE_MULTIPLE
-        content.propertyPriorityListView.adapter = object : ArrayAdapter<PropertyItem>(activity, R.layout.layout_property_priority_item, itemList) {
+        binding.propertyPriorityListView.choiceMode = DragSortListView.CHOICE_MODE_MULTIPLE
+        binding.propertyPriorityListView.adapter = object : ArrayAdapter<PropertyItem>(activity, R.layout.layout_property_priority_item, itemList) {
 
             override fun isEnabled(position: Int): Boolean {
                 return true
@@ -76,26 +81,26 @@ class PropertyPriorityDialogFragment : AbstractDialogFragment() {
         }
 
         // Set view
-        val controller = DragSortController(content.propertyPriorityListView)
+        val controller = DragSortController(binding.propertyPriorityListView)
         controller.isSortEnabled = true
         controller.isRemoveEnabled = false
         controller.dragInitMode = DragSortController.ON_DRAG
         controller.setDragHandleId(R.id.propertyItemImageView)
-        content.propertyPriorityListView.isDragEnabled = true
-        content.propertyPriorityListView.setFloatViewManager(controller)
-        content.propertyPriorityListView.setOnTouchListener(controller)
-        content.propertyPriorityListView.setDropListener(DragSortListView.DropListener { from, to ->
+        binding.propertyPriorityListView.isDragEnabled = true
+        binding.propertyPriorityListView.setFloatViewManager(controller)
+        binding.propertyPriorityListView.setOnTouchListener(controller)
+        binding.propertyPriorityListView.setDropListener(DragSortListView.DropListener { from, to ->
             // Drag & Drop
             if (from == to) return@DropListener
             val item = itemList.removeAt(from)
             itemList.add(to, item)
-            content.propertyPriorityListView.invalidateViews()
+            binding.propertyPriorityListView.invalidateViews()
         })
 
         // Dialog build`
         val builder = AlertDialog.Builder(activity)
         builder.setTitle(R.string.label_dialog_property_priority_title)
-        builder.setView(content)
+        builder.setView(binding.root)
         builder.setPositiveButton(android.R.string.ok, null)
         builder.setNegativeButton(R.string.label_default, null)
         builder.setNeutralButton(android.R.string.cancel, null)

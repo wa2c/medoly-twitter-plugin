@@ -4,15 +4,16 @@ import android.Manifest
 import android.app.Activity
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.databinding.DataBindingUtil
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import com.wa2c.android.medoly.library.MedolyEnvironment
 import com.wa2c.android.medoly.plugin.action.tweet.R
+import com.wa2c.android.medoly.plugin.action.tweet.databinding.ActivityMainBinding
 import com.wa2c.android.medoly.plugin.action.tweet.util.AppUtils
 import com.wa2c.android.medoly.plugin.action.tweet.util.TwitterUtils
 import com.wa2c.android.prefs.Prefs
-import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.async
@@ -28,8 +29,9 @@ import twitter4j.auth.RequestToken
  */
 class MainActivity : Activity() {
 
-    /** preferences manager. */
-    private lateinit var  prefs: Prefs
+    private lateinit var prefs: Prefs
+    private lateinit var binding: ActivityMainBinding
+
     /** Callback URL. */
     private lateinit var callbackURL: String
     /** Twitter. */
@@ -39,7 +41,7 @@ class MainActivity : Activity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
         prefs = Prefs(this)
 
         // ActionBar
@@ -53,22 +55,22 @@ class MainActivity : Activity() {
         twitter = TwitterUtils.getTwitterInstance(this)
 
         // Twitter Auth
-        twitterOAuthButton.setOnClickListener {
+        binding.twitterOAuthButton.setOnClickListener {
             startAuthorize()
         }
 
         // Edit
-        editButton.setOnClickListener {
+        binding.editButton.setOnClickListener {
             startActivity(Intent(this@MainActivity, EditActivity::class.java))
         }
 
         // Settings
-        settingsButton.setOnClickListener {
+        binding.settingsButton.setOnClickListener {
             startActivity(Intent(this@MainActivity, SettingsActivity::class.java))
         }
 
         // Launch Medoly
-        launchMedolyButton.setOnClickListener {
+        binding.launchMedolyButton.setOnClickListener {
             val intent = packageManager.getLaunchIntentForPackage(MedolyEnvironment.MEDOLY_PACKAGE)
             if (intent == null) {
                 AppUtils.showToast(this, R.string.message_no_medoly)
@@ -131,9 +133,9 @@ class MainActivity : Activity() {
     private fun updateAuthMessage() {
         val token = TwitterUtils.loadAccessToken(this)
         if (token != null) {
-            twitterAuthTextView.text = getString(R.string.message_account_auth)
+            binding.twitterAuthTextView.text = getString(R.string.message_account_auth)
         } else {
-            twitterAuthTextView.text = getString(R.string.message_account_not_auth)
+            binding.twitterAuthTextView.text = getString(R.string.message_account_not_auth)
         }
     }
 

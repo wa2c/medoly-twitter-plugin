@@ -10,9 +10,6 @@ import com.wa2c.android.medoly.plugin.action.tweet.R
  */
 class SettingsActivity : PreferenceActivity() {
 
-    /**
-     * onCreate
-     */
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -27,9 +24,6 @@ class SettingsActivity : PreferenceActivity() {
         }
     }
 
-    /**
-     * onOptionsItemSelected
-     */
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             android.R.id.home -> {

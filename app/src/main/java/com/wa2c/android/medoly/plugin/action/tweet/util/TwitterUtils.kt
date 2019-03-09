@@ -2,12 +2,16 @@ package com.wa2c.android.medoly.plugin.action.tweet.util
 
 import android.content.Context
 import com.twitter.twittertext.TwitterTextParser
+import com.wa2c.android.medoly.library.PropertyData
+import com.wa2c.android.medoly.plugin.action.tweet.R
 import com.wa2c.android.medoly.plugin.action.tweet.Token
 import com.wa2c.android.medoly.plugin.action.tweet.activity.PropertyItem
+import com.wa2c.android.prefs.Prefs
 import timber.log.Timber
 import twitter4j.Twitter
 import twitter4j.TwitterFactory
 import twitter4j.auth.AccessToken
+import java.util.*
 import java.util.regex.Pattern
 
 /**
@@ -138,5 +142,55 @@ object TwitterUtils {
             return propertyText
         }
     }
+
+    /**
+     * Get tweet message text.
+     * @return The message text.
+     */
+    fun getTweetMessage(context: Context, propertyData: PropertyData): String {
+        val prefs = Prefs(context)
+        val format = prefs.getString(R.string.prefkey_content_format, defRes = R.string.format_content_default)
+        val TRIM_EXP = if (prefs.getBoolean(R.string.prefkey_trim_before_empty_enabled, true)) "\\w*" else ""
+        val priorityList = PropertyItem.loadPropertyPriority(context)
+        val containsMap = LinkedHashSet<PropertyItem>()
+        for (item in priorityList) {
+            val matcher = Pattern.compile(item.propertyTag, Pattern.MULTILINE).matcher(format)
+            if (matcher.find())
+                containsMap.add(item)
+        }
+
+        var outputText: String = format
+        for (propertyItem in containsMap) {
+            var propertyText = propertyData.getFirst(propertyItem.propertyKey)
+            var regexpText = propertyItem.propertyTag
+            if (propertyText.isNullOrEmpty()) {
+                propertyText = ""
+                regexpText = TRIM_EXP + regexpText
+            }
+
+            var workText = outputText
+            val matcher = Pattern.compile(regexpText).matcher(workText)
+            while (matcher.find()) {
+                workText = matcher.replaceFirst(propertyText)
+                val removedText = TwitterUtils.getPropertyRemovedText(workText, containsMap)
+                val result = TwitterTextParser.parseTweet(removedText)
+                val remainWeight = 999 - result.permillage
+                if (remainWeight > 0) {
+                    outputText = workText
+                } else {
+                    if (propertyItem.shorten) {
+
+                        //, prefs.getBoolean(R.string.prefkey_omit_newline, true)
+                        workText = matcher.replaceFirst(TwitterUtils.trimWeightedText(propertyText, TwitterTextParser.parseTweet(propertyText).permillage + remainWeight, prefs.getBoolean(R.string.prefkey_omit_newline, true)))
+                        outputText = TwitterUtils.getPropertyRemovedText(workText, containsMap)
+                    }
+                    break
+                }
+            }
+        }
+
+        return outputText
+    }
+
 
 }
