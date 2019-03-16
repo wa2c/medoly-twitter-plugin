@@ -46,6 +46,9 @@
 
     <!-- Settings Activity -->
     <string name="settings_summary_current_value">[Current Value: %1$s]</string>
+    <string name="message_unsupported_device">This device is unsupported.</string>
+
+
 
     <!-- Preferences -->
     <string name="title_preference_category_event">Event</string>
@@ -65,6 +68,9 @@
     <string name="pref_summary_post_success_message_show">Show the message when tweet succeeded.</string>
     <string name="pref_title_post_failure_message_show">Show Failure Message</string>
     <string name="pref_summary_post_failure_message_show">Show the message when tweet failed. </string>
+
+    <string name="pref_title_device_auto_start">Auto Start Manager</string>
+    <string name="pref_summary_device_auto_start">Launch the device auto start manager. Some devices need change settings to launch plugin.</string>
     <string name="pref_title_application_details">App Info</string>
     <string name="pref_summary_application_details">Show application information.</string>
     <string name="pref_title_about">About</string>

@@ -17,7 +17,7 @@
 
     <string name="label_header_separator">:</string>
 
-    <string name="twitter_callback_url">medoly://plugin_twitter</string>
+    <string name="twitter_callback_url">medoly-twitter-plugin://</string>
     <string name="twitter_uri">https://twitter.com/</string>
 
     <!-- Library  -->
@@ -43,6 +43,8 @@
     <string name="prefkey_send_album_art">send_album_art</string>
     <string name="prefkey_tweet_success_message_show">tweet_success_message_show</string>
     <string name="prefkey_tweet_failure_message_show">tweet_failure_message_show</string>
+
+    <string name="prefkey_device_auto_start">device_auto_start</string>
     <string name="prefkey_application_details">application_details</string>
     <string name="prefkey_about">about</string>
 

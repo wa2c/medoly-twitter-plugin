@@ -149,7 +149,7 @@ class MainActivity : Activity() {
                     val t = twitter ?: return@async null
                     t.oAuthAccessToken = null // リセット
                     requestToken = t.getOAuthRequestToken(callbackURL)
-                    return@async t.getOAuthRequestToken(callbackURL)?.authorizationURL
+                    return@async requestToken?.authorizationURL
                 } catch (e: Exception) {
                     Timber.e(e)
                     return@async null
@@ -174,28 +174,35 @@ class MainActivity : Activity() {
             return
         }
 
-        // 認証結果取得
+        // Get auth verifier
         val verifier = intent.data.getQueryParameter("oauth_verifier")
 
         GlobalScope.launch(Dispatchers.Main) {
             val token = async(Dispatchers.Default) {
                 return@async try {
                     twitter?.getOAuthAccessToken(requestToken, verifier)
-                } catch (e: TwitterException) {
+                } catch (e: Exception) {
                     Timber.e(e)
                     null
                 }
             }.await()
 
-            if (token != null) {
-                // 認証成功
-                AppUtils.showToast(this@MainActivity, R.string.message_auth_success)
-                // 認証情報を保存
-                TwitterUtils.storeAccessToken(this@MainActivity, token)
-            } else {
-                // 認証失敗
-                AppUtils.showToast(this@MainActivity, R.string.message_auth_failure)
-                TwitterUtils.storeAccessToken(this@MainActivity, null)
+            when {
+                token != null -> {
+                    // Auth succeeded
+                    AppUtils.showToast(this@MainActivity, R.string.message_auth_success)
+                    TwitterUtils.storeAccessToken(this@MainActivity, token)
+                }
+                verifier == null -> {
+                    // Auth canceled
+                    AppUtils.showToast(this@MainActivity, R.string.message_account_clear)
+                    TwitterUtils.storeAccessToken(this@MainActivity, null)
+                }
+                else -> {
+                    // Auth failed
+                    AppUtils.showToast(this@MainActivity, R.string.message_auth_failure)
+                    TwitterUtils.storeAccessToken(this@MainActivity, null)
+                }
             }
             updateAuthMessage()
         }
