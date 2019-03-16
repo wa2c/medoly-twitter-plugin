@@ -3,9 +3,7 @@ package com.wa2c.android.medoly.plugin.action.tweet.service
 import android.content.ContentResolver
 import android.content.Intent
 import android.net.Uri
-import com.wa2c.android.medoly.library.PluginOperationCategory
 import com.wa2c.android.medoly.plugin.action.tweet.R
-import com.wa2c.android.medoly.plugin.action.tweet.util.AppUtils
 import com.wa2c.android.medoly.plugin.action.tweet.util.TwitterUtils
 import timber.log.Timber
 import twitter4j.StatusUpdate
@@ -93,17 +91,9 @@ class PluginPostService : AbstractPluginService(PluginPostService::class.java.si
                 } catch (ignored: Exception) {
                 }
 
-            if (result == CommandResult.AUTH_FAILED) {
-                AppUtils.showToast(context, R.string.message_account_not_auth)
-            } else if (result == CommandResult.NO_MEDIA) {
-                AppUtils.showToast(context, R.string.message_no_media)
-            } else if (result == CommandResult.SUCCEEDED) {
-                if (pluginIntent.hasCategory(PluginOperationCategory.OPERATION_EXECUTE) || prefs.getBoolean(R.string.prefkey_tweet_success_message_show))
-                    AppUtils.showToast(context, R.string.message_post_success)
-            } else if (result == CommandResult.FAILED) {
-                if (pluginIntent.hasCategory(PluginOperationCategory.OPERATION_EXECUTE) || prefs.getBoolean(R.string.prefkey_tweet_failure_message_show, true))
-                    AppUtils.showToast(context, R.string.message_post_failure)
-            }
+            val succeeded = getString(R.string.message_post_success)
+            val failed = getString(R.string.message_post_failure)
+            showMessage(result, succeeded, failed)
         }
     }
 

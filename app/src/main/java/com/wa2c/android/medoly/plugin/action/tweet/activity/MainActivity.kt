@@ -20,7 +20,6 @@ import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
 import timber.log.Timber
 import twitter4j.Twitter
-import twitter4j.TwitterException
 import twitter4j.auth.RequestToken
 
 
@@ -96,7 +95,7 @@ class MainActivity : Activity() {
             return
         }
 
-        if (!prefs.getBoolean(R.string.prefkey_send_album_art, true))
+        if (!prefs.getBoolean(R.string.prefkey_send_album_art, defRes = R.bool.pref_default_send_album_art))
             return
 
         // Check permission

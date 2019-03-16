@@ -20,6 +20,7 @@
     <string name="message_no_media">The media is not selected.</string>
     <string name="message_post_success">Tweet completed.</string>
     <string name="message_post_failure">Tweet failed.</string>
+    <string name="message_page_failure">Failed to open the page.</string>
     <string name="message_auth_success">OAuth completed.</string>
     <string name="message_auth_failure">OAuth failed.</string>
 
@@ -97,12 +98,6 @@
 
 
     <!-- List -->
-
-    <!-- Tweet event -->
-    <string-array name="event_tweet_operation_entries">
-        <item>Invalid</item>
-        <item>@string/label_plugin_operation_play_start</item>
-        <item>@string/label_plugin_operation_play_now</item>
-    </string-array>
+    <string name="label_plugin_operation_disable">Disabled</string>
 
 </resources>

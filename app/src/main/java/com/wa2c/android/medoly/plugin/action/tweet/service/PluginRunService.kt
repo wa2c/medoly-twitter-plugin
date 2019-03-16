@@ -4,10 +4,8 @@ import android.content.ContentResolver
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.net.Uri
-
 import com.wa2c.android.medoly.library.AlbumArtProperty
 import com.wa2c.android.medoly.plugin.action.tweet.R
-import com.wa2c.android.medoly.plugin.action.tweet.util.AppUtils
 import com.wa2c.android.medoly.plugin.action.tweet.util.TwitterUtils
 import timber.log.Timber
 
@@ -76,11 +74,8 @@ class PluginRunService : AbstractPluginService(PluginRunService::class.java.simp
             Timber.e(e)
             result = CommandResult.FAILED
         } finally {
-            if (result == CommandResult.NO_MEDIA) {
-                AppUtils.showToast(context, R.string.message_no_media)
-            } else if (result == CommandResult.FAILED) {
-                AppUtils.showToast(context, R.string.message_post_failure)
-            }
+            val failed = getString(R.string.message_post_failure)
+            showMessage(result, null, failed)
         }
     }
 
@@ -88,15 +83,28 @@ class PluginRunService : AbstractPluginService(PluginRunService::class.java.simp
      * Open twitter.
      */
     private fun openTwitter() {
-        // Twitter.com
-        val launchIntent = Intent(Intent.ACTION_VIEW, Uri.parse(context.getString(R.string.twitter_uri)))
+        var result = CommandResult.IGNORE
         try {
-            launchIntent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
-            context.startActivity(launchIntent)
-        } catch (e: android.content.ActivityNotFoundException) {
+            val siteUri = Uri.parse(context.getString(R.string.twitter_uri))
+            startPage(siteUri)
+            result = CommandResult.SUCCEEDED
+        } catch (e: Exception) {
             Timber.d(e)
+            result = CommandResult.FAILED
+        } finally {
+            showMessage(result, null, getString(R.string.message_page_failure))
         }
-
     }
 
+    /**
+     * Start page.
+     * @param uri The URI.
+     */
+    private fun startPage(uri: Uri?) {
+        if (uri == null)
+            return
+        val launchIntent = Intent(Intent.ACTION_VIEW, uri)
+        launchIntent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
+        context.startActivity(launchIntent)
+    }
 }

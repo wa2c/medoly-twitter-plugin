@@ -3,7 +3,7 @@ package com.wa2c.android.medoly.plugin.action.tweet.service
 /**
  * Command result.
  */
-internal enum class CommandResult {
+enum class CommandResult {
     /** Succeeded.  */
     SUCCEEDED,
     /** Failed.  */

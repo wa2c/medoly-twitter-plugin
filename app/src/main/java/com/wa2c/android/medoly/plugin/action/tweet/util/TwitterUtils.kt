@@ -150,7 +150,7 @@ object TwitterUtils {
     fun getTweetMessage(context: Context, propertyData: PropertyData): String {
         val prefs = Prefs(context)
         val format = prefs.getString(R.string.prefkey_content_format, defRes = R.string.format_content_default)
-        val TRIM_EXP = if (prefs.getBoolean(R.string.prefkey_trim_before_empty_enabled, true)) "\\w*" else ""
+        val TRIM_EXP = if (prefs.getBoolean(R.string.prefkey_trim_before_empty_enabled, defRes = R.bool.pref_default_trim_before_empty_enabled)) "\\w*" else ""
         val priorityList = PropertyItem.loadPropertyPriority(context)
         val containsMap = LinkedHashSet<PropertyItem>()
         for (item in priorityList) {
@@ -179,9 +179,8 @@ object TwitterUtils {
                     outputText = workText
                 } else {
                     if (propertyItem.shorten) {
-
-                        //, prefs.getBoolean(R.string.prefkey_omit_newline, true)
-                        workText = matcher.replaceFirst(TwitterUtils.trimWeightedText(propertyText, TwitterTextParser.parseTweet(propertyText).permillage + remainWeight, prefs.getBoolean(R.string.prefkey_omit_newline, true)))
+                        val omit = prefs.getBoolean(R.string.prefkey_omit_newline, defRes = R.bool.pref_default_omit_newline)
+                        workText = matcher.replaceFirst(TwitterUtils.trimWeightedText(propertyText, TwitterTextParser.parseTweet(propertyText).permillage + remainWeight, omit))
                         outputText = TwitterUtils.getPropertyRemovedText(workText, containsMap)
                     }
                     break

@@ -20,6 +20,7 @@
     <string name="message_no_media">メディアが選択されていません。</string>
     <string name="message_post_success">ツイートが完了しました。</string>
     <string name="message_post_failure">ツイートに失敗しました。</string>
+    <string name="message_page_failure">ページが開けません。</string>
     <string name="message_auth_success">認証が完了しました。</string>
     <string name="message_auth_failure">認証に失敗しました。</string>
 
@@ -96,11 +97,7 @@
 
 
 
-    <!-- Tweet event -->
-    <string-array name="event_tweet_operation_entries">
-        <item>イベント無効</item>
-        <item>@string/label_plugin_operation_play_start</item>
-        <item>@string/label_plugin_operation_play_now</item>
-    </string-array>
+    <!-- List -->
+    <string name="label_plugin_operation_disable">イベント無効</string>
 
 </resources>

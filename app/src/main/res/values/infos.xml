@@ -16,6 +16,7 @@
     <string name="app_market_web">https://play.google.com/store/apps/details?id=com.wa2c.android.medoly.plugin.action.tweet</string>
 
     <string name="label_header_separator">:</string>
+    <string name="empty_value" />
 
     <string name="twitter_callback_url">medoly-twitter-plugin://</string>
     <string name="twitter_uri">https://twitter.com/</string>
@@ -30,7 +31,6 @@
         <item>https://github.com/bauerca/drag-sort-listview</item>
     </string-array>
 
-    <string name="format_content_default">%MEDIA_TITLE% - %MEDIA_ARTIST% / %MEDIA_ALBUM% #NowPlaying #Medoly</string>
 
     <!-- Preferences -->
     <string name="prefkey_content_format">content_format</string>
@@ -50,15 +50,32 @@
 
     <string name="prefkey_app_version_code">app_version_code</string>
 
+
+    <!-- Default -->
+    <string name="pref_default_event_tweet_operation">com.wa2c.android.medoly.plugin.category.OPERATION_PLAY_NOW</string>
+
+    <bool name="pref_default_previous_media_enabled">true</bool>
+    <bool name="pref_default_trim_before_empty_enabled">true</bool>
+    <bool name="pref_default_omit_newline">true</bool>
+    <bool name="pref_default_send_album_art">true</bool>
+    <bool name="pref_default_tweet_success_message_show">false</bool>
+    <bool name="pref_default_tweet_failure_message_show">true</bool>
+
+    <string name="format_content_default">%MEDIA_TITLE% - %MEDIA_ARTIST% / %MEDIA_ALBUM% #NowPlaying #Medoly</string>
+
     <!-- List -->
 
-    <string name="empty_value" />
-
     <!-- Tweet event -->
-    <string name="event_tweet_operation_values_default">OPERATION_PLAY_NOW</string>
+    <string name="event_tweet_operation_values_default">com.wa2c.android.medoly.plugin.category.OPERATION_PLAY_NOW</string>
     <string-array name="event_tweet_operation_values">
         <item />
-        <item>OPERATION_PLAY_START</item>
-        <item>OPERATION_PLAY_NOW</item>
+        <item>com.wa2c.android.medoly.plugin.category.OPERATION_PLAY_START</item>
+        <item>com.wa2c.android.medoly.plugin.category.OPERATION_PLAY_NOW</item>
     </string-array>
+    <string-array name="event_tweet_operation_entries">
+        <item>@string/label_plugin_operation_disable</item>
+        <item>@string/label_plugin_operation_play_start</item>
+        <item>@string/label_plugin_operation_play_now</item>
+    </string-array>
+
 </resources>
