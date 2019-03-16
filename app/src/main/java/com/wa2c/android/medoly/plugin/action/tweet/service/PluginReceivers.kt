@@ -4,10 +4,7 @@ import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.os.Build
-import com.wa2c.android.medoly.library.MediaPluginIntent
-import com.wa2c.android.medoly.library.MediaProperty
-import com.wa2c.android.medoly.library.PluginOperationCategory
-import com.wa2c.android.medoly.library.PluginTypeCategory
+import com.wa2c.android.medoly.library.*
 import com.wa2c.android.medoly.plugin.action.tweet.R
 import com.wa2c.android.medoly.plugin.action.tweet.util.AppUtils
 import com.wa2c.android.prefs.Prefs
@@ -21,59 +18,69 @@ class PluginReceivers {
     abstract class AbstractPluginReceiver : BroadcastReceiver() {
         override fun onReceive(context: Context, intent: Intent) {
             Timber.d("onReceive: " + this.javaClass.simpleName)
+            val result = receive(context, MediaPluginIntent(intent))
+            setResult(result.resultCode, null, null)
+        }
 
-            val pluginIntent = MediaPluginIntent(intent)
-            val propertyData = pluginIntent.propertyData ?: return
+        /**
+         * Receive data.
+         */
+        private fun receive(context: Context, pluginIntent: MediaPluginIntent): PluginBroadcastResult  {
+            var result =  PluginBroadcastResult.CANCEL
+
+            val propertyData = pluginIntent.propertyData ?: return result
             val prefs = Prefs(context)
 
             if (this is EventPostTweetReceiver) {
                 // category
                 if (!pluginIntent.hasCategory(PluginTypeCategory.TYPE_POST_MESSAGE)) {
-                    return
+                    return result
                 }
                 // media
                 if (propertyData.isMediaEmpty) {
                     AppUtils.showToast(context, R.string.message_no_media)
-                    return
+                    return result
                 }
                 // property
                 if (propertyData.getFirst(MediaProperty.TITLE).isNullOrEmpty() || propertyData.getFirst(MediaProperty.ARTIST).isNullOrEmpty()) {
-                    return
+                    return result
                 }
                 // operation
                 val operation = try { PluginOperationCategory.valueOf(prefs.getString(R.string.prefkey_event_tweet_operation)) } catch (ignore : Exception) { null }
                 if (!pluginIntent.hasCategory(PluginOperationCategory.OPERATION_EXECUTE) && !pluginIntent.hasCategory(operation)) {
-                    return
+                    return result
                 }
                 // previous media
                 val mediaUriText = propertyData.mediaUri?.toString()
                 val previousMediaUri = prefs.getStringOrNull(AbstractPluginService.PREFKEY_PREVIOUS_MEDIA_URI)
                 val previousMediaEnabled = prefs.getBoolean(R.string.prefkey_previous_media_enabled)
                 if (!previousMediaEnabled && !mediaUriText.isNullOrEmpty() && !previousMediaUri.isNullOrEmpty() && mediaUriText == previousMediaUri) {
-                    return
+                    return result
                 }
 
                 // service
                 pluginIntent.setClass(context, PluginPostService::class.java)
+                result = PluginBroadcastResult.COMPLETE
             } else if (this is ExecutePostTweetReceiver || this is ExecuteOpenTwitterReceiver) {
                 // category
                 if (!pluginIntent.hasCategory(PluginTypeCategory.TYPE_RUN)) {
-                    return
+                    return result
                 }
                 if (this is ExecutePostTweetReceiver) {
                     // media
                     if (propertyData.isMediaEmpty) {
                         AppUtils.showToast(context, R.string.message_no_media)
-                        return
+                        return result
                     }
                     // property
                     if (propertyData.getFirst(MediaProperty.TITLE).isNullOrEmpty() || propertyData.getFirst(MediaProperty.ARTIST).isNullOrEmpty()) {
-                        return
+                        return result
                     }
                 }
 
                 // service
                 pluginIntent.setClass(context, PluginRunService::class.java)
+                result = PluginBroadcastResult.COMPLETE
             }
 
             pluginIntent.putExtra(AbstractPluginService.RECEIVED_CLASS_NAME, this.javaClass.name)
@@ -83,6 +90,7 @@ class PluginReceivers {
             } else {
                 context.startService(pluginIntent)
             }
+            return result
         }
     }
 

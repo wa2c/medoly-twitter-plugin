@@ -60,7 +60,7 @@ repositories {
 
 dependencies {
     // Medoly library
-    implementation 'com.wa2c.android:medolylibrary:1.2.5'
+    implementation 'com.wa2c.android:medolylibrary:1.2.6'
     // Prefs
     implementation 'com.wa2c.android:prefs:0.1.1'
 
