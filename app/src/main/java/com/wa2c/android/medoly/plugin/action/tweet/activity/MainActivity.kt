@@ -47,9 +47,6 @@ class MainActivity : Activity() {
         actionBar.setDisplayShowHomeEnabled(true)
         actionBar.setDisplayShowTitleEnabled(true)
 
-        // Set permission
-        requestPermission()
-
         callbackURL = getString(R.string.twitter_callback_url)
         twitter = TwitterUtils.getTwitterInstance(this)
 
@@ -85,26 +82,6 @@ class MainActivity : Activity() {
         super.onNewIntent(intent)
 
         completeAuthorize(intent)
-    }
-
-    /**
-     * Require storage permission.
-     */
-    private fun requestPermission() {
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
-            return
-        }
-
-        if (!prefs.getBoolean(R.string.prefkey_send_album_art, defRes = R.bool.pref_default_send_album_art))
-            return
-
-        // Check permission
-        if (checkSelfPermission(Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
-            return
-        }
-
-        // Require permission.
-        requestPermissions(arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE), PERMISSION_REQUEST_CODE)
     }
 
     /**
