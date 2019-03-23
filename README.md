@@ -52,17 +52,3 @@ See the following site to see details.
 ## Author
 
 [wa2c](https://github.com/wa2c)
-
-
-
-## Usage
-
-* 使い方については、[Google Play](https://play.google.com/store/apps/details?id=com.wa2c.android.medoly.plugin.action.tweet) のページを参考にしてください。
-
-## Licence
-
-[MIT](https://opensource.org/licenses/MIT)
-
-## Author
-
-[wa2c](https://bitbucket.org/wa2c/)
