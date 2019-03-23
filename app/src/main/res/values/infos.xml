@@ -53,7 +53,6 @@
 
     <!-- Default -->
     <string name="pref_default_event_tweet_operation">com.wa2c.android.medoly.plugin.category.OPERATION_PLAY_NOW</string>
-
     <bool name="pref_default_previous_media_enabled">true</bool>
     <bool name="pref_default_trim_before_empty_enabled">true</bool>
     <bool name="pref_default_omit_newline">true</bool>
@@ -66,7 +65,6 @@
     <!-- List -->
 
     <!-- Tweet event -->
-    <string name="event_tweet_operation_values_default">com.wa2c.android.medoly.plugin.category.OPERATION_PLAY_NOW</string>
     <string-array name="event_tweet_operation_values">
         <item />
         <item>com.wa2c.android.medoly.plugin.category.OPERATION_PLAY_START</item>

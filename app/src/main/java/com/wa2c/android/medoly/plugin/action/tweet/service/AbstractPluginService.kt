@@ -22,18 +22,6 @@ import timber.log.Timber
  */
 abstract class AbstractPluginService(name: String) : IntentService(name) {
 
-    companion object {
-        /** Notification ID */
-        private const val NOTIFICATION_ID = 1
-        /** Notification Channel ID */
-        private const val NOTIFICATION_CHANNEL_ID = "Notification"
-
-        /** Received receiver class name.  */
-        const val RECEIVED_CLASS_NAME = "RECEIVED_CLASS_NAME"
-        /** Previous data key.  */
-        const val PREFKEY_PREVIOUS_MEDIA_URI = "previous_media_uri"
-    }
-
     /** Context.  */
     protected lateinit var context: Context
     /** Preferences.  */
@@ -52,11 +40,8 @@ abstract class AbstractPluginService(name: String) : IntentService(name) {
         var notificationManager : NotificationManager? = null
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             notificationManager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
-            val channel = NotificationChannel(NOTIFICATION_CHANNEL_ID, getString(R.string.app_name), NotificationManager.IMPORTANCE_LOW)
-            notificationManager.createNotificationChannel(channel)
             val builder = Notification.Builder(this, NOTIFICATION_CHANNEL_ID)
                     .setContentTitle(getString(R.string.app_name))
-                    .setContentText("")
                     .setSmallIcon(R.drawable.ic_notification)
             startForeground(NOTIFICATION_ID, builder.build())
         }
@@ -74,7 +59,6 @@ abstract class AbstractPluginService(name: String) : IntentService(name) {
             Timber.e(e)
         } finally {
             if (notificationManager != null) {
-                notificationManager.deleteNotificationChannel(NOTIFICATION_CHANNEL_ID)
                 notificationManager.cancel(NOTIFICATION_ID)
                 stopForeground(true)
             }
@@ -83,7 +67,7 @@ abstract class AbstractPluginService(name: String) : IntentService(name) {
 
     override fun onDestroy() {
         super.onDestroy()
-        Timber.d("onDestroy: " + this.javaClass.simpleName)
+        Timber.d("onDestroy: %s", this.javaClass.simpleName)
     }
 
 
@@ -102,6 +86,34 @@ abstract class AbstractPluginService(name: String) : IntentService(name) {
         } else if (result == CommandResult.FAILED && !failedMessage.isNullOrEmpty()) {
             if (pluginIntent.hasCategory(PluginOperationCategory.OPERATION_EXECUTE) || prefs.getBoolean(R.string.prefkey_tweet_failure_message_show, defRes = R.bool.pref_default_tweet_failure_message_show)) {
                 AppUtils.showToast(context, failedMessage)
+            }
+        }
+    }
+
+
+
+    companion object {
+        /** Notification ID */
+        private const val NOTIFICATION_ID = 1
+        /** Notification Channel ID */
+        private const val NOTIFICATION_CHANNEL_ID = "Notification"
+
+        /** Received receiver class name.  */
+        const val RECEIVED_CLASS_NAME = "RECEIVED_CLASS_NAME"
+        /** Previous data key.  */
+        const val PREFKEY_PREVIOUS_MEDIA_URI = "previous_media_uri"
+
+        /**
+         * Create notification
+         */
+        fun createChannel(context: Context) {
+            if (Build.VERSION.SDK_INT < Build.VERSION_CODES.O)
+                return
+
+            val notificationManager = context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+            if (notificationManager.getNotificationChannel(NOTIFICATION_CHANNEL_ID) == null) {
+                val channel = NotificationChannel(NOTIFICATION_CHANNEL_ID, context.getString(R.string.app_name), NotificationManager.IMPORTANCE_MIN)
+                notificationManager.createNotificationChannel(channel)
             }
         }
     }
