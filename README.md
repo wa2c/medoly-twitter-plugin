@@ -1,30 +1,59 @@
 Medoly Twitter Plugin
 =====================
 
-Twitter plugin app for Medoly.
+## About
 
-## Description
+**Medoly Twitter Plugin** is an Android app to tweet the playing media information on [Medoly](https://play.google.com/store/apps/details?id=com.wa2c.android.medoly) for [Twitter](https://twitter.com/) .
 
-Medoly Twitter Plugin は、[Medoly](https://play.google.com/store/apps/details?id=com.wa2c.android.medoly) で再生しているメディアの再生情報を [Twitter](https://twitter.com/) にツイート ( Tweet ) するAndroidアプリです。
-[Google Play](https://play.google.com/store/apps/details?id=com.wa2c.android.medoly.plugin.action.tweet)で配信中。
+
+See the following site to see details.
+
+  * [Medoly Twitter Plugin (EN)](https://www.wa2c.com/documents/dokuwiki/doku.php?id=en:medoly_twitter_plugin:start)
+  * [Medoly Twitter Plugin (JA)](https://www.wa2c.com/documents/dokuwiki/doku.php?id=ja:medoly_twitter_plugin:start)
+
+
+## Public Site
+
+* [Google Play](https://play.google.com/store/apps/details?id=com.wa2c.android.medoly.plugin.action.tweet)
+* [APK Files](https://wa2c.com/android/medoly/apk/)
+* [Source Code(GitHub)](https://github.com/wa2c/medoly-twitter-plugin)
+
 
 ## Requirement
 
 * Android Studio
+* API level 14 and above
 
 ## Build
 
-1. プロジェクトのクローンを作成します。
+1. Clone the source code from GitHub.
+2. Import the source code to Android Studio.
+3. Build the source code on Android Studio.
 
-2. Android Studio にプロジェクトをインポートします。
+* Needs the API key and API Secret from Twitter site (https://developer.twitter.com/) to use this app . And set these keys to K1 and K2 on build.gradle.
 
-3. 以下のディレクトリに存在する Token.java.rename ファイルを、Token.java にリネームします。
-    src/main/java/com/wa2c/android/medoly/plugin/action/tweet/
+## Requirement
 
-4. Android Studio でビルドします。
+* Android Studio
+* API level 14 and above
 
-* 実際に使用するためには、Twitter のサイト (<https://dev.twitter.com/apps>) から、API key および API Secret を取得し、Token.javaに入力する必要があります。
-  現在のアプリで使用している値は非公開とさせてください。
+## Build
+
+1. Clone the source code from GitHub.
+2. Import the source code to Android Studio.
+3. Build the source code on Android Studio.
+
+* Needs the API key and API Secret from Twitter site (https://developer.twitter.com/) to use this app . And set these keys to K1 and K2 on build.gradle.
+
+## Licence
+
+[MIT](https://github.com/wa2c/medoly-twitter-plugin/blob/master/LICENSE)
+
+## Author
+
+[wa2c](https://github.com/wa2c)
+
+
 
 ## Usage
 
