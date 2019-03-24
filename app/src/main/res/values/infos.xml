@@ -25,10 +25,16 @@
     <string-array name="about_library_names">
         <item>Twitter4j</item>
         <item>DragSortListView</item>
+        <item>AppKillerManager</item>
+        <item>Dynamic Toasts</item>
+        <item>Timber</item>
     </string-array>
     <string-array name="about_library_urls">
         <item>http://twitter4j.org/</item>
         <item>https://github.com/bauerca/drag-sort-listview</item>
+        <item>https://github.com/thelittlefireman/AppKillerManager</item>
+        <item>https://github.com/pranavpandey/dynamic-toasts</item>
+        <item>https://github.com/JakeWharton/timber</item>
     </string-array>
 
 

@@ -17,7 +17,7 @@ See the following site to see details.
 * [Google Play](https://play.google.com/store/apps/details?id=com.wa2c.android.medoly.plugin.action.tweet)
 * [APK Files](https://wa2c.com/android/medoly/apk/)
 * [Source Code (GitHub)](https://github.com/wa2c/medoly-twitter-plugin)
-
+* [CI (Bitrise)](https://app.bitrise.io/app/dddf80e752a0e2fa)
 
 ## Requirement
 
