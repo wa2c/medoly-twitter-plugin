@@ -16,21 +16,8 @@ See the following site to see details.
 
 * [Google Play](https://play.google.com/store/apps/details?id=com.wa2c.android.medoly.plugin.action.tweet)
 * [APK Files](https://wa2c.com/android/medoly/apk/)
-* [Source Code(GitHub)](https://github.com/wa2c/medoly-twitter-plugin)
+* [Source Code (GitHub)](https://github.com/wa2c/medoly-twitter-plugin)
 
-
-## Requirement
-
-* Android Studio
-* API level 14 and above
-
-## Build
-
-1. Clone the source code from GitHub.
-2. Import the source code to Android Studio.
-3. Build the source code on Android Studio.
-
-* Needs the API key and API Secret from Twitter site (https://developer.twitter.com/) to use this app . And set these keys to K1 and K2 on build.gradle.
 
 ## Requirement
 
