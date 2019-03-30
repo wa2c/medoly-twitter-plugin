@@ -54,11 +54,10 @@ class Migrator(private val context: Context) {
             return false
 
         // migration
-        //versionUpFromX(prevVersionCode)
-        //versionUpFrom10(prevVersionCode)
+        versionUpFrom10(prevVersionCode)
 
         // save version
-        //saveCurrentVersionCode()
+        saveCurrentVersionCode()
         return true
     }
 
