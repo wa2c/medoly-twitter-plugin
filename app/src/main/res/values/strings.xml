@@ -3,7 +3,6 @@
 
     <!-- Package -->
     <string name="app_description">Post messages to Twitter from Medoly.</string>
-    <string name="class_receiver_label">Twitter actions.</string>
     <string name="label_event_tweet">Tweet</string>
     <string name="label_execute_tweet">Send to external apps</string>
     <string name="label_execute_site">Twitter</string>
@@ -93,7 +92,6 @@
 
     <!-- System -->
     <string name="error_app">The operation failed due to an error.</string>
-    <string name="error_dialog_dismissed">Open the dialog again.</string>
 
 
 

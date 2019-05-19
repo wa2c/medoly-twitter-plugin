@@ -19,6 +19,8 @@ android {
         buildConfigField("String", "K2", "\"\"")
         buildConfigField("String", "T1", "\"\"")
         buildConfigField("String", "T2", "\"\"")
+
+        vectorDrawables.useSupportLibrary = true
     }
 
     buildTypes {

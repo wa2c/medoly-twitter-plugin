@@ -3,7 +3,6 @@
 
     <!-- Package -->
     <string name="app_description">MedolyからTwitterにメッセージを送信します。</string>
-    <string name="class_receiver_label">Twitter アクション</string>
     <string name="label_event_tweet">ツイート</string>
     <string name="label_execute_tweet">外部アプリで送信</string>
     <string name="label_execute_site">Twitterを開く</string>
@@ -93,7 +92,6 @@
 
     <!-- System -->
     <string name="error_app">エラーが発生したため、操作に失敗しました。</string>
-    <string name="error_dialog_dismissed">ダイアログ操作に失敗しました。再度ダイアログを開いてください。</string>
 
 
 
