@@ -3,7 +3,7 @@ package com.wa2c.android.medoly.plugin.action.tweet.util
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
-import android.support.v4.content.ContextCompat
+import androidx.core.content.ContextCompat
 import com.pranavpandey.android.dynamic.toasts.DynamicToast
 import com.wa2c.android.medoly.plugin.action.tweet.R
 import timber.log.Timber

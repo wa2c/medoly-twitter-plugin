@@ -1,10 +1,10 @@
 package com.wa2c.android.medoly.plugin.action.tweet.activity
 
-import android.app.Activity
 import android.content.DialogInterface
-import android.databinding.DataBindingUtil
 import android.os.Bundle
 import android.view.MenuItem
+import androidx.appcompat.app.AppCompatActivity
+import androidx.databinding.DataBindingUtil
 import com.wa2c.android.medoly.plugin.action.tweet.R
 import com.wa2c.android.medoly.plugin.action.tweet.databinding.ActivityEditBinding
 import com.wa2c.android.medoly.plugin.action.tweet.dialog.ConfirmDialogFragment
@@ -16,7 +16,7 @@ import com.wa2c.android.prefs.Prefs
 /**
  * Edit activity
  */
-class EditActivity : Activity() {
+class EditActivity : AppCompatActivity() {
 
     private lateinit var  prefs: Prefs
     private lateinit var binding: ActivityEditBinding
@@ -27,9 +27,11 @@ class EditActivity : Activity() {
         prefs = Prefs(this)
 
         // Action bar
-        actionBar.setDisplayShowHomeEnabled(true)
-        actionBar.setDisplayHomeAsUpEnabled(true)
-        actionBar.setDisplayShowTitleEnabled(true)
+        actionBar?.let {
+            it.setDisplayShowHomeEnabled(true)
+            it.setDisplayHomeAsUpEnabled(true)
+            it.setDisplayShowTitleEnabled(true)
+        }
 
         // Insert album art button
         binding.insertAlbumArtCheckBox.setOnCheckedChangeListener { _, isChecked ->

@@ -1,8 +1,8 @@
 package com.wa2c.android.medoly.plugin.action.tweet.dialog
 
-import android.app.AlertDialog
 import android.app.Dialog
 import android.os.Bundle
+import androidx.appcompat.app.AlertDialog
 
 /**
  * Confirmation dialog
@@ -11,10 +11,10 @@ class ConfirmDialogFragment : AbstractDialogFragment() {
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         super.onCreateDialog(savedInstanceState)
-        val args = arguments
+        val args = arguments!!
 
         // dialog build
-        val builder = AlertDialog.Builder(activity)
+        val builder = AlertDialog.Builder(context)
         builder.setTitle(args.getCharSequence(ARG_TITLE))
         builder.setMessage(args.getCharSequence(ARG_MESSAGE))
 

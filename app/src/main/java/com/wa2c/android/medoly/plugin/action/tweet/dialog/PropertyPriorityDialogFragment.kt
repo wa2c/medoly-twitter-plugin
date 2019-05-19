@@ -1,15 +1,15 @@
 package com.wa2c.android.medoly.plugin.action.tweet.dialog
 
-import android.app.AlertDialog
 import android.app.Dialog
 import android.content.Context
-import android.databinding.DataBindingUtil
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.Button
+import androidx.appcompat.app.AlertDialog
+import androidx.databinding.DataBindingUtil
 import com.mobeta.android.dslv.DragSortController
 import com.mobeta.android.dslv.DragSortListView
 import com.wa2c.android.medoly.plugin.action.tweet.R
@@ -35,14 +35,14 @@ class PropertyPriorityDialogFragment : AbstractDialogFragment() {
      */
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         super.onCreateDialog(savedInstanceState)
-        binding = DataBindingUtil.inflate(LayoutInflater.from(activity), R.layout.dialog_property_priority, null, false)
+        binding = DataBindingUtil.inflate(LayoutInflater.from(context), R.layout.dialog_property_priority, null, false)
 
         // Loading
-        itemList.addAll(PropertyItem.loadPropertyPriority(activity))
+        itemList.addAll(PropertyItem.loadPropertyPriority(context))
 
         // Set data
         binding.propertyPriorityListView.choiceMode = DragSortListView.CHOICE_MODE_MULTIPLE
-        binding.propertyPriorityListView.adapter = object : ArrayAdapter<PropertyItem>(activity, R.layout.layout_property_priority_item, itemList) {
+        binding.propertyPriorityListView.adapter = object : ArrayAdapter<PropertyItem>(context, R.layout.layout_property_priority_item, itemList) {
 
             override fun isEnabled(position: Int): Boolean {
                 return true
@@ -58,7 +58,7 @@ class PropertyPriorityDialogFragment : AbstractDialogFragment() {
                     holder = itemView.tag as ListItemViewHolder
                 }
 
-                val item = getItem(position)
+                val item = getItem(position)!!
                 holder.bind(item)
                 return itemView
             }
@@ -98,7 +98,7 @@ class PropertyPriorityDialogFragment : AbstractDialogFragment() {
         })
 
         // Dialog build`
-        val builder = AlertDialog.Builder(activity)
+        val builder = AlertDialog.Builder(context)
         builder.setTitle(R.string.label_dialog_property_priority_title)
         builder.setView(binding.root)
         builder.setPositiveButton(android.R.string.ok, null)
@@ -112,15 +112,15 @@ class PropertyPriorityDialogFragment : AbstractDialogFragment() {
 
     override fun setPositiveButton(dialog: AlertDialog, button: Button) {
         button.setOnClickListener {
-            PropertyItem.savePropertyPriority(activity, itemList)
+            PropertyItem.savePropertyPriority(context, itemList)
             dialog.dismiss()
         }
     }
 
     override fun setNegativeButton(dialog: AlertDialog, button: Button) {
         button.setOnClickListener {
-            PropertyItem.savePropertyPriority(activity, PropertyItem.getDefaultPropertyPriority(activity))
-            AppUtils.showToast(activity, R.string.message_initialize_priority)
+            PropertyItem.savePropertyPriority(context, PropertyItem.getDefaultPropertyPriority(context))
+            AppUtils.showToast(context, R.string.message_initialize_priority)
             dialog.dismiss()
         }
     }

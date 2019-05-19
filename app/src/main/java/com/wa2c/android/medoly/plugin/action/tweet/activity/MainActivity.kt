@@ -1,13 +1,12 @@
 package com.wa2c.android.medoly.plugin.action.tweet.activity
 
 import android.Manifest
-import android.app.Activity
 import android.content.Intent
 import android.content.pm.PackageManager
-import android.databinding.DataBindingUtil
 import android.net.Uri
-import android.os.Build
 import android.os.Bundle
+import androidx.appcompat.app.AppCompatActivity
+import androidx.databinding.DataBindingUtil
 import com.wa2c.android.medoly.library.MedolyEnvironment
 import com.wa2c.android.medoly.plugin.action.tweet.R
 import com.wa2c.android.medoly.plugin.action.tweet.databinding.ActivityMainBinding
@@ -26,7 +25,7 @@ import twitter4j.auth.RequestToken
 /**
  * Main activity
  */
-class MainActivity : Activity() {
+class MainActivity : AppCompatActivity() {
 
     private lateinit var prefs: Prefs
     private lateinit var binding: ActivityMainBinding
@@ -44,8 +43,10 @@ class MainActivity : Activity() {
         prefs = Prefs(this)
 
         // ActionBar
-        actionBar.setDisplayShowHomeEnabled(true)
-        actionBar.setDisplayShowTitleEnabled(true)
+        actionBar?.let {
+            it.setDisplayShowHomeEnabled(true)
+            it.setDisplayShowTitleEnabled(true)
+        }
 
         callbackURL = getString(R.string.twitter_callback_url)
         twitter = TwitterUtils.getTwitterInstance(this)

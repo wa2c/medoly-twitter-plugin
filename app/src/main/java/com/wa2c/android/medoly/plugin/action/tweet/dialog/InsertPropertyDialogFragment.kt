@@ -1,6 +1,5 @@
 package com.wa2c.android.medoly.plugin.action.tweet.dialog
 
-import android.app.AlertDialog
 import android.app.Dialog
 import android.content.Context
 import android.os.Bundle
@@ -8,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.ViewGroup.LayoutParams
 import android.widget.*
+import androidx.appcompat.app.AlertDialog
 import com.wa2c.android.medoly.plugin.action.tweet.R
 import com.wa2c.android.medoly.plugin.action.tweet.activity.PropertyItem
 import java.util.*
@@ -27,13 +27,14 @@ class InsertPropertyDialogFragment : AbstractDialogFragment() {
      * onCreateDialog
      */
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
+        super.onCreateDialog(savedInstanceState)
         // List
-        itemList.addAll(PropertyItem.getDefaultPropertyPriority(activity))
-        val adapter = PropertyListAdapter(activity, itemList)
+        itemList.addAll(PropertyItem.getDefaultPropertyPriority(context))
+        val adapter = PropertyListAdapter(context, itemList)
         adapter.setNotifyOnChange(false)
 
         // Create list view
-        val listView = ListView(activity)
+        val listView = ListView(context)
         listView.layoutParams = LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT)
         listView.adapter = adapter
         listView.isFastScrollEnabled = true
@@ -43,12 +44,12 @@ class InsertPropertyDialogFragment : AbstractDialogFragment() {
             dialog.dismiss()
         }
 
-        val listLayout = LinearLayout(activity)
+        val listLayout = LinearLayout(context)
         listLayout.layoutParams = LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT)
         listLayout.addView(listView)
 
         // Build dialog
-        val builder = AlertDialog.Builder(activity)
+        val builder = AlertDialog.Builder(context)
         builder.setTitle(R.string.label_dialog_insert_property_title)
         builder.setView(listLayout)
         builder.setNeutralButton(android.R.string.cancel, null)
@@ -66,7 +67,7 @@ class InsertPropertyDialogFragment : AbstractDialogFragment() {
             val holder: ListItemViewHolder
 
             if (view == null) {
-                view = View.inflate(activity, android.R.layout.simple_list_item_1, null)
+                view = View.inflate(context, android.R.layout.simple_list_item_1, null)
                 holder = ListItemViewHolder()
                 holder.titleTextView = view!!.findViewById(android.R.id.text1) as TextView
                 view.tag = holder

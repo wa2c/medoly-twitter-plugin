@@ -105,7 +105,7 @@ object TwitterUtils {
     /**
      * Get property tag removed text.
      */
-    fun getPropertyRemovedText(workText: String, containsMap: Set<PropertyItem>): String {
+    private fun getPropertyRemovedText(workText: String, containsMap: Set<PropertyItem>): String {
         var parseText = workText
         for (pi in containsMap) {
             parseText = parseText.replace(("%" + pi.propertyKey + "%").toRegex(), "")
@@ -116,7 +116,7 @@ object TwitterUtils {
     /**
      * Get the text does not exceeded the limit length on Twitter.
      */
-    fun trimWeightedText(propertyText: String?, remainWeight: Int, omitNewLine : Boolean): String {
+    private fun trimWeightedText(propertyText: String?, remainWeight: Int, omitNewLine : Boolean): String {
         if (propertyText.isNullOrEmpty() || propertyText.length < "...".length) {
             return ""
         }
@@ -172,7 +172,7 @@ object TwitterUtils {
             val matcher = Pattern.compile(regexpText).matcher(workText)
             while (matcher.find()) {
                 workText = matcher.replaceFirst(propertyText)
-                val removedText = TwitterUtils.getPropertyRemovedText(workText, containsMap)
+                val removedText = getPropertyRemovedText(workText, containsMap)
                 val result = TwitterTextParser.parseTweet(removedText)
                 val remainWeight = 999 - result.permillage
                 if (remainWeight > 0) {
@@ -180,8 +180,8 @@ object TwitterUtils {
                 } else {
                     if (propertyItem.shorten) {
                         val omit = prefs.getBoolean(R.string.prefkey_omit_newline, defRes = R.bool.pref_default_omit_newline)
-                        workText = matcher.replaceFirst(TwitterUtils.trimWeightedText(propertyText, TwitterTextParser.parseTweet(propertyText).permillage + remainWeight, omit))
-                        outputText = TwitterUtils.getPropertyRemovedText(workText, containsMap)
+                        workText = matcher.replaceFirst(trimWeightedText(propertyText, TwitterTextParser.parseTweet(propertyText).permillage + remainWeight, omit))
+                        outputText = getPropertyRemovedText(workText, containsMap)
                     }
                     break
                 }
