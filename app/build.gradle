@@ -1,12 +1,19 @@
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
+apply plugin: 'io.fabric'
+apply plugin: 'com.google.gms.google-services'
+
 if (file('./token.gradle').exists()) {
     apply from: 'token.gradle'
 }
 
 android {
     compileSdkVersion 28
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
 
     defaultConfig {
         applicationId "com.wa2c.android.medoly.plugin.action.tweet"
@@ -20,6 +27,7 @@ android {
         buildConfigField("String", "T1", "\"\"")
         buildConfigField("String", "T2", "\"\"")
 
+        multiDexEnabled true
         vectorDrawables.useSupportLibrary = true
     }
 
@@ -69,11 +77,15 @@ dependencies {
     // Android X
     implementation 'androidx.appcompat:appcompat:1.0.2'
     implementation "androidx.preference:preference:1.0.0"
+    implementation 'com.android.support:multidex:1.0.3'
 
-    // https://mvnrepository.com/artifact/org.jetbrains.kotlinx/kotlinx-coroutines-core
+    // Kotlin
     implementation group: 'org.jetbrains.kotlinx', name: 'kotlinx-coroutines-core', version: '1.2.1'
-    // https://mvnrepository.com/artifact/org.jetbrains.kotlinx/kotlinx-coroutines-android
     implementation group: 'org.jetbrains.kotlinx', name: 'kotlinx-coroutines-android', version: '1.1.1'
+
+    // Firebase
+    implementation 'com.google.firebase:firebase-core:16.0.9'
+    implementation 'com.crashlytics.sdk.android:crashlytics:2.10.0'
 
     // https://mvnrepository.com/artifact/org.twitter4j/twitter4j-core
     api group: 'org.twitter4j', name: 'twitter4j-core', version: '4.0.7'
@@ -86,14 +98,9 @@ dependencies {
     // https://mvnrepository.com/artifact/com.jakewharton.timber/timber
     implementation group: 'com.jakewharton.timber', name: 'timber', version: '4.7.1'
     // https://mvnrepository.com/artifact/com.pranavpandey.android/dynamic-toasts
-    implementation group: 'com.pranavpandey.android', name: 'dynamic-toasts', version: '1.2.0'
+    implementation group: 'com.pranavpandey.android', name: 'dynamic-toasts', version: '2.3.0'
 
     implementation 'com.thelittlefireman:AppKillerManager:2.1.1'
 
 }
 
-kotlin {
-    experimental {
-        coroutines "enable"
-    }
-}

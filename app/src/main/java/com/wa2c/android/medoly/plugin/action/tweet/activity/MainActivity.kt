@@ -39,13 +39,14 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
         prefs = Prefs(this)
+        binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
 
         // ActionBar
-        actionBar?.let {
+        supportActionBar?.let {
             it.setDisplayShowHomeEnabled(true)
             it.setDisplayShowTitleEnabled(true)
+            it.setIcon(R.drawable.ic_launcher)
         }
 
         callbackURL = getString(R.string.twitter_callback_url)
@@ -147,12 +148,12 @@ class MainActivity : AppCompatActivity() {
      * @param intent intent.。
      */
     private fun completeAuthorize(intent: Intent?) {
-        if (intent == null || intent.data == null || !intent.data.toString().startsWith(callbackURL)) {
+        if (intent == null || intent.data == null || !intent.data!!.toString().startsWith(callbackURL)) {
             return
         }
 
         // Get auth verifier
-        val verifier = intent.data.getQueryParameter("oauth_verifier")
+        val verifier = intent.data!!.getQueryParameter("oauth_verifier")
 
         GlobalScope.launch(Dispatchers.Main) {
             val token = async(Dispatchers.Default) {

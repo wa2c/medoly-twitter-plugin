@@ -14,7 +14,6 @@ import timber.log.Timber
 class ToastReceiver : BroadcastReceiver() {
 
     override fun onReceive(context: Context, intent: Intent) {
-        //Toast.makeText(context, intent.getStringExtra(MESSAGE_TOAST), Toast.LENGTH_SHORT).show()
         DynamicToast.make(context, intent.getStringExtra(MESSAGE_TOAST), ContextCompat.getDrawable(context, R.drawable.ic_notification)).show()
     }
 
