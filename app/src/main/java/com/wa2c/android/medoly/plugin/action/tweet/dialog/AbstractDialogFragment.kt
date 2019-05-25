@@ -4,7 +4,6 @@ import android.app.Dialog
 import android.content.DialogInterface
 import android.content.res.Configuration
 import android.os.Bundle
-import android.widget.Button
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.FragmentActivity
@@ -36,15 +35,9 @@ abstract class AbstractDialogFragment : DialogFragment() {
 
     override fun onStart() {
         super.onStart()
-        val dialog = dialog as AlertDialog?
-        if (dialog != null) {
-            if (dialog.getButton(DialogInterface.BUTTON_POSITIVE) != null)
-                setPositiveButton(dialog, dialog.getButton(DialogInterface.BUTTON_POSITIVE))
-            if (dialog.getButton(DialogInterface.BUTTON_NEGATIVE) != null)
-                setNegativeButton(dialog, dialog.getButton(DialogInterface.BUTTON_NEGATIVE))
-            if (dialog.getButton(DialogInterface.BUTTON_NEUTRAL) != null)
-                setNeutralButton(dialog, dialog.getButton(DialogInterface.BUTTON_NEUTRAL))
-        }
+        setDefaultListener(DialogInterface.BUTTON_POSITIVE)
+        setDefaultListener(DialogInterface.BUTTON_NEGATIVE)
+        setDefaultListener(DialogInterface.BUTTON_NEUTRAL)
     }
 
     override fun onStop() {
@@ -53,33 +46,24 @@ abstract class AbstractDialogFragment : DialogFragment() {
     }
 
     /**
-     * Set positive button
+     * Set button event. Use this onStart or later.
+     * @param which The button id.
      */
-    protected open fun setPositiveButton(dialog: AlertDialog, button: Button) {
-        button.setOnClickListener {
-            clickListener?.invoke(dialog, DialogInterface.BUTTON_POSITIVE, null)
-            dialog.dismiss()
+    private fun setDefaultListener(which: Int) {
+        (dialog as AlertDialog?)?.getButton(which)?.setOnClickListener {
+            invokeListener(which)
         }
     }
 
     /**
-     * Set negative button
+     * Invoke click listener.
+     * @param which The button id.
+     * @param close True if this dialog close.
      */
-    protected open fun setNegativeButton(dialog: AlertDialog, button: Button) {
-        button.setOnClickListener {
-            clickListener?.invoke(dialog, DialogInterface.BUTTON_NEGATIVE, null)
-            dialog.dismiss()
-        }
-    }
-
-    /**
-     * Set neutral button
-     */
-    protected open fun setNeutralButton(dialog: AlertDialog, button: Button) {
-        button.setOnClickListener {
-            clickListener?.invoke(dialog, DialogInterface.BUTTON_NEUTRAL, null)
-            dialog.dismiss()
-        }
+    protected open fun invokeListener(which: Int, bundle: Bundle? = null, close: Boolean = true) {
+        clickListener?.invoke(dialog, which, bundle)
+        if (close)
+            dialog?.dismiss()
     }
 
     /**

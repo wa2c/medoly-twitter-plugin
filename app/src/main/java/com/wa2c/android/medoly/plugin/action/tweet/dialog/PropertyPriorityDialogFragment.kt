@@ -2,12 +2,12 @@ package com.wa2c.android.medoly.plugin.action.tweet.dialog
 
 import android.app.Dialog
 import android.content.Context
+import android.content.DialogInterface
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
-import android.widget.Button
 import androidx.appcompat.app.AlertDialog
 import androidx.databinding.DataBindingUtil
 import com.mobeta.android.dslv.DragSortController
@@ -108,23 +108,16 @@ class PropertyPriorityDialogFragment : AbstractDialogFragment() {
         return builder.create()
     }
 
-
-
-    override fun setPositiveButton(dialog: AlertDialog, button: Button) {
-        button.setOnClickListener {
+    override fun invokeListener(which: Int, bundle: Bundle?, close: Boolean) {
+        val result = bundle ?: Bundle()
+        if (which == DialogInterface.BUTTON_POSITIVE) {
             PropertyItem.savePropertyPriority(context, itemList)
-            dialog.dismiss()
-        }
-    }
-
-    override fun setNegativeButton(dialog: AlertDialog, button: Button) {
-        button.setOnClickListener {
+        } else if (which == DialogInterface.BUTTON_NEGATIVE) {
             PropertyItem.savePropertyPriority(context, PropertyItem.getDefaultPropertyPriority(context))
             AppUtils.showToast(context, R.string.message_initialize_priority)
-            dialog.dismiss()
         }
+        super.invokeListener(which, result, close)
     }
-
 
 
     companion object {

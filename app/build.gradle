@@ -18,7 +18,7 @@ android {
     defaultConfig {
         applicationId "com.wa2c.android.medoly.plugin.action.tweet"
         minSdkVersion 16
-        targetSdkVersion 27
+        targetSdkVersion 28
         versionCode 11
         versionName "2.3.0"
 
@@ -48,6 +48,12 @@ android {
         }
     }
 
+    signingConfigs {
+        debug {
+            storeFile file("../debug.keystore")
+        }
+    }
+
     packagingOptions {
         exclude 'META-INF/LICENSE'
     }
@@ -74,14 +80,14 @@ dependencies {
     // Prefs
     implementation 'com.wa2c.android:prefs:0.1.1'
 
-    // Android X
+    // Support Library
     implementation 'androidx.appcompat:appcompat:1.0.2'
     implementation "androidx.preference:preference:1.0.0"
-    implementation 'com.android.support:multidex:1.0.3'
+    implementation 'androidx.multidex:multidex:2.0.1'
 
     // Kotlin
     implementation group: 'org.jetbrains.kotlinx', name: 'kotlinx-coroutines-core', version: '1.2.1'
-    implementation group: 'org.jetbrains.kotlinx', name: 'kotlinx-coroutines-android', version: '1.1.1'
+    implementation group: 'org.jetbrains.kotlinx', name: 'kotlinx-coroutines-android', version: '1.2.1'
 
     // Firebase
     implementation 'com.google.firebase:firebase-core:16.0.9'
@@ -101,6 +107,5 @@ dependencies {
     implementation group: 'com.pranavpandey.android', name: 'dynamic-toasts', version: '2.3.0'
 
     implementation 'com.thelittlefireman:AppKillerManager:2.1.1'
-
 }
 
