@@ -12,7 +12,6 @@ import com.wa2c.android.medoly.plugin.action.tweet.dialog.AboutDialogFragment
 import com.wa2c.android.medoly.plugin.action.tweet.util.AppUtils
 import java.util.*
 
-
 /**
  * Settings fragment
  */
@@ -125,15 +124,13 @@ class SettingsFragment : PreferenceFragmentCompat() {
         // update summary
         when (p) {
             is PreferenceCategory -> {
-                val pCat = p as PreferenceCategory?
-                for (i in 0 until pCat!!.preferenceCount) {
-                    initSummary(pCat.getPreference(i))
+                for (i in 0 until p.preferenceCount) {
+                    initSummary(p.getPreference(i))
                 }
             }
             is PreferenceScreen -> {
-                val ps = p as PreferenceScreen?
-                for (i in 0 until ps!!.preferenceCount) {
-                    initSummary(ps.getPreference(i))
+                for (i in 0 until p.preferenceCount) {
+                    initSummary(p.getPreference(i))
                 }
             }
             else -> updatePrefSummary(p)

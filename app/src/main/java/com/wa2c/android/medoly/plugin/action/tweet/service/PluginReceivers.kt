@@ -84,7 +84,6 @@ class PluginReceivers {
             }
 
             pluginIntent.putExtra(AbstractPluginService.RECEIVED_CLASS_NAME, this.javaClass.name)
-            context.stopService(pluginIntent)
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                 context.startForegroundService(pluginIntent)
             } else {
