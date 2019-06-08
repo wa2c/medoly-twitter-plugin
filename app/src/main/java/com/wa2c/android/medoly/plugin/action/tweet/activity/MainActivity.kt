@@ -43,10 +43,10 @@ class MainActivity : AppCompatActivity() {
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
 
         // ActionBar
-        supportActionBar?.let {
-            it.setDisplayShowHomeEnabled(true)
-            it.setDisplayShowTitleEnabled(true)
-            it.setIcon(R.drawable.ic_launcher)
+        supportActionBar?.apply {
+            setDisplayShowHomeEnabled(true)
+            setDisplayShowTitleEnabled(true)
+            setIcon(R.drawable.ic_launcher)
         }
 
         callbackURL = getString(R.string.twitter_callback_url)

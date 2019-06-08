@@ -65,21 +65,22 @@ class AboutDialogFragment : AbstractDialogFragment() {
         val libraryNames = resources.getStringArray(R.array.about_library_names)
         val libraryUrls = resources.getStringArray(R.array.about_library_urls)
         for (i in libraryNames.indices) {
-            val libTextView = TextView(context)
-            libTextView.movementMethod = LinkMovementMethod.getInstance()
-            libTextView.text = HtmlCompat.fromHtml("<a href=\"" + libraryUrls[i] + "\">" + libraryNames[i] + "</a>", HtmlCompat.FROM_HTML_MODE_COMPACT)
-            libTextView.gravity = Gravity.CENTER_HORIZONTAL
-            libTextView.setTextSize(TypedValue.COMPLEX_UNIT_SP, 20f)
+            val libTextView = TextView(context).apply {
+                movementMethod = LinkMovementMethod.getInstance()
+                text = HtmlCompat.fromHtml("<a href=\"" + libraryUrls[i] + "\">" + libraryNames[i] + "</a>", HtmlCompat.FROM_HTML_MODE_COMPACT)
+                gravity = Gravity.CENTER_HORIZONTAL
+                setTextSize(TypedValue.COMPLEX_UNIT_SP, 20f)
+            }
             binding.dialogAboutLibraryLayout.setPadding(2, 2, 2, 2)
             binding.dialogAboutLibraryLayout.addView(libTextView)
         }
 
         // Build
-        val builder = AlertDialog.Builder(context)
-        builder.setTitle(R.string.pref_title_about)
-        builder.setView(binding.root)
-        builder.setNeutralButton(android.R.string.ok, null)
-        return builder.create()
+        return AlertDialog.Builder(context).apply {
+            setTitle(R.string.pref_title_about)
+            setView(binding.root)
+            setNeutralButton(android.R.string.ok, null)
+        }.create()
     }
 
     companion object {
@@ -88,7 +89,9 @@ class AboutDialogFragment : AbstractDialogFragment() {
          * @return Dialog instance.
          */
         fun newInstance(): AboutDialogFragment {
-            return AboutDialogFragment()
+            return AboutDialogFragment().apply {
+                arguments = Bundle()
+            }
         }
     }
 

@@ -6,14 +6,16 @@ import com.wa2c.android.medoly.plugin.action.tweet.R
 import com.wa2c.android.prefs.Prefs
 import java.util.*
 
-
+/**
+ * Property Item.
+ */
 class PropertyItem {
 
-    /** プロパティキー。  */
+    /** Property key.  */
     var propertyKey: String? = null
-    /** プロパティ名。  */
+    /** Property name.  */
     var propertyName: String? = null
-    /** 短縮可。  */
+    /** True if possible to shorten.  */
     var shorten: Boolean = false
 
     /** Get property tag.  */
@@ -22,51 +24,54 @@ class PropertyItem {
 
     companion object {
 
-
-        /** 設定保存キー。  */
+        /** Preference key.  */
         private const val PREFKEY_PROPERTY_PRIORITY = "property_priority"
 
         /**
-         * 標準プロパティ優先度を取得する。
-         * @param context コンテキスト。
-         * @return プロパティ優先度。
+         * Get default property priority.
+         * @param context A context.
+         * @return A property list.
          */
         fun getDefaultPropertyPriority(context: Context): ArrayList<PropertyItem> {
             val itemList = ArrayList<PropertyItem>()
 
-            // メディア
+            // Media
             for (p in MediaProperty.values()) {
-                val item = PropertyItem()
-                item.propertyKey = p.keyName
-                item.propertyName = context.getString(R.string.media) + " - " + p.getName(context)
-                item.shorten = shorteningSet.contains(p)
+                val item = PropertyItem().apply {
+                    propertyKey = p.keyName
+                    propertyName = context.getString(R.string.media) + " - " + p.getName(context)
+                    shorten = shorteningSet.contains(p)
+                }
                 itemList.add(item)
             }
 
-            // アルバムアート
+            // Album Art
             for (p in AlbumArtProperty.values()) {
-                val item = PropertyItem()
-                item.propertyKey = p.keyName
-                item.propertyName = context.getString(R.string.album_art) + " - " + p.getName(context)
-                item.shorten = shorteningSet.contains(p)
+                val item = PropertyItem().apply {
+                    propertyKey = p.keyName
+                    propertyName = context.getString(R.string.album_art) + " - " + p.getName(context)
+                    shorten = shorteningSet.contains(p)
+                }
                 itemList.add(item)
             }
 
-            // 歌詞
+            // Lyrics
             for (p in LyricsProperty.values()) {
-                val item = PropertyItem()
-                item.propertyKey = p.keyName
-                item.propertyName = context.getString(R.string.lyrics) + " - " + p.getName(context)
-                item.shorten = shorteningSet.contains(p)
+                val item = PropertyItem().apply {
+                    propertyKey = p.keyName
+                    propertyName = context.getString(R.string.lyrics) + " - " + p.getName(context)
+                    shorten = shorteningSet.contains(p)
+                }
                 itemList.add(item)
             }
 
-            // 再生キュー
+            // Queue
             for (p in QueueProperty.values()) {
-                val item = PropertyItem()
-                item.propertyKey = p.keyName
-                item.propertyName = context.getString(R.string.queue) + " - " + p.getName(context)
-                item.shorten = shorteningSet.contains(p)
+                val item = PropertyItem().apply {
+                    propertyKey = p.keyName
+                    propertyName = context.getString(R.string.queue) + " - " + p.getName(context)
+                    shorten = shorteningSet.contains(p)
+                }
                 itemList.add(item)
             }
 
@@ -74,9 +79,9 @@ class PropertyItem {
         }
 
         /**
-         * プロパティ優先度を読込む。
-         * @param context コンテキスト。
-         * @return プロパティ優先度。
+         * Load property priority.
+         * @param context A context
+         * @return A property list ordered by priority.
          */
         fun loadPropertyPriority(context: Context): ArrayList<PropertyItem> {
             val itemList = getDefaultPropertyPriority(context)
@@ -100,10 +105,9 @@ class PropertyItem {
                     outputItemList.add(item)
                 }
                 for (item in itemMap.values) {
-                    outputItemList.add(item) // 設定に無い項目を追加
+                    outputItemList.add(item) // Add an item not exists settings
                 }
             } catch (e: Exception) {
-                // エラー時はデフォルト状態
                 outputItemList = itemList
             }
 
@@ -111,9 +115,9 @@ class PropertyItem {
         }
 
         /**
-         * プロパティ優先度を保存する。
-         * @param context コンテキスト。
-         * @param itemList プロパティ優先度。
+         * Save property priority.
+         * @param context A context
+         * @param itemList A property list ordered by priority.
          */
         fun savePropertyPriority(context: Context, itemList: ArrayList<PropertyItem>) {
             val prefs = Prefs(context)
@@ -124,50 +128,49 @@ class PropertyItem {
             prefs.putString(PREFKEY_PROPERTY_PRIORITY, builder.toString())
         }
 
-        /** 省略可のプロパティセット。  */
-        private val shorteningSet = object : HashSet<IProperty>() {
-            init {
+        /** Property set of possibility to shorten.  */
+        private val shorteningSet = hashSetOf<IProperty>(
                 // Media
-                add(MediaProperty.TITLE)
-                add(MediaProperty.ARTIST)
-                add(MediaProperty.ORIGINAL_ARTIST)
-                add(MediaProperty.ALBUM_ARTIST)
-                add(MediaProperty.ALBUM)
-                add(MediaProperty.ORIGINAL_ALBUM)
-                add(MediaProperty.GENRE)
-                add(MediaProperty.MOOD)
-                add(MediaProperty.OCCASION)
-                add(MediaProperty.COMPOSER)
-                add(MediaProperty.ARRANGER)
-                add(MediaProperty.LYRICIST)
-                add(MediaProperty.ORIGINAL_LYRICIST)
-                add(MediaProperty.CONDUCTOR)
-                add(MediaProperty.PRODUCER)
-                add(MediaProperty.ENGINEER)
-                add(MediaProperty.ENCODER)
-                add(MediaProperty.MIXER)
-                add(MediaProperty.DJMIXER)
-                add(MediaProperty.REMIXER)
-                add(MediaProperty.COPYRIGHT)
-                add(MediaProperty.RECORD_LABEL)
-                add(MediaProperty.COMMENT)
-                add(MediaProperty.FOLDER_PATH)
-                add(MediaProperty.FILE_NAME)
-                add(MediaProperty.LAST_MODIFIED)
+                MediaProperty.TITLE,
+                MediaProperty.ARTIST,
+                MediaProperty.ORIGINAL_ARTIST,
+                MediaProperty.ALBUM_ARTIST,
+                MediaProperty.ALBUM,
+                MediaProperty.ORIGINAL_ALBUM,
+                MediaProperty.GENRE,
+                MediaProperty.MOOD,
+                MediaProperty.OCCASION,
+                MediaProperty.COMPOSER,
+                MediaProperty.ARRANGER,
+                MediaProperty.LYRICIST,
+                MediaProperty.ORIGINAL_LYRICIST,
+                MediaProperty.CONDUCTOR,
+                MediaProperty.PRODUCER,
+                MediaProperty.ENGINEER,
+                MediaProperty.ENCODER,
+                MediaProperty.MIXER,
+                MediaProperty.DJMIXER,
+                MediaProperty.REMIXER,
+                MediaProperty.COPYRIGHT,
+                MediaProperty.RECORD_LABEL,
+                MediaProperty.COMMENT,
+                MediaProperty.FOLDER_PATH,
+                MediaProperty.FILE_NAME,
+                MediaProperty.LAST_MODIFIED,
                 // Album Art
-                add(AlbumArtProperty.RESOURCE_TYPE)
-                add(AlbumArtProperty.FOLDER_PATH)
-                add(AlbumArtProperty.FILE_NAME)
-                add(AlbumArtProperty.LAST_MODIFIED)
+                AlbumArtProperty.RESOURCE_TYPE,
+                AlbumArtProperty.FOLDER_PATH,
+                AlbumArtProperty.FILE_NAME,
+                AlbumArtProperty.LAST_MODIFIED,
                 // Lyrics
-                add(LyricsProperty.LYRICS)
-                add(LyricsProperty.RESOURCE_TYPE)
-                add(LyricsProperty.FORMAT_TYPE)
-                add(LyricsProperty.SYNC_TYPE)
-                add(LyricsProperty.FOLDER_PATH)
-                add(LyricsProperty.FILE_NAME)
-                add(LyricsProperty.LAST_MODIFIED)
-            }
-        }
+                LyricsProperty.LYRICS,
+                LyricsProperty.RESOURCE_TYPE,
+                LyricsProperty.FORMAT_TYPE,
+                LyricsProperty.SYNC_TYPE,
+                LyricsProperty.FOLDER_PATH,
+                LyricsProperty.FILE_NAME,
+                LyricsProperty.LAST_MODIFIED
+        )
+
     }
 }

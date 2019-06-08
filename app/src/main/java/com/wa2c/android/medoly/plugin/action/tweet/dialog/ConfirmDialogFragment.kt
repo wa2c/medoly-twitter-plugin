@@ -14,34 +14,29 @@ class ConfirmDialogFragment : AbstractDialogFragment() {
         val args = arguments!!
 
         // dialog build
-        val builder = AlertDialog.Builder(context)
-        builder.setTitle(args.getCharSequence(ARG_TITLE))
-        builder.setMessage(args.getCharSequence(ARG_MESSAGE))
+        return AlertDialog.Builder(context).apply {
+            setTitle(args.getCharSequence(ARG_TITLE))
+            setMessage(args.getCharSequence(ARG_MESSAGE))
 
-
-        // button
-        if (args.getBoolean(ARG_IS_BUTTON_DEFAULT)) {
-            builder.setPositiveButton(android.R.string.ok, null)
-            builder.setNeutralButton(android.R.string.cancel, null)
-        } else {
-            // Positive button
-            val positive = args.getString(ARG_POSITIVE_BUTTON)
-            if (!positive.isNullOrEmpty()) {
-                builder.setPositiveButton(positive, null)
+            // button
+            if (args.getBoolean(ARG_IS_BUTTON_DEFAULT)) {
+                setPositiveButton(android.R.string.ok, null)
+                setNeutralButton(android.R.string.cancel, null)
+            } else {
+                // Positive button
+                args.getString(ARG_POSITIVE_BUTTON)?.let {
+                    if (it.isNotEmpty()) setPositiveButton(it, null)
+                }
+                // Neutral button
+                args.getString(ARG_NEUTRAL_BUTTON)?.let {
+                    if (it.isNotEmpty()) setNeutralButton(it, null)
+                }
+                // Negative button
+                args.getString(ARG_NEGATIVE_BUTTON)?.let {
+                    if (it.isNotEmpty()) setNegativeButton(it, null)
+                }
             }
-            // Neutral button
-            val neutral = args.getString(ARG_NEUTRAL_BUTTON)
-            if (!neutral.isNullOrEmpty()) {
-                builder.setNeutralButton(neutral, null)
-            }
-            // Negative button
-            val negative = args.getString(ARG_NEGATIVE_BUTTON)
-            if (!negative.isNullOrEmpty()) {
-                builder.setNegativeButton(negative, null)
-            }
-        }
-
-        return builder.create()
+        }.create()
     }
 
     companion object {
@@ -67,37 +62,13 @@ class ConfirmDialogFragment : AbstractDialogFragment() {
          * @return New dialog instance.
          */
         fun newInstance(message: CharSequence, title: CharSequence?): ConfirmDialogFragment {
-            val args = Bundle()
-            args.putCharSequence(ARG_MESSAGE, message)
-            args.putCharSequence(ARG_TITLE, title)
-            args.putBoolean(ARG_IS_BUTTON_DEFAULT, true)
-
-            val fragment = ConfirmDialogFragment()
-            fragment.arguments = args
-            return fragment
-        }
-
-        /**
-         * Create dialog instance. (Customized button)
-         * @param message A message.
-         * @param title A title.
-         * @param positiveButton Positive button. None if null.
-         * @param neutralButton  Neutral button. None if null.
-         * @param negativeButton Negative button. None if null.
-         * @return New dialog instance.
-         */
-        fun newInstance(message: CharSequence, title: CharSequence?, positiveButton: String?, neutralButton: String?, negativeButton: String?): ConfirmDialogFragment {
-            val args = Bundle()
-            args.putCharSequence(ARG_MESSAGE, message)
-            args.putCharSequence(ARG_TITLE, title)
-            args.putString(ARG_POSITIVE_BUTTON, positiveButton)
-            args.putString(ARG_NEUTRAL_BUTTON, neutralButton)
-            args.putString(ARG_NEGATIVE_BUTTON, negativeButton)
-            args.putBoolean(ARG_IS_BUTTON_DEFAULT, false)
-
-            val fragment = ConfirmDialogFragment()
-            fragment.arguments = args
-            return fragment
+            return ConfirmDialogFragment().apply {
+                arguments = Bundle().apply {
+                    putCharSequence(ARG_MESSAGE, message)
+                    putCharSequence(ARG_TITLE, title)
+                    putBoolean(ARG_IS_BUTTON_DEFAULT, true)
+                }
+            }
         }
 
     }

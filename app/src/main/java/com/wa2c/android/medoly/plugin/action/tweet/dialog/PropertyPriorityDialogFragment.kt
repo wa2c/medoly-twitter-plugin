@@ -49,18 +49,13 @@ class PropertyPriorityDialogFragment : AbstractDialogFragment() {
             }
 
             override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
-                var itemView = convertView
-                val holder: ListItemViewHolder
-                if (itemView == null) {
-                    holder =ListItemViewHolder(parent.context)
-                    itemView = holder.itemView
+                val holder = if (convertView == null) {
+                    ListItemViewHolder(parent.context)
                 } else {
-                    holder = itemView.tag as ListItemViewHolder
+                    convertView.tag as ListItemViewHolder
                 }
-
-                val item = getItem(position)!!
-                holder.bind(item)
-                return itemView
+                holder.bind(getItem(position)!!)
+                return holder.itemView
             }
 
             /** List item view holder  */
@@ -81,11 +76,12 @@ class PropertyPriorityDialogFragment : AbstractDialogFragment() {
         }
 
         // Set view
-        val controller = DragSortController(binding.propertyPriorityListView)
-        controller.isSortEnabled = true
-        controller.isRemoveEnabled = false
-        controller.dragInitMode = DragSortController.ON_DRAG
-        controller.setDragHandleId(R.id.propertyItemImageView)
+        val controller = DragSortController(binding.propertyPriorityListView).apply {
+            isSortEnabled = true
+            isRemoveEnabled = false
+            dragInitMode = DragSortController.ON_DRAG
+            setDragHandleId(R.id.propertyItemImageView)
+        }
         binding.propertyPriorityListView.isDragEnabled = true
         binding.propertyPriorityListView.setFloatViewManager(controller)
         binding.propertyPriorityListView.setOnTouchListener(controller)
@@ -98,14 +94,13 @@ class PropertyPriorityDialogFragment : AbstractDialogFragment() {
         })
 
         // Dialog build`
-        val builder = AlertDialog.Builder(context)
-        builder.setTitle(R.string.label_dialog_property_priority_title)
-        builder.setView(binding.root)
-        builder.setPositiveButton(android.R.string.ok, null)
-        builder.setNegativeButton(R.string.label_default, null)
-        builder.setNeutralButton(android.R.string.cancel, null)
-
-        return builder.create()
+        return AlertDialog.Builder(context).apply {
+            setTitle(R.string.label_dialog_property_priority_title)
+            setView(binding.root)
+            setPositiveButton(android.R.string.ok, null)
+            setNegativeButton(R.string.label_default, null)
+            setNeutralButton(android.R.string.cancel, null)
+        }.create()
     }
 
     override fun invokeListener(which: Int, bundle: Bundle?, close: Boolean) {
@@ -125,11 +120,9 @@ class PropertyPriorityDialogFragment : AbstractDialogFragment() {
          * Create dialog instance
          */
         fun newInstance(): PropertyPriorityDialogFragment {
-            val fragment = PropertyPriorityDialogFragment()
-
-            val args = Bundle()
-            fragment.arguments = args
-            return fragment
+            return PropertyPriorityDialogFragment().apply {
+                arguments = Bundle()
+            }
         }
     }
 

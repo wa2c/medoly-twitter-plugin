@@ -30,31 +30,32 @@ class InsertPropertyDialogFragment : AbstractDialogFragment() {
         super.onCreateDialog(savedInstanceState)
         // List
         itemList.addAll(PropertyItem.getDefaultPropertyPriority(context))
-        val adapter = PropertyListAdapter(context, itemList)
-        adapter.setNotifyOnChange(false)
-
-        // Create list view
-        val listView = ListView(context)
-        listView.layoutParams = LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT)
-        listView.adapter = adapter
-        listView.isFastScrollEnabled = true
-        listView.onItemClickListener = AdapterView.OnItemClickListener { _, _, position, _ ->
-            val insert = "%" + itemList[position].propertyKey + "%"
-            itemSelectListener?.onItemSelect(insert)
-            dialog.dismiss()
+        val listAdapter = PropertyListAdapter(context, itemList).apply {
+            setNotifyOnChange(false)
         }
 
-        val listLayout = LinearLayout(context)
-        listLayout.layoutParams = LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT)
-        listLayout.addView(listView)
+        // Create list view
+        val listView = ListView(context).apply {
+            layoutParams = LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT)
+            adapter = listAdapter
+            isFastScrollEnabled = true
+            onItemClickListener = AdapterView.OnItemClickListener { _, _, position, _ ->
+                val insert = "%" + itemList[position].propertyKey + "%"
+                itemSelectListener?.onItemSelect(insert)
+                dialog.dismiss()
+            }
+        }
+        val listLayout = LinearLayout(context).apply {
+            layoutParams = LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT)
+            addView(listView)
+        }
 
         // Build dialog
-        val builder = AlertDialog.Builder(context)
-        builder.setTitle(R.string.label_dialog_insert_property_title)
-        builder.setView(listLayout)
-        builder.setNeutralButton(android.R.string.cancel, null)
-
-        return builder.create()
+        return AlertDialog.Builder(context).apply {
+            setTitle(R.string.label_dialog_insert_property_title)
+            setView(listLayout)
+            setNeutralButton(android.R.string.cancel, null)
+        }.create()
     }
 
     /**
@@ -109,10 +110,9 @@ class InsertPropertyDialogFragment : AbstractDialogFragment() {
          * @return New dialog instance.
          */
         fun newInstance(): InsertPropertyDialogFragment {
-            val fragment = InsertPropertyDialogFragment()
-            val args = Bundle()
-            fragment.arguments = args
-            return fragment
+            return InsertPropertyDialogFragment().apply {
+                arguments = Bundle()
+            }
         }
     }
 

@@ -76,11 +76,10 @@ abstract class AbstractDialogFragment : DialogFragment() {
      * @param activity A activity.
      */
     fun show(activity: FragmentActivity?) {
-        if (activity == null)
-            return
-        val manager = activity.supportFragmentManager
-        (manager.findFragmentByTag(fragmentTag) as? AbstractDialogFragment)?.dismiss()
-        super.show(manager, fragmentTag)
+        activity?.supportFragmentManager?.let {
+            (it.findFragmentByTag(fragmentTag) as? AbstractDialogFragment)?.dismiss()
+            super.show(it, fragmentTag)
+        }
     }
 
 }
