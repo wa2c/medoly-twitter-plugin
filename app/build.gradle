@@ -19,8 +19,8 @@ android {
         applicationId "com.wa2c.android.medoly.plugin.action.tweet"
         minSdkVersion 16
         targetSdkVersion 28
-        versionCode 11
-        versionName "2.3.0"
+        versionCode 12
+        versionName "2.4.0"
 
         buildConfigField("String", "K1", "\"\"")
         buildConfigField("String", "K2", "\"\"")
@@ -80,9 +80,9 @@ repositories {
 
 dependencies {
     // Medoly library
-    implementation 'com.wa2c.android:medolylibrary:1.2.6'
+    implementation 'com.wa2c.android:medolylibrary:1.2.7'
     // Prefs
-    implementation 'com.wa2c.android:prefs:0.1.1'
+    implementation 'com.wa2c.android:prefs:0.1.2'
 
     // Support Library
     implementation 'androidx.appcompat:appcompat:1.0.2'
