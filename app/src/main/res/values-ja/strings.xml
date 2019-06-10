@@ -71,6 +71,8 @@
 
     <string name="pref_title_device_auto_start">自動起動管理</string>
     <string name="pref_summary_device_auto_start">デバイスの自動起動マネージャを起動します。一部のデバイスではプラグインの起動に設定が必要です。</string>
+    <string name="pref_title_privacy_policy">プライバシーポリシー</string>
+    <string name="pref_summary_privacy_policy">プライバシーポリシーを表示します。</string>
     <string name="pref_title_application_details">アプリ情報</string>
     <string name="pref_summary_application_details">アプリ情報を表示します。</string>
     <string name="pref_title_about">About</string>
@@ -83,7 +85,6 @@
     <string name="label_dialog_about_developer">Developer</string>
     <string name="label_dialog_about_email">Email</string>
     <string name="label_dialog_about_license">License</string>
-    <string name="label_dialog_about_privacy_policy">Privacy Policy</string>
     <string name="label_dialog_about_google_play">Google Play</string>
     <string name="label_dialog_about_link">Link</string>
     <string name="label_dialog_about_library">[Library]</string>

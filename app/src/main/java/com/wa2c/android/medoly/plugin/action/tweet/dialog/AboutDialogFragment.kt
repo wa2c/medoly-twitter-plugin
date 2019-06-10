@@ -46,13 +46,6 @@ class AboutDialogFragment : AbstractDialogFragment() {
                 getString(R.string.app_license_url), null,
                 Linkify.TransformFilter { _, _ -> getString(R.string.app_license_url) })
 
-        // Privacy Policy
-        Linkify.addLinks(
-                binding.dialogAboutPrivacyPolicyTextView,
-                Pattern.compile(getString(R.string.label_dialog_about_link)),
-                getString(R.string.app_privacy_policy_url), null,
-                Linkify.TransformFilter { _, _ -> getString(R.string.app_privacy_policy_url) })
-
         // Google Play
         Linkify.addLinks(
                 binding.dialogAboutGooglePlayTextView,

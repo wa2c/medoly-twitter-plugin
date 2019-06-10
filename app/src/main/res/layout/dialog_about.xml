@@ -168,33 +168,6 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:gravity="end"
-                        android:text="@string/label_dialog_about_privacy_policy"
-                        android:textColor="@android:color/secondary_text_dark" />
-
-                    <TextView
-                        style="@android:style/TextAppearance.Medium"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/label_header_separator"
-                        android:textColor="@android:color/secondary_text_dark" />
-
-                    <TextView
-                        android:id="@+id/dialogAboutPrivacyPolicyTextView"
-                        style="@android:style/TextAppearance.Medium"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/label_dialog_about_link" />
-                </TableRow>
-
-                <TableRow
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent">
-
-                    <TextView
-                        style="@android:style/TextAppearance.Medium"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:gravity="end"
                         android:text="@string/label_dialog_about_google_play"
                         android:textColor="@android:color/secondary_text_dark" />
 

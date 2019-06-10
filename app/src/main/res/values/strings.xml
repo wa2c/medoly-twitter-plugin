@@ -71,6 +71,8 @@
 
     <string name="pref_title_device_auto_start">Auto Start Manager</string>
     <string name="pref_summary_device_auto_start">Launch the device auto start manager. Some devices need change settings to launch plugin.</string>
+    <string name="pref_title_privacy_policy">Privacy Policy</string>
+    <string name="pref_summary_privacy_policy">Show privacy policy.</string>
     <string name="pref_title_application_details">App Info</string>
     <string name="pref_summary_application_details">Show application information.</string>
     <string name="pref_title_about">About</string>
@@ -83,7 +85,6 @@
     <string name="label_dialog_about_developer">Developer</string>
     <string name="label_dialog_about_email">Email</string>
     <string name="label_dialog_about_license">License</string>
-    <string name="label_dialog_about_privacy_policy">Privacy Policy</string>
     <string name="label_dialog_about_google_play">Google Play</string>
     <string name="label_dialog_about_link">Link</string>
     <string name="label_dialog_about_library">[Library]</string>
