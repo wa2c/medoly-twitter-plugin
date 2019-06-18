@@ -8,6 +8,7 @@ import android.app.NotificationManager
 import android.content.Context
 import android.content.Intent
 import android.os.Build
+import androidx.core.content.ContextCompat
 import com.wa2c.android.medoly.library.MediaPluginIntent
 import com.wa2c.android.medoly.library.PluginOperationCategory
 import com.wa2c.android.medoly.library.PropertyData
@@ -15,6 +16,7 @@ import com.wa2c.android.medoly.plugin.action.tweet.R
 import com.wa2c.android.medoly.plugin.action.tweet.util.AppUtils
 import com.wa2c.android.prefs.Prefs
 import timber.log.Timber
+import java.io.InvalidObjectException
 
 
 /**
@@ -32,12 +34,14 @@ abstract class AbstractPluginService(name: String) : IntentService(name) {
     protected lateinit var propertyData: PropertyData
     /** Received class name.  */
     protected lateinit var receivedClassName: String
+    /** Notification manager. */
+    private var notificationManager : NotificationManager? = null
+
 
     @SuppressLint("NewApi")
     override fun onHandleIntent(intent: Intent?) {
         Timber.d("onHandleIntent")
 
-        var notificationManager : NotificationManager? = null
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             notificationManager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
             val builder = Notification.Builder(this, NOTIFICATION_CHANNEL_ID)
@@ -47,26 +51,21 @@ abstract class AbstractPluginService(name: String) : IntentService(name) {
         }
 
         if (intent == null)
-            return
+            throw InvalidObjectException("Null intent")
 
-        try {
-            context = applicationContext
-            prefs = Prefs(this)
-            pluginIntent = MediaPluginIntent(intent)
-            propertyData = pluginIntent.propertyData ?: PropertyData()
-            receivedClassName = pluginIntent.getStringExtra(RECEIVED_CLASS_NAME)
-        } catch (e: Exception) {
-            Timber.e(e)
-        } finally {
-            if (notificationManager != null) {
-                notificationManager.cancel(NOTIFICATION_ID)
-                stopForeground(true)
-            }
-        }
+        context = applicationContext
+        prefs = Prefs(this)
+        pluginIntent = MediaPluginIntent(intent)
+        propertyData = pluginIntent.propertyData ?: PropertyData()
+        receivedClassName = pluginIntent.getStringExtra(RECEIVED_CLASS_NAME)
     }
 
     override fun onDestroy() {
         super.onDestroy()
+        notificationManager?.let {
+            it.cancel(NOTIFICATION_ID)
+            stopForeground(true)
+        }
         Timber.d("onDestroy: %s", this.javaClass.simpleName)
     }
 

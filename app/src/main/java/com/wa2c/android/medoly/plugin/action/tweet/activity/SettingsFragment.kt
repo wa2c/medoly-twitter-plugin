@@ -36,7 +36,7 @@ class SettingsFragment : PreferenceFragmentCompat() {
     }
 
     /**
-     * Privacy poicy
+     * Privacy policy
      */
     private val privacyPolicyPreferenceClickListener = Preference.OnPreferenceClickListener {
         val url = Uri.parse(getString(R.string.app_privacy_policy_url))

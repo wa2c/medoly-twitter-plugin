@@ -20,12 +20,11 @@ class PluginPostService : AbstractPluginService(PluginPostService::class.java.si
     private var twitter: Twitter? = null
 
     override fun onHandleIntent(intent: Intent?) {
-        super.onHandleIntent(intent)
-
         try {
-            twitter = TwitterUtils.getTwitterInstance(context)
+            super.onHandleIntent(intent)
 
             if (receivedClassName == PluginReceivers.EventPostTweetReceiver::class.java.name) {
+                twitter = TwitterUtils.getTwitterInstance(context)
                 tweet()
             }
         } catch (e: Exception) {

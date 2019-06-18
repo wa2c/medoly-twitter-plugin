@@ -15,9 +15,8 @@ import timber.log.Timber
 class PluginRunService : AbstractPluginService(PluginRunService::class.java.simpleName) {
 
     override fun onHandleIntent(intent: Intent?) {
-        super.onHandleIntent(intent)
-
         try {
+            super.onHandleIntent(intent)
             if (receivedClassName == PluginReceivers.ExecutePostTweetReceiver::class.java.name) {
                 shareTweet()
             } else if (receivedClassName == PluginReceivers.ExecuteOpenTwitterReceiver::class.java.name) {
@@ -26,7 +25,6 @@ class PluginRunService : AbstractPluginService(PluginRunService::class.java.simp
         } catch (e: Exception) {
             Timber.e(e)
         }
-
     }
 
     /**
