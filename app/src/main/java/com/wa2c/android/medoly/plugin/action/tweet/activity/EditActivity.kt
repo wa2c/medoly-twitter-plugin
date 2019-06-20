@@ -11,6 +11,7 @@ import com.wa2c.android.medoly.plugin.action.tweet.dialog.ConfirmDialogFragment
 import com.wa2c.android.medoly.plugin.action.tweet.dialog.InsertPropertyDialogFragment
 import com.wa2c.android.medoly.plugin.action.tweet.dialog.PropertyPriorityDialogFragment
 import com.wa2c.android.prefs.Prefs
+import kotlin.math.min
 
 
 /**
@@ -46,8 +47,8 @@ class EditActivity : AppCompatActivity() {
                     var text = insertString
                     val index1 = binding.contentEditText.selectionStart
                     val index2 = binding.contentEditText.selectionEnd
-                    val start = Math.min(index1, index2)
-                    val end = Math.min(index1, index2)
+                    val start = min(index1, index2)
+                    val end = min(index1, index2)
                     val editable = binding.contentEditText.text
                     if (start > 0 && editable[start - 1] != ' ') {
                         text = " $text" // スペース挿入

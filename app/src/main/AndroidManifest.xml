@@ -13,6 +13,8 @@
         android:label="@string/app_name"
         android:theme="@style/AppTheme">
 
+        <meta-data android:name="google_analytics_adid_collection_enabled" android:value="false" />
+
         <activity
             android:name=".activity.MainActivity"
             android:launchMode="singleTask">
@@ -113,8 +115,6 @@
         <receiver
             android:name=".util.ToastReceiver"
             android:exported="false" />
-
-        <meta-data android:name="google_analytics_adid_collection_enabled" android:value="false" />
 
     </application>
 

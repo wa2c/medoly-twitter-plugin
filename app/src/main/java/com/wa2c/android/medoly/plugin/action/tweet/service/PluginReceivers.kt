@@ -3,7 +3,6 @@ package com.wa2c.android.medoly.plugin.action.tweet.service
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
-import android.os.Build
 import androidx.core.content.ContextCompat
 import com.wa2c.android.medoly.library.*
 import com.wa2c.android.medoly.plugin.action.tweet.R

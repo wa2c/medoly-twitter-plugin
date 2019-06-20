@@ -150,7 +150,7 @@ object TwitterUtils {
     fun getTweetMessage(context: Context, propertyData: PropertyData): String {
         val prefs = Prefs(context)
         val format = prefs.getString(R.string.prefkey_content_format, defRes = R.string.format_content_default)
-        val TRIM_EXP = if (prefs.getBoolean(R.string.prefkey_trim_before_empty_enabled, defRes = R.bool.pref_default_trim_before_empty_enabled)) "\\w*" else ""
+        val trimExp = if (prefs.getBoolean(R.string.prefkey_trim_before_empty_enabled, defRes = R.bool.pref_default_trim_before_empty_enabled)) "\\w*" else ""
         val priorityList = PropertyItem.loadPropertyPriority(context)
         val containsMap = LinkedHashSet<PropertyItem>()
         for (item in priorityList) {
@@ -165,7 +165,7 @@ object TwitterUtils {
             var regexpText = propertyItem.propertyTag
             if (propertyText.isNullOrEmpty()) {
                 propertyText = ""
-                regexpText = TRIM_EXP + regexpText
+                regexpText = trimExp + regexpText
             }
 
             var workText = outputText
