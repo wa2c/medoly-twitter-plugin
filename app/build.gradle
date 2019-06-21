@@ -69,6 +69,30 @@ android {
     lintOptions {
         lintConfig file('lint.xml')
     }
+
+    // output file
+    applicationVariants.all { variant ->
+        if (variant.buildType.name == "release") {
+            def newName = "MedolyTwitterPlugin_${defaultConfig.versionName}"
+            variant.outputs.all {
+                // filename
+                outputFileName = "${newName}.apk"
+                // mapping
+                variant.assembleProvider.get().doLast {
+                    if ( variant.mappingFile != null && variant.mappingFile.exists() ) {
+                        copy {
+                            from variant.mappingFile
+                            into outputFile.parent
+                            rename { String fileName ->
+                                "${newName}_mapping.txt"
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
 }
 
 repositories {
