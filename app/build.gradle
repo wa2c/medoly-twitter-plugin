@@ -28,7 +28,6 @@ android {
         buildConfigField("String", "T2", "\"\"")
 
         multiDexEnabled true
-        vectorDrawables.useSupportLibrary = true
     }
 
     buildTypes {

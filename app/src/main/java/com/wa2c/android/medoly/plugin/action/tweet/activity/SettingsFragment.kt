@@ -72,10 +72,6 @@ class SettingsFragment : PreferenceFragmentCompat() {
     private var managerAction: KillerManager.Actions? = null
 
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
-    }
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
         addPreferencesFromResource(R.xml.pref_settings)
 
         KillerManager.init(activity)
@@ -98,7 +94,10 @@ class SettingsFragment : PreferenceFragmentCompat() {
         findPreference(getString(R.string.prefkey_application_details)).onPreferenceClickListener = applicationDetailsPreferenceClickListener
         // About
         findPreference(getString(R.string.prefkey_about)).onPreferenceClickListener = aboutPreferenceClickListener
+    }
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
         initSummary(preferenceScreen)
     }
 
