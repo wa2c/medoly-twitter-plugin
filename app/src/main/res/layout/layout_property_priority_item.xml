@@ -15,7 +15,7 @@
             android:layout_height="@dimen/list_item_size"
             android:contentDescription="@null"
             android:padding="4dp"
-            app:srcCompat="@drawable/ic_drag" />
+            android:src="@drawable/ic_drag" />
 
 
         <TextView
