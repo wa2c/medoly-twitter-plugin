@@ -10,7 +10,7 @@ if (file('./token.gradle').exists()) {
 }
 
 android {
-    compileSdkVersion 28
+    compileSdkVersion 29
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
@@ -19,7 +19,7 @@ android {
     defaultConfig {
         applicationId "com.wa2c.android.medoly.plugin.action.tweet"
         minSdkVersion 16
-        targetSdkVersion 28
+        targetSdkVersion 29
         versionCode 15
         versionName "2.4.3"
 
@@ -110,30 +110,25 @@ dependencies {
 
     // Support Library
     implementation 'androidx.appcompat:appcompat:1.2.0'
-    implementation "androidx.preference:preference:1.1.1"
+    implementation 'androidx.preference:preference:1.1.1'
     implementation 'androidx.multidex:multidex:2.0.1'
 
     // Kotlin
-    implementation group: 'org.jetbrains.kotlinx', name: 'kotlinx-coroutines-core', version: '1.3.7'
-    implementation group: 'org.jetbrains.kotlinx', name: 'kotlinx-coroutines-android', version: '1.3.7'
+    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.3.7'
+    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.3.7'
 
     // Firebase
     implementation 'com.google.firebase:firebase-core:17.5.0'
     implementation 'com.crashlytics.sdk.android:crashlytics:2.10.1'
 
-    // https://mvnrepository.com/artifact/org.twitter4j/twitter4j-core
-    api group: 'org.twitter4j', name: 'twitter4j-core', version: '4.0.7'
-    // https://mvnrepository.com/artifact/com.twitter.twittertext/twitter-text
-    implementation group: 'com.twitter.twittertext', name: 'twitter-text', version: '3.0.1'
-    // https://mvnrepository.com/artifact/asia.ivity.android/drag-sort-listview
-    implementation (group: 'asia.ivity.android', name: 'drag-sort-listview', version: '1.0') {
+    api 'org.twitter4j:twitter4j-core:4.0.7'
+    implementation 'com.twitter.twittertext:twitter-text:3.0.1'
+    implementation ('asia.ivity.android:drag-sort-listview:1.0') {
         exclude module: 'support-v4'
     }
-    // https://mvnrepository.com/artifact/com.jakewharton.timber/timber
-    implementation group: 'com.jakewharton.timber', name: 'timber', version: '4.7.1'
-    // https://mvnrepository.com/artifact/com.pranavpandey.android/dynamic-toasts
-    implementation group: 'com.pranavpandey.android', name: 'dynamic-toasts', version: '3.2.0'
 
+    implementation 'com.jakewharton.timber:timber:4.7.1'
+    implementation 'com.pranavpandey.android:dynamic-toasts:3.2.0'
     implementation 'com.thelittlefireman:AppKillerManager:2.1.1'
 }
 
