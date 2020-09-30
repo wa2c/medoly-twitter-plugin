@@ -4,7 +4,7 @@
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
-    
+
     <application
         android:name=".App"
         android:allowBackup="true"
@@ -13,7 +13,9 @@
         android:label="@string/app_name"
         android:theme="@style/AppTheme">
 
-        <meta-data android:name="google_analytics_adid_collection_enabled" android:value="false" />
+        <meta-data
+            android:name="google_analytics_adid_collection_enabled"
+            android:value="false" />
 
         <activity
             android:name=".activity.MainActivity"
@@ -21,6 +23,7 @@
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <action android:name="android.intent.action.VIEW" />
+
                 <category android:name="android.intent.category.DEFAULT" />
                 <!-- <category android:name="android.intent.category.LAUNCHER" /> -->
             </intent-filter>
@@ -40,8 +43,7 @@
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
 
-                <data
-                    android:scheme="medoly-twitter-plugin" />
+                <data android:scheme="medoly-twitter-plugin" />
             </intent-filter>
         </activity>
 
@@ -55,11 +57,10 @@
             android:label="@string/title_activity_settings"
             android:launchMode="singleTask" />
 
+        <!-- Service -->
+
         <service
             android:name=".service.PluginPostService"
-            android:exported="false" />
-        <service
-            android:name=".service.PluginRunService"
             android:exported="false" />
 
         <!-- Plugin event action -->
@@ -71,7 +72,7 @@
             android:label="@string/label_event_tweet">
 
             <!-- Tweet -->
-            <intent-filter>
+            <intent-filter android:priority="110">
                 <action android:name="com.wa2c.android.medoly.plugin.action.ACTION_MEDIA" />
 
                 <category android:name="android.intent.category.DEFAULT" />
@@ -84,33 +85,33 @@
 
         <!-- Plugin execution action -->
 
-        <!-- Post message -->
-        <receiver
-            android:name=".service.PluginReceivers$ExecutePostTweetReceiver"
+        <activity
+            android:name=".activity.ShareTweetActivity"
             android:exported="true"
             android:icon="@drawable/ic_post"
-            android:label="@string/label_execute_tweet">
-            <intent-filter>
+            android:label="@string/label_execute_tweet"
+            android:launchMode="standard">
+            <intent-filter android:priority="109">
                 <action android:name="com.wa2c.android.medoly.plugin.action.ACTION_MEDIA" />
 
                 <category android:name="com.wa2c.android.medoly.plugin.category.TYPE_RUN" />
                 <category android:name="com.wa2c.android.medoly.plugin.category.OPERATION_EXECUTE" />
             </intent-filter>
-        </receiver>
+        </activity>
 
-        <!-- Open Twitter -->
-        <receiver
-            android:name=".service.PluginReceivers$ExecuteOpenTwitterReceiver"
+        <activity
+            android:name=".activity.TwitterPageActivity"
             android:exported="true"
             android:icon="@drawable/ic_twitter"
-            android:label="@string/label_execute_site">
-            <intent-filter>
+            android:label="@string/label_execute_site"
+            android:launchMode="standard">
+            <intent-filter android:priority="108">
                 <action android:name="com.wa2c.android.medoly.plugin.action.ACTION_MEDIA" />
 
                 <category android:name="com.wa2c.android.medoly.plugin.category.TYPE_RUN" />
                 <category android:name="com.wa2c.android.medoly.plugin.category.OPERATION_EXECUTE" />
             </intent-filter>
-        </receiver>
+        </activity>
 
         <receiver
             android:name=".util.ToastReceiver"

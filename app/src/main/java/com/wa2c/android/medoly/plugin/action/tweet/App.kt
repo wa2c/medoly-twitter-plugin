@@ -13,8 +13,8 @@ class App : MultiDexApplication() {
         super.onCreate()
 
         if (BuildConfig.DEBUG) {
-            //Timber.plant(Timber.DebugTree())
-            Timber.plant(CrashlyticsTree())
+            Timber.plant(Timber.DebugTree())
+            //Timber.plant(CrashlyticsTree())
         } else {
             Timber.plant(CrashlyticsTree())
         }
