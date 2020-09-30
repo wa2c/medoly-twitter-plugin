@@ -42,7 +42,7 @@ class InsertPropertyDialogFragment : AbstractDialogFragment() {
             onItemClickListener = AdapterView.OnItemClickListener { _, _, position, _ ->
                 val insert = "%" + itemList[position].propertyKey + "%"
                 itemSelectListener?.onItemSelect(insert)
-                dialog.dismiss()
+                dialog?.dismiss()
             }
         }
         val listLayout = LinearLayout(context).apply {

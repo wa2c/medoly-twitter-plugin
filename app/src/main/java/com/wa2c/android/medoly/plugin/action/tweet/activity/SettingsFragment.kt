@@ -84,16 +84,16 @@ class SettingsFragment : PreferenceFragmentCompat() {
 
         // Device auto start
         if (managerAction != null) {
-            findPreference(getString(R.string.prefkey_device_auto_start)).onPreferenceClickListener = deviceAutoStartPreferenceClickListener
+            (findPreference(getString(R.string.prefkey_device_auto_start)) as? Preference)?.onPreferenceClickListener = deviceAutoStartPreferenceClickListener
         } else {
-            findPreference(getString(R.string.prefkey_device_auto_start)).isEnabled = false
+            (findPreference(getString(R.string.prefkey_device_auto_start)) as? Preference)?.isEnabled = false
         }
         // Privacy Policy
-        findPreference(getString(R.string.prefkey_privacy_policy)).onPreferenceClickListener = privacyPolicyPreferenceClickListener
+        (findPreference(getString(R.string.prefkey_privacy_policy)) as? Preference)?.onPreferenceClickListener = privacyPolicyPreferenceClickListener
         // App info
-        findPreference(getString(R.string.prefkey_application_details)).onPreferenceClickListener = applicationDetailsPreferenceClickListener
+        (findPreference(getString(R.string.prefkey_application_details)) as? Preference)?.onPreferenceClickListener = applicationDetailsPreferenceClickListener
         // About
-        findPreference(getString(R.string.prefkey_about)).onPreferenceClickListener = aboutPreferenceClickListener
+        (findPreference(getString(R.string.prefkey_about)) as? Preference)?.onPreferenceClickListener = aboutPreferenceClickListener
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -151,7 +151,10 @@ class SettingsFragment : PreferenceFragmentCompat() {
      * Update summary.
      * @param p target preference.
      */
-    private fun updatePrefSummary(p: Preference) {
+    private fun updatePrefSummary(p: Preference?) {
+        if (p == null)
+            return
+
         val key = p.key
         var summary = p.summary
         if (key.isNullOrEmpty())
@@ -175,7 +178,7 @@ class SettingsFragment : PreferenceFragmentCompat() {
                 if (stringSet != null && stringSet.size > 0) {
                     p.values = stringSet // update value once
                     val builder = StringBuilder()
-                    (0 until p.entries.size)
+                    (p.entries.indices)
                             .filter { stringSet.contains(p.entryValues[it]) }
                             .forEach { builder.append(p.entries[it]).append(",") }
                     if (builder.isNotEmpty()) {
