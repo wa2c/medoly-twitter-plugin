@@ -15,7 +15,7 @@ import com.mobeta.android.dslv.DragSortListView
 import com.wa2c.android.medoly.plugin.action.tweet.R
 import com.wa2c.android.medoly.plugin.action.tweet.activity.PropertyItem
 import com.wa2c.android.medoly.plugin.action.tweet.databinding.DialogPropertyPriorityBinding
-import com.wa2c.android.medoly.plugin.action.tweet.util.AppUtils
+import com.wa2c.android.medoly.plugin.action.tweet.util.toast
 import kotlinx.android.synthetic.main.layout_property_priority_item.view.*
 import java.util.*
 
@@ -109,7 +109,7 @@ class PropertyPriorityDialogFragment : AbstractDialogFragment() {
             PropertyItem.savePropertyPriority(context, itemList)
         } else if (which == DialogInterface.BUTTON_NEGATIVE) {
             PropertyItem.savePropertyPriority(context, PropertyItem.getDefaultPropertyPriority(context))
-            AppUtils.showToast(context, R.string.message_initialize_priority)
+            toast(R.string.message_initialize_priority)
         }
         super.invokeListener(which, result, close)
     }

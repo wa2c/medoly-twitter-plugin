@@ -12,7 +12,7 @@ import com.wa2c.android.medoly.library.MediaPluginIntent
 import com.wa2c.android.medoly.library.PluginOperationCategory
 import com.wa2c.android.medoly.library.PropertyData
 import com.wa2c.android.medoly.plugin.action.tweet.R
-import com.wa2c.android.medoly.plugin.action.tweet.util.AppUtils
+import com.wa2c.android.medoly.plugin.action.tweet.util.toast
 import com.wa2c.android.prefs.Prefs
 import timber.log.Timber
 import java.io.InvalidObjectException
@@ -56,7 +56,7 @@ abstract class AbstractPluginService(name: String) : IntentService(name) {
         prefs = Prefs(this)
         pluginIntent = MediaPluginIntent(intent)
         propertyData = pluginIntent.propertyData ?: PropertyData()
-        receivedClassName = pluginIntent.getStringExtra(RECEIVED_CLASS_NAME)
+        receivedClassName = pluginIntent.getStringExtra(RECEIVED_CLASS_NAME) ?: ""
     }
 
     override fun onDestroy() {
@@ -74,16 +74,16 @@ abstract class AbstractPluginService(name: String) : IntentService(name) {
      */
     fun showMessage(result: CommandResult, succeededMessage: String?, failedMessage: String?) {
         if (result == CommandResult.AUTH_FAILED) {
-            AppUtils.showToast(context, R.string.message_account_not_auth)
+            toast(R.string.message_account_not_auth)
         } else if (result == CommandResult.NO_MEDIA) {
-            AppUtils.showToast(context, R.string.message_no_media)
+            toast(R.string.message_no_media)
         } else if (result == CommandResult.SUCCEEDED && !succeededMessage.isNullOrEmpty()) {
             if (pluginIntent.hasCategory(PluginOperationCategory.OPERATION_EXECUTE) || prefs.getBoolean(R.string.prefkey_tweet_success_message_show, defRes = R.bool.pref_default_tweet_success_message_show)) {
-                AppUtils.showToast(context, succeededMessage)
+                toast(succeededMessage)
             }
         } else if (result == CommandResult.FAILED && !failedMessage.isNullOrEmpty()) {
             if (pluginIntent.hasCategory(PluginOperationCategory.OPERATION_EXECUTE) || prefs.getBoolean(R.string.prefkey_tweet_failure_message_show, defRes = R.bool.pref_default_tweet_failure_message_show)) {
-                AppUtils.showToast(context, failedMessage)
+                toast(failedMessage)
             }
         }
     }

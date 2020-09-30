@@ -6,7 +6,7 @@ import android.content.Intent
 import androidx.core.content.ContextCompat
 import com.wa2c.android.medoly.library.*
 import com.wa2c.android.medoly.plugin.action.tweet.R
-import com.wa2c.android.medoly.plugin.action.tweet.util.AppUtils
+import com.wa2c.android.medoly.plugin.action.tweet.util.toast
 import com.wa2c.android.prefs.Prefs
 import timber.log.Timber
 
@@ -38,7 +38,7 @@ class PluginReceivers {
                 }
                 // media
                 if (propertyData.isMediaEmpty) {
-                    AppUtils.showToast(context, R.string.message_no_media)
+                    context.toast(R.string.message_no_media)
                     return result
                 }
                 // property
@@ -69,7 +69,7 @@ class PluginReceivers {
                 if (this is ExecutePostTweetReceiver) {
                     // media
                     if (propertyData.isMediaEmpty) {
-                        AppUtils.showToast(context, R.string.message_no_media)
+                        context.toast(R.string.message_no_media)
                         return result
                     }
                     // property

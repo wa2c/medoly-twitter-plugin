@@ -23,7 +23,7 @@ abstract class AbstractDialogFragment : DialogFragment() {
 
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
-        context = activity!!
+        context = requireActivity()
         prefs = Prefs(context)
         return super.onCreateDialog(savedInstanceState)
     }
