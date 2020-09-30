@@ -38,7 +38,7 @@ object TwitterUtils {
             t2 = Token.getConsumerSecret()
         } catch (e: Exception) {
             Timber.e(e)
-            AppUtils.showToast(context, "There is no Token class.")
+            context.toast("There is no Token class.")
             return null
         }
 

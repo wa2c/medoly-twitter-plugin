@@ -10,8 +10,8 @@ import androidx.databinding.DataBindingUtil
 import com.wa2c.android.medoly.library.MedolyEnvironment
 import com.wa2c.android.medoly.plugin.action.tweet.R
 import com.wa2c.android.medoly.plugin.action.tweet.databinding.ActivityMainBinding
-import com.wa2c.android.medoly.plugin.action.tweet.util.AppUtils
 import com.wa2c.android.medoly.plugin.action.tweet.util.TwitterUtils
+import com.wa2c.android.medoly.plugin.action.tweet.util.toast
 import com.wa2c.android.prefs.Prefs
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
@@ -71,7 +71,7 @@ class MainActivity : AppCompatActivity() {
         binding.launchMedolyButton.setOnClickListener {
             val intent = packageManager.getLaunchIntentForPackage(MedolyEnvironment.MEDOLY_PACKAGE)
             if (intent == null) {
-                AppUtils.showToast(this, R.string.message_no_medoly)
+                toast(R.string.message_no_medoly)
                 return@setOnClickListener
             }
             startActivity(intent)
@@ -99,7 +99,7 @@ class MainActivity : AppCompatActivity() {
 
         for (i in permissions.indices) {
             if (Manifest.permission.READ_EXTERNAL_STORAGE == permissions[i] && grantResults[i] != PackageManager.PERMISSION_GRANTED) {
-                AppUtils.showToast(this, R.string.message_storage_permission_denied)
+                toast(R.string.message_storage_permission_denied)
             }
         }
     }
@@ -138,7 +138,7 @@ class MainActivity : AppCompatActivity() {
                 val intent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
                 startActivity(intent)
             } else {
-                AppUtils.showToast(this@MainActivity, R.string.message_auth_failure)
+                toast(R.string.message_auth_failure)
             }
         }
     }
@@ -168,17 +168,17 @@ class MainActivity : AppCompatActivity() {
             when {
                 token != null -> {
                     // Auth succeeded
-                    AppUtils.showToast(this@MainActivity, R.string.message_auth_success)
+                    toast(R.string.message_auth_success)
                     TwitterUtils.storeAccessToken(this@MainActivity, token)
                 }
                 verifier == null -> {
                     // Auth canceled
-                    AppUtils.showToast(this@MainActivity, R.string.message_account_clear)
+                    toast(R.string.message_account_clear)
                     TwitterUtils.storeAccessToken(this@MainActivity, null)
                 }
                 else -> {
                     // Auth failed
-                    AppUtils.showToast(this@MainActivity, R.string.message_auth_failure)
+                    toast(R.string.message_auth_failure)
                     TwitterUtils.storeAccessToken(this@MainActivity, null)
                 }
             }

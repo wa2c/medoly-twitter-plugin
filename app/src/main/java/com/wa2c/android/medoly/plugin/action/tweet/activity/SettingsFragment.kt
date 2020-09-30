@@ -9,7 +9,7 @@ import androidx.preference.*
 import com.thelittlefireman.appkillermanager.managers.KillerManager
 import com.wa2c.android.medoly.plugin.action.tweet.R
 import com.wa2c.android.medoly.plugin.action.tweet.dialog.AboutDialogFragment
-import com.wa2c.android.medoly.plugin.action.tweet.util.AppUtils
+import com.wa2c.android.medoly.plugin.action.tweet.util.toast
 import java.util.*
 
 /**
@@ -29,7 +29,7 @@ class SettingsFragment : PreferenceFragmentCompat() {
     private val deviceAutoStartPreferenceClickListener = Preference.OnPreferenceClickListener {
         activity?.let {
             if (!KillerManager.doAction(it, managerAction)) {
-                AppUtils.showToast(it, R.string.message_unsupported_device)
+                toast(R.string.message_unsupported_device)
             }
         }
         true
