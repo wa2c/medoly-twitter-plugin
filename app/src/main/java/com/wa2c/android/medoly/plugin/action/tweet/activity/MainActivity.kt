@@ -11,13 +11,13 @@ import com.wa2c.android.medoly.library.MedolyEnvironment
 import com.wa2c.android.medoly.plugin.action.tweet.R
 import com.wa2c.android.medoly.plugin.action.tweet.databinding.ActivityMainBinding
 import com.wa2c.android.medoly.plugin.action.tweet.util.TwitterUtils
+import com.wa2c.android.medoly.plugin.action.tweet.util.logE
 import com.wa2c.android.medoly.plugin.action.tweet.util.toast
 import com.wa2c.android.prefs.Prefs
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
-import timber.log.Timber
 import twitter4j.Twitter
 import twitter4j.auth.RequestToken
 
@@ -129,7 +129,7 @@ class MainActivity : AppCompatActivity() {
                     requestToken = t.getOAuthRequestToken(callbackURL)
                     return@async requestToken?.authorizationURL
                 } catch (e: Exception) {
-                    Timber.e(e)
+                    logE(e)
                     return@async null
                 }
             }.await()
@@ -160,7 +160,7 @@ class MainActivity : AppCompatActivity() {
                 return@async try {
                     twitter?.getOAuthAccessToken(requestToken, verifier)
                 } catch (e: Exception) {
-                    Timber.e(e)
+                    logE(e)
                     null
                 }
             }.await()

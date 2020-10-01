@@ -12,9 +12,9 @@ import com.wa2c.android.medoly.library.MediaPluginIntent
 import com.wa2c.android.medoly.library.PluginOperationCategory
 import com.wa2c.android.medoly.library.PropertyData
 import com.wa2c.android.medoly.plugin.action.tweet.R
+import com.wa2c.android.medoly.plugin.action.tweet.util.logD
 import com.wa2c.android.medoly.plugin.action.tweet.util.toast
 import com.wa2c.android.prefs.Prefs
-import timber.log.Timber
 import java.io.InvalidObjectException
 
 
@@ -39,7 +39,7 @@ abstract class AbstractPluginService(name: String) : IntentService(name) {
 
     @SuppressLint("NewApi")
     override fun onHandleIntent(intent: Intent?) {
-        Timber.d("onHandleIntent")
+        logD("onHandleIntent")
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             notificationManager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
@@ -65,7 +65,7 @@ abstract class AbstractPluginService(name: String) : IntentService(name) {
             it.cancel(NOTIFICATION_ID)
             stopForeground(true)
         }
-        Timber.d("onDestroy: %s", this.javaClass.simpleName)
+        logD("onDestroy: %s", this.javaClass.simpleName)
     }
 
 

@@ -6,9 +6,9 @@ import android.content.Intent
 import androidx.core.content.ContextCompat
 import com.wa2c.android.medoly.library.*
 import com.wa2c.android.medoly.plugin.action.tweet.R
+import com.wa2c.android.medoly.plugin.action.tweet.util.logD
 import com.wa2c.android.medoly.plugin.action.tweet.util.toast
 import com.wa2c.android.prefs.Prefs
-import timber.log.Timber
 
 /**
  * Plugin receiver.
@@ -17,7 +17,7 @@ class PluginReceivers {
 
     abstract class AbstractPluginReceiver : BroadcastReceiver() {
         override fun onReceive(context: Context, intent: Intent) {
-            Timber.d("onReceive: %s", this.javaClass.simpleName)
+            logD("onReceive: %s", this.javaClass.simpleName)
             val result = receive(context, MediaPluginIntent(intent))
             setResult(result.resultCode, null, null)
         }

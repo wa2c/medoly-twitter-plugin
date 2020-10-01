@@ -30,7 +30,7 @@ class TwitterPageActivity : AppCompatActivity(R.layout.layout_loading) {
     }
 
     /**
-     * Open Last.fm page.
+     * Open Twitter page.
      */
     private fun openTwitterPage() {
         runBlocking {
@@ -47,8 +47,10 @@ class TwitterPageActivity : AppCompatActivity(R.layout.layout_loading) {
                 }
 
                 setResult(result.resultCode)
-                finish()
             }
         }
+
+        moveTaskToBack(true)
+        finish()
     }
 }

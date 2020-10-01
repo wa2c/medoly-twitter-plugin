@@ -103,8 +103,10 @@ class ShareTweetActivity : AppCompatActivity(R.layout.layout_loading) {
                 }
 
                 setResult(result.resultCode)
-                finishAffinity()
             }
         }
+
+        moveTaskToBack(true)
+        finish()
     }
 }

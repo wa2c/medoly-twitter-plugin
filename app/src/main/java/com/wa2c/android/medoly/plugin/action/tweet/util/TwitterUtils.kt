@@ -7,7 +7,6 @@ import com.wa2c.android.medoly.plugin.action.tweet.R
 import com.wa2c.android.medoly.plugin.action.tweet.Token
 import com.wa2c.android.medoly.plugin.action.tweet.activity.PropertyItem
 import com.wa2c.android.prefs.Prefs
-import timber.log.Timber
 import twitter4j.Twitter
 import twitter4j.TwitterFactory
 import twitter4j.auth.AccessToken
@@ -37,7 +36,7 @@ object TwitterUtils {
             t1 = Token.getConsumerKey()
             t2 = Token.getConsumerSecret()
         } catch (e: Exception) {
-            Timber.e(e)
+            logE(e)
             context.toast("There is no Token class.")
             return null
         }
