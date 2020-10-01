@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <PreferenceCategory android:title="@string/title_preference_category_event">
+    <!-- Settings -->
+
+    <PreferenceCategory android:title="@string/title_preference_category_settings">
 
         <ListPreference
             android:defaultValue="@string/pref_default_event_tweet_operation"
@@ -47,26 +49,51 @@
             android:summary="@string/pref_summary_post_failure_message_show"
             android:title="@string/pref_title_post_failure_message_show" />
 
-    </PreferenceCategory>
-
-    <PreferenceCategory android:title="@string/title_preference_category_info">
-
         <Preference
             android:key="@string/prefkey_device_auto_start"
             android:summary="@string/pref_summary_device_auto_start"
             android:title="@string/pref_title_device_auto_start" />
+
+    </PreferenceCategory>
+
+    <!-- About -->
+
+    <PreferenceCategory android:title="@string/title_preference_category_about">
+
         <Preference
-            android:key="@string/prefkey_privacy_policy"
-            android:summary="@string/pref_summary_privacy_policy"
-            android:title="@string/pref_title_privacy_policy" />
+            android:key="@string/prefkey_info_app_version"
+            android:summary="@string/pref_summary_info_app_version"
+            android:title="@string/pref_title_info_app_version" />
+
         <Preference
-            android:key="@string/prefkey_application_details"
-            android:summary="@string/pref_summary_application_details"
-            android:title="@string/pref_title_application_details" />
+            android:key="@string/prefkey_info_author"
+            android:summary="@string/pref_summary_info_author"
+            android:title="@string/pref_title_info_author" />
+
         <Preference
-            android:key="@string/prefkey_about"
-            android:summary="@string/pref_summary_about"
-            android:title="@string/pref_title_about" />
+            android:key="@string/prefkey_info_app_license"
+            android:summary="@string/pref_summary_info_app_license"
+            android:title="@string/pref_title_info_app_license" />
+
+        <Preference
+            android:key="@string/prefkey_info_library_license"
+            android:summary="@string/pref_summary_info_library_license"
+            android:title="@string/pref_title_info_library_license" />
+
+        <Preference
+            android:key="@string/prefkey_info_privacy_policy"
+            android:summary="@string/pref_summary_info_privacy_policy"
+            android:title="@string/pref_title_info_privacy_policy" />
+
+        <Preference
+            android:key="@string/prefkey_info_app"
+            android:summary="@string/pref_summary_info_info_app"
+            android:title="@string/pref_title_info_info_app" />
+
+        <Preference
+            android:key="@string/prefkey_info_store"
+            android:summary="@string/pref_summary_info_store"
+            android:title="@string/pref_title_info_store" />
 
     </PreferenceCategory>
 

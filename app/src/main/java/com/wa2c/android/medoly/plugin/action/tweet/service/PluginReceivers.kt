@@ -61,26 +61,6 @@ class PluginReceivers {
                 // service
                 pluginIntent.setClass(context, PluginPostService::class.java)
                 result = PluginBroadcastResult.COMPLETE
-            } else if (this is ExecutePostTweetReceiver || this is ExecuteOpenTwitterReceiver) {
-                // category
-                if (!pluginIntent.hasCategory(PluginTypeCategory.TYPE_RUN)) {
-                    return result
-                }
-                if (this is ExecutePostTweetReceiver) {
-                    // media
-                    if (propertyData.isMediaEmpty) {
-                        context.toast(R.string.message_no_media)
-                        return result
-                    }
-                    // property
-                    if (propertyData.getFirst(MediaProperty.TITLE).isNullOrEmpty() || propertyData.getFirst(MediaProperty.ARTIST).isNullOrEmpty()) {
-                        return result
-                    }
-                }
-
-                // service
-                pluginIntent.setClass(context, PluginRunService::class.java)
-                result = PluginBroadcastResult.COMPLETE
             }
 
             pluginIntent.putExtra(AbstractPluginService.RECEIVED_CLASS_NAME, this.javaClass.name)
@@ -92,11 +72,5 @@ class PluginReceivers {
     // Event
 
     class EventPostTweetReceiver : AbstractPluginReceiver()
-
-    // Execution
-
-    class ExecutePostTweetReceiver : AbstractPluginReceiver()
-
-    class ExecuteOpenTwitterReceiver : AbstractPluginReceiver()
 
 }

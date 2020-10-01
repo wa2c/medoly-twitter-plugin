@@ -5,68 +5,25 @@ import android.content.SharedPreferences
 import android.net.Uri
 import android.os.Bundle
 import android.provider.Settings
-import androidx.preference.*
+import androidx.preference.Preference
+import androidx.preference.PreferenceFragmentCompat
+import com.mikepenz.aboutlibraries.LibsBuilder
 import com.thelittlefireman.appkillermanager.managers.KillerManager
+import com.wa2c.android.medoly.plugin.action.tweet.BuildConfig
 import com.wa2c.android.medoly.plugin.action.tweet.R
-import com.wa2c.android.medoly.plugin.action.tweet.dialog.AboutDialogFragment
+import com.wa2c.android.medoly.plugin.action.tweet.activity.component.initSummary
+import com.wa2c.android.medoly.plugin.action.tweet.activity.component.preference
+import com.wa2c.android.medoly.plugin.action.tweet.activity.component.setListener
+import com.wa2c.android.medoly.plugin.action.tweet.activity.component.updatePrefSummary
 import com.wa2c.android.medoly.plugin.action.tweet.util.toast
-import java.util.*
 
 /**
  * Settings fragment
  */
 class SettingsFragment : PreferenceFragmentCompat() {
 
-    companion object {
-        /** Summary length map.  */
-        private val summaryLengthMap = LinkedHashMap<Preference, Int>()
-    }
-
-
-    /**
-     * Device auto start.
-     */
-    private val deviceAutoStartPreferenceClickListener = Preference.OnPreferenceClickListener {
-        activity?.let {
-            if (!KillerManager.doAction(it, managerAction)) {
-                toast(R.string.message_unsupported_device)
-            }
-        }
-        true
-    }
-
-    /**
-     * Privacy policy
-     */
-    private val privacyPolicyPreferenceClickListener = Preference.OnPreferenceClickListener {
-        val url = Uri.parse(getString(R.string.app_privacy_policy_url))
-        startActivity(Intent(Intent.ACTION_VIEW, url))
-        true
-    }
-
-    /**
-     * App info.
-     */
-    private val applicationDetailsPreferenceClickListener = Preference.OnPreferenceClickListener {
-        activity?.let {
-            val intent = Intent()
-            intent.action = Settings.ACTION_APPLICATION_DETAILS_SETTINGS
-            intent.data = Uri.parse("package:" + it.packageName)
-            startActivity(intent)
-        }
-        true
-    }
-
-    /**
-     * About.
-     */
-    private val aboutPreferenceClickListener = Preference.OnPreferenceClickListener {
-        AboutDialogFragment.newInstance().show(activity)
-        true
-    }
-
-    /**  On change settings. */
-    private val listener = SharedPreferences.OnSharedPreferenceChangeListener { _, key -> updatePrefSummary(findPreference(key)) }
+    /** On change settings. */
+    private val changeListener = SharedPreferences.OnSharedPreferenceChangeListener { _, key -> updatePrefSummary(key) }
 
     /** KillerManager action */
     private var managerAction: KillerManager.Actions? = null
@@ -82,118 +39,81 @@ class SettingsFragment : PreferenceFragmentCompat() {
             else -> null
         }
 
-        // Device auto start
-        if (managerAction != null) {
-            (findPreference(getString(R.string.prefkey_device_auto_start)) as? Preference)?.onPreferenceClickListener = deviceAutoStartPreferenceClickListener
-        } else {
-            (findPreference(getString(R.string.prefkey_device_auto_start)) as? Preference)?.isEnabled = false
-        }
-        // Privacy Policy
-        (findPreference(getString(R.string.prefkey_privacy_policy)) as? Preference)?.onPreferenceClickListener = privacyPolicyPreferenceClickListener
-        // App info
-        (findPreference(getString(R.string.prefkey_application_details)) as? Preference)?.onPreferenceClickListener = applicationDetailsPreferenceClickListener
-        // About
-        (findPreference(getString(R.string.prefkey_about)) as? Preference)?.onPreferenceClickListener = aboutPreferenceClickListener
+        setClickListener()
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         initSummary(preferenceScreen)
+        preference<Preference>(R.string.prefkey_info_app_version)?.summary = BuildConfig.VERSION_NAME
     }
 
-    /**
-     * onResume event.
-     */
     override fun onResume() {
         super.onResume()
-        preferenceScreen.sharedPreferences.registerOnSharedPreferenceChangeListener(listener)
+        preferenceScreen.sharedPreferences.registerOnSharedPreferenceChangeListener(changeListener)
     }
 
-    /**
-     * onPause event.
-     */
     override fun onPause() {
         super.onPause()
-        preferenceScreen.sharedPreferences.unregisterOnSharedPreferenceChangeListener(listener)
+        preferenceScreen.sharedPreferences.unregisterOnSharedPreferenceChangeListener(changeListener)
     }
 
-    /**
-     * Initialize summary.
-     * @param p target item.
-     */
-    private fun initSummary(p: Preference) {
-        // get summary length
-        val summary = p.summary
-        if (!summary.isNullOrEmpty()) {
-            if (summary.toString().lastIndexOf("\n") != 0) p.summary = summary.toString() + "\n" // add break
-            summaryLengthMap[p] = p.summary.length
-        } else {
-            summaryLengthMap[p] = 0
-        }
 
-        // update summary
-        when (p) {
-            is PreferenceCategory -> {
-                for (i in 0 until p.preferenceCount) {
-                    initSummary(p.getPreference(i))
-                }
-            }
-            is PreferenceScreen -> {
-                for (i in 0 until p.preferenceCount) {
-                    initSummary(p.getPreference(i))
-                }
-            }
-            else -> updatePrefSummary(p)
-        }
-    }
-
-    /**
-     * Update summary.
-     * @param p target preference.
-     */
-    private fun updatePrefSummary(p: Preference?) {
-        if (p == null)
-            return
-
-        val key = p.key
-        var summary = p.summary
-        if (key.isNullOrEmpty())
-            return
-        if (summary.isNullOrEmpty())
-            summary = ""
-
-        val labelSize = summaryLengthMap[p] ?: 0
-
-        // for instance type
-        when (p) {
-            is ListPreference -> {
-                // ListPreference
-                p.value = p.sharedPreferences.getString(p.key, "")
-                p.setSummary(summary.subSequence(0, labelSize).toString() + getString(R.string.settings_summary_current_value, p.entry))
-            }
-            is MultiSelectListPreference -> {
-                // MultiSelectListPreference
-                val stringSet = p.sharedPreferences.getStringSet(p.key, null)
-                var text = ""
-                if (stringSet != null && stringSet.size > 0) {
-                    p.values = stringSet // update value once
-                    val builder = StringBuilder()
-                    (p.entries.indices)
-                            .filter { stringSet.contains(p.entryValues[it]) }
-                            .forEach { builder.append(p.entries[it]).append(",") }
-                    if (builder.isNotEmpty()) {
-                        text = builder.substring(0, builder.length - 1) // remove end comma
+    private fun setClickListener() {
+        // Auto Start Manager
+        if (managerAction != null) {
+            setListener(R.string.prefkey_device_auto_start) {
+                activity?.let {
+                    if (!KillerManager.doAction(it, managerAction)) {
+                        it.toast(R.string.message_unsupported_device)
                     }
                 }
-                p.setSummary(summary.subSequence(0, labelSize).toString() + getString(R.string.settings_summary_current_value, text))
             }
-            is EditTextPreference -> {
-                // EditTextPreference
-                val text = p.sharedPreferences.getString(p.key, "")
-                p.text = text // update once
-                p.setSummary(summary.subSequence(0, labelSize).toString() + getString(R.string.settings_summary_current_value, text))
-            }
+        } else {
+            preference<Preference>(R.string.prefkey_device_auto_start)?.isEnabled = false
         }
-    }
 
+
+        // App Version
+        setListener(R.string.prefkey_info_app_version) {
+            startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(getString(R.string.app_version_url))))
+        }
+
+        // Author
+        setListener(R.string.prefkey_info_author) {
+            startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(getString(R.string.app_author_url))))
+        }
+
+        // License
+        setListener(R.string.prefkey_info_app_license) {
+            startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(getString(R.string.app_license_url))))
+        }
+
+        // Open Source License
+        setListener(R.string.prefkey_info_library_license) {
+            val libs = LibsBuilder().withAboutAppName(getString(R.string.app_name))
+            val ft = parentFragmentManager.beginTransaction()
+            ft.replace(android.R.id.content, libs.supportFragment())
+            ft.addToBackStack(getString(R.string.pref_title_info_library_license))
+            ft.commit()
+        }
+
+        // Privacy Policy
+        setListener(R.string.prefkey_info_privacy_policy) {
+            val url = getString(R.string.app_privacy_policy_url)
+            startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(url)))
+        }
+
+        // App Info
+        setListener(R.string.prefkey_info_app) {
+            startActivity(Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS, Uri.parse("package:" + requireContext().packageName)))
+        }
+
+        // App Store
+        setListener(R.string.prefkey_info_store) {
+            val url = getString(R.string.app_store_url)
+            startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(url)))
+        }
+
+    }
 }

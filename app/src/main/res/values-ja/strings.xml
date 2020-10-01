@@ -2,6 +2,7 @@
 <resources>
 
     <!-- Package -->
+    <string name="app_version_url">https://www.wa2c.com/documents/dokuwiki/doku.php?id=ja:medoly_twitter_plugin:history</string>
     <string name="app_description">MedolyからTwitterにメッセージを送信します。</string>
     <string name="label_event_tweet">ツイート</string>
     <string name="label_execute_tweet">外部アプリで送信</string>
@@ -38,6 +39,7 @@
     <string name="label_edit_title">メッセージ編集</string>
     <string name="label_edit_insert_album_art">アルバムアート追加</string>
     <string name="label_dialog_insert_property_title">プロパティ挿入</string>
+
     <string name="label_dialog_property_priority_title">表示優先度の並べ替え</string>
     <string name="label_dialog_property_priority_title1">表示項目</string>
     <string name="label_dialog_property_priority_title2">省略可</string>
@@ -51,9 +53,10 @@
 
 
     <!-- Preferences -->
-    <string name="title_preference_category_event">イベント</string>
-    <string name="title_preference_category_info">情報</string>
+    <string name="title_preference_category_settings">設定</string>
+    <string name="title_preference_category_about">情報</string>
 
+    <!-- Preferences - Settings -->
     <string name="pref_title_event_tweet_operation">ツイートイベント</string>
     <string name="pref_summary_event_tweet_operation">ツイートを実行するイベントを選択します。</string>
     <string name="pref_title_previous_media_enabled">前回メディア実行</string>
@@ -68,33 +71,27 @@
     <string name="pref_summary_post_success_message_show">ツイートに成功した際にメッセージを表示します。</string>
     <string name="pref_title_post_failure_message_show">失敗メッセージ表示</string>
     <string name="pref_summary_post_failure_message_show">ツイートに失敗した際にメッセージを表示します。</string>
-
     <string name="pref_title_device_auto_start">自動起動管理</string>
     <string name="pref_summary_device_auto_start">デバイスの自動起動マネージャを起動します。一部のデバイスではプラグインの起動に設定が必要です。</string>
-    <string name="pref_title_privacy_policy">プライバシーポリシー</string>
-    <string name="pref_summary_privacy_policy">プライバシーポリシーを表示します。</string>
-    <string name="pref_title_application_details">アプリ情報</string>
-    <string name="pref_summary_application_details">アプリ情報を表示します。</string>
-    <string name="pref_title_about">About</string>
-    <string name="pref_summary_about">About</string>
 
-
-
-    <!-- About Dialog -->
-    <string name="label_dialog_about_ver">Ver. %1$s</string>
-    <string name="label_dialog_about_developer">Developer</string>
-    <string name="label_dialog_about_email">Email</string>
-    <string name="label_dialog_about_license">License</string>
-    <string name="label_dialog_about_google_play">Google Play</string>
-    <string name="label_dialog_about_link">Link</string>
-    <string name="label_dialog_about_library">[Library]</string>
-
-
+    <!-- Preferences - About -->
+    <string name="pref_title_info_app_version">アプリバージョン</string>
+    <string name="pref_summary_info_app_version" />
+    <string name="pref_title_info_author">開発者</string>
+    <string name="pref_summary_info_author">@string/app_author</string>
+    <string name="pref_title_info_app_license">ライセンス</string>
+    <string name="pref_summary_info_app_license">@string/app_license</string>
+    <string name="pref_title_info_library_license">オープンソースライセンス</string>
+    <string name="pref_summary_info_library_license">オープンソースライセンスを表示します。</string>
+    <string name="pref_title_info_privacy_policy">プライバシーポリシー</string>
+    <string name="pref_summary_info_privacy_policy">プライバシーポリシーを表示します。</string>
+    <string name="pref_title_info_info_app">アプリ情報</string>
+    <string name="pref_summary_info_info_app">OSのアプリ情報を開きます。</string>
+    <string name="pref_title_info_store">Google Play</string>
+    <string name="pref_summary_info_store">Google Playを開きます。</string>
 
     <!-- System -->
     <string name="error_app">エラーが発生したため、操作に失敗しました。</string>
-
-
 
     <!-- List -->
     <string name="label_plugin_operation_disable">イベント無効</string>

@@ -2,46 +2,26 @@
 <resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
 
     <!-- App Info -->
-    <string name="app_name">Medoly Twitter Plugin</string>
-    <string name="base_app_name">Medoly</string>
-    <string name="domain_name">wa2c.com</string>
     <string name="package_name">com.wa2c.android.medoly.plugin.action.tweet</string>
-    <string name="app_mail_name">medoly</string>
-    <string name="app_mail_domain">wa2c.com</string>
+    <string name="app_name">Medoly Twitter Plugin</string>
     <string name="app_author">wa2c</string>
+    <string name="app_author_url">https://github.com/wa2c</string>
     <string name="app_license">MIT License</string>
-    <string name="app_license_url">https://bitbucket.org/wa2c/medoly-twitter-plugin/raw/e4dec842e2a0f0ba0807299e00bf3065bb1613d6/LICENSE.txt</string>
-    <string name="app_market">market://details?id=com.wa2c.android.medoly.plugin.action.tweet</string>
-    <string name="app_market_web">https://play.google.com/store/apps/details?id=com.wa2c.android.medoly.plugin.action.tweet</string>
+    <string name="app_license_url">https://github.com/wa2c/medoly-twitter-plugin/blob/master/LICENSE</string>
+    <string name="app_store_url">https://play.google.com/store/apps/details?id=com.wa2c.android.medoly.plugin.action.tweet</string>
     <string name="app_privacy_policy_url">https://www.wa2c.com/documents/dokuwiki/doku.php?id=ja:medoly_twitter_plugin:privacy_policy</string>
 
-    <string name="label_header_separator">:</string>
-    <string name="empty_value" />
-
+    <!-- Twitter -->
     <string name="twitter_callback_url">medoly-twitter-plugin://</string>
     <string name="twitter_uri">https://twitter.com/</string>
-
-    <!-- Library  -->
-    <string-array name="about_library_names">
-        <item>Twitter4j</item>
-        <item>DragSortListView</item>
-        <item>AppKillerManager</item>
-        <item>Dynamic Toasts</item>
-        <item>Timber</item>
-    </string-array>
-    <string-array name="about_library_urls">
-        <item>http://twitter4j.org/</item>
-        <item>https://github.com/bauerca/drag-sort-listview</item>
-        <item>https://github.com/thelittlefireman/AppKillerManager</item>
-        <item>https://github.com/pranavpandey/dynamic-toasts</item>
-        <item>https://github.com/JakeWharton/timber</item>
-    </string-array>
-
+    <string name="format_content_default">%MEDIA_TITLE% - %MEDIA_ARTIST% / %MEDIA_ALBUM% #NowPlaying #Medoly</string>
 
     <!-- Preferences -->
     <string name="prefkey_content_format">content_format</string>
     <string name="prefkey_content_album_art">content_album_art</string>
+    <string name="prefkey_app_version_code">app_version_code</string>
 
+    <!-- Preferences - Settings -->
     <string name="prefkey_event_tweet_operation">event_tweet_operation</string>
     <string name="prefkey_previous_media_enabled">previous_media_enabled</string>
     <string name="prefkey_trim_before_empty_enabled">trim_before_empty_enabled</string>
@@ -49,14 +29,16 @@
     <string name="prefkey_send_album_art">send_album_art</string>
     <string name="prefkey_tweet_success_message_show">tweet_success_message_show</string>
     <string name="prefkey_tweet_failure_message_show">tweet_failure_message_show</string>
-
     <string name="prefkey_device_auto_start">device_auto_start</string>
-    <string name="prefkey_privacy_policy">privacy_policy</string>
-    <string name="prefkey_application_details">application_details</string>
-    <string name="prefkey_about">about</string>
 
-    <string name="prefkey_app_version_code">app_version_code</string>
-
+    <!-- Preferences - About -->
+    <string name="prefkey_info_app_version">prefkey_info_app_version</string>
+    <string name="prefkey_info_author">prefkey_info_author</string>
+    <string name="prefkey_info_app_license">prefkey_info_app_license</string>
+    <string name="prefkey_info_library_license">prefkey_info_library_license</string>
+    <string name="prefkey_info_privacy_policy">prefkey_info_privacy_policy</string>
+    <string name="prefkey_info_app">prefkey_info_app</string>
+    <string name="prefkey_info_store">prefkey_info_store</string>
 
     <!-- Default -->
     <string name="pref_default_event_tweet_operation">com.wa2c.android.medoly.plugin.category.OPERATION_PLAY_NOW</string>
@@ -67,10 +49,8 @@
     <bool name="pref_default_tweet_success_message_show">false</bool>
     <bool name="pref_default_tweet_failure_message_show">true</bool>
 
-    <string name="format_content_default">%MEDIA_TITLE% - %MEDIA_ARTIST% / %MEDIA_ALBUM% #NowPlaying #Medoly</string>
-
     <!-- List -->
-
+    <string name="empty_value" />
     <!-- Tweet event -->
     <string-array name="event_tweet_operation_values">
         <item />
