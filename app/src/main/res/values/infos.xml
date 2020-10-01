@@ -63,4 +63,7 @@
         <item>@string/label_plugin_operation_play_now</item>
     </string-array>
 
+    <!-- Binding -->
+    <item name="tag_binding" type="id"/>
+
 </resources>

@@ -47,16 +47,6 @@
             </intent-filter>
         </activity>
 
-        <activity
-            android:name=".activity.EditActivity"
-            android:label="@string/title_activity_edit"
-            android:launchMode="singleTask" />
-
-        <activity
-            android:name=".activity.SettingsActivity"
-            android:label="@string/title_activity_settings"
-            android:launchMode="singleTask" />
-
         <!-- Service -->
 
         <service

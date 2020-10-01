@@ -46,6 +46,11 @@ android {
         }
     }
 
+    buildFeatures {
+        dataBinding = true
+        viewBinding = true
+    }
+
     dexOptions {
         javaMaxHeapSize "2g"
     }
@@ -64,10 +69,6 @@ android {
 
     packagingOptions {
         exclude 'META-INF/LICENSE'
-    }
-
-    dataBinding {
-        enabled = true
     }
 
     lintOptions {
@@ -135,5 +136,6 @@ dependencies {
     implementation 'com.pranavpandey.android:dynamic-toasts:3.2.0'
     implementation 'com.thelittlefireman:AppKillerManager:2.1.1'
     implementation "com.mikepenz:aboutlibraries:${about_libs_version}"
+    implementation 'androidx.legacy:legacy-support-v4:1.0.0'
 }
 

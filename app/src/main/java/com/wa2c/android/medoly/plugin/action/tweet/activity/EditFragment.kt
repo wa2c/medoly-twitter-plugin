@@ -2,37 +2,30 @@ package com.wa2c.android.medoly.plugin.action.tweet.activity
 
 import android.content.DialogInterface
 import android.os.Bundle
-import android.view.MenuItem
-import androidx.appcompat.app.AppCompatActivity
-import androidx.databinding.DataBindingUtil
+import android.view.View
+import androidx.fragment.app.Fragment
 import com.wa2c.android.medoly.plugin.action.tweet.R
-import com.wa2c.android.medoly.plugin.action.tweet.databinding.ActivityEditBinding
+import com.wa2c.android.medoly.plugin.action.tweet.activity.component.viewBinding
+import com.wa2c.android.medoly.plugin.action.tweet.databinding.FragmentEditBinding
 import com.wa2c.android.medoly.plugin.action.tweet.dialog.ConfirmDialogFragment
 import com.wa2c.android.medoly.plugin.action.tweet.dialog.InsertPropertyDialogFragment
 import com.wa2c.android.medoly.plugin.action.tweet.dialog.PropertyPriorityDialogFragment
 import com.wa2c.android.prefs.Prefs
 import kotlin.math.min
 
-
 /**
- * Edit activity
+ * Edit fragment
  */
-class EditActivity : AppCompatActivity() {
+class EditFragment : Fragment(R.layout.fragment_edit) {
 
-    private lateinit var  prefs: Prefs
-    private lateinit var binding: ActivityEditBinding
+    /** Binding */
+    private val binding: FragmentEditBinding by viewBinding()
+    /** Prefs */
+    private val prefs: Prefs by lazy { Prefs(requireContext()) }
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        prefs = Prefs(this)
-        binding = DataBindingUtil.setContentView(this, R.layout.activity_edit)
-
-        // Action bar
-        supportActionBar?.apply {
-            setDisplayShowHomeEnabled(true)
-            setDisplayHomeAsUpEnabled(true)
-            setDisplayShowTitleEnabled(true)
-        }
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        activity?.setTitle(R.string.title_activity_edit)
 
         // Insert album art button
         binding.insertAlbumArtCheckBox.setOnCheckedChangeListener { _, isChecked ->
@@ -42,7 +35,7 @@ class EditActivity : AppCompatActivity() {
         // Insert button
         binding.insertButton.setOnClickListener {
             val dialogFragment = InsertPropertyDialogFragment.newInstance()
-            dialogFragment.itemSelectListener = object:InsertPropertyDialogFragment.ItemSelectListener {
+            dialogFragment.itemSelectListener = object: InsertPropertyDialogFragment.ItemSelectListener {
                 override fun onItemSelect(insertString: String) {
                     var text = insertString
                     val index1 = binding.contentEditText.selectionStart
@@ -56,14 +49,14 @@ class EditActivity : AppCompatActivity() {
                     editable.replace(start, end, text)
                 }
             }
-            dialogFragment.show(this@EditActivity)
+            dialogFragment.show(requireActivity())
         }
 
         // Priority
         binding.priorityButton.setOnClickListener {
             val dialogFragment = PropertyPriorityDialogFragment.newInstance()
             dialogFragment.clickListener = listener@{ _, _, _ -> }
-            dialogFragment.show(this@EditActivity)
+            dialogFragment.show(requireActivity())
         }
 
         // Initialize
@@ -75,34 +68,16 @@ class EditActivity : AppCompatActivity() {
                     binding.insertAlbumArtCheckBox.isChecked = true
                 }
             }
-            dialogFragment.show(this@EditActivity)
+            dialogFragment.show(requireActivity())
         }
 
         binding.contentEditText.setText(prefs.getString(R.string.prefkey_content_format, defRes = R.string.format_content_default))
         binding.insertAlbumArtCheckBox.isChecked = prefs.getBoolean(R.string.prefkey_content_album_art, true)
     }
 
-    /**
-     * onStop
-     */
-    public override fun onStop() {
+    override fun onStop() {
         super.onStop()
-
         prefs.putString(R.string.prefkey_content_format, binding.contentEditText.text)
-    }
-
-    /**
-     * onOptionsItemSelected
-     */
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        when (item.itemId) {
-            android.R.id.home -> {
-                finish()
-                return true
-            }
-        }
-
-        return super.onOptionsItemSelected(item)
     }
 
 }
