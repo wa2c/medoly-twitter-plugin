@@ -61,9 +61,6 @@ class MainActivity : AppCompatActivity() {
         (supportFragmentManager.findFragmentById(R.id.fragment_container) as? MainFragment)?.completeAuthorize(intent)
     }
 
-    /**
-     * onOptionsItemSelected
-     */
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             android.R.id.home -> {

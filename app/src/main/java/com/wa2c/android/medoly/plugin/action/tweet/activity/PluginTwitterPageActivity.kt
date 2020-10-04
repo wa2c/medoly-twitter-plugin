@@ -16,7 +16,7 @@ import kotlinx.coroutines.runBlocking
 /**
  * Track page open activity
  */
-class TwitterPageActivity : AppCompatActivity(R.layout.layout_loading) {
+class PluginTwitterPageActivity : AppCompatActivity(R.layout.layout_loading) {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

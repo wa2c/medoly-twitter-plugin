@@ -45,7 +45,7 @@ class SettingsFragment : PreferenceFragmentCompat() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        activity?.setTitle(R.string.title_activity_settings)
+        activity?.setTitle(R.string.title_screen_settings)
         initSummary(preferenceScreen)
         preference<Preference>(R.string.prefkey_info_app_version)?.summary = BuildConfig.VERSION_NAME
     }

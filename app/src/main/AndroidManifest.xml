@@ -76,7 +76,7 @@
         <!-- Plugin execution action -->
 
         <activity
-            android:name=".activity.ShareTweetActivity"
+            android:name=".activity.PluginShareTweetActivity"
             android:exported="true"
             android:icon="@drawable/ic_post"
             android:label="@string/label_execute_tweet"
@@ -90,7 +90,7 @@
         </activity>
 
         <activity
-            android:name=".activity.TwitterPageActivity"
+            android:name=".activity.PluginTwitterPageActivity"
             android:exported="true"
             android:icon="@drawable/ic_twitter"
             android:label="@string/label_execute_site"

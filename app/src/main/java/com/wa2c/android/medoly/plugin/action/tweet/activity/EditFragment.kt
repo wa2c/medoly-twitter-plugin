@@ -25,7 +25,7 @@ class EditFragment : Fragment(R.layout.fragment_edit) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        activity?.setTitle(R.string.title_activity_edit)
+        activity?.setTitle(R.string.title_screen_edit)
 
         // Insert album art button
         binding.insertAlbumArtCheckBox.setOnCheckedChangeListener { _, isChecked ->

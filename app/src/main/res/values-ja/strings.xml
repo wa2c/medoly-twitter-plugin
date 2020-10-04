@@ -9,8 +9,8 @@
     <string name="label_execute_site">Twitterを開く</string>
 
     <!-- Activity -->
-    <string name="title_activity_edit">メッセージ編集</string>
-    <string name="title_activity_settings">設定</string>
+    <string name="title_screen_edit">メッセージ編集</string>
+    <string name="title_screen_settings">設定</string>
     <string name="label_insert">挿入</string>
     <string name="label_default">初期化</string>
     <string name="label_priority">優先度</string>

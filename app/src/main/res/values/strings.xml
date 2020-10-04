@@ -8,9 +8,9 @@
     <string name="label_execute_tweet">Send to external apps</string>
     <string name="label_execute_site">Twitter</string>
 
-    <!-- Activity -->
-    <string name="title_activity_edit">Message Edit</string>
-    <string name="title_activity_settings">Setting</string>
+    <!-- Screen -->
+    <string name="title_screen_edit">Message Edit</string>
+    <string name="title_screen_settings">Setting</string>
     <string name="label_insert">Insert</string>
     <string name="label_default">Default</string>
     <string name="label_priority">Priority</string>

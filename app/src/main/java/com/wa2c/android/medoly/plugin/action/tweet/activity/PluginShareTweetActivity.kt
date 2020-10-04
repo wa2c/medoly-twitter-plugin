@@ -21,7 +21,7 @@ import kotlinx.coroutines.runBlocking
 /**
  * Track page open activity
  */
-class ShareTweetActivity : AppCompatActivity(R.layout.layout_loading) {
+class PluginShareTweetActivity : AppCompatActivity(R.layout.layout_loading) {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -58,7 +58,7 @@ class ShareTweetActivity : AppCompatActivity(R.layout.layout_loading) {
                         }
 
                         // Get message
-                        val message = TwitterUtils.getTweetMessage(this@ShareTweetActivity , propertyData)
+                        val message = TwitterUtils.getTweetMessage(this@PluginShareTweetActivity , propertyData)
                         if (message.isEmpty()) {
                             return@result PluginBroadcastResult.IGNORE
                         }
