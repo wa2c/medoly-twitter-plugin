@@ -20,8 +20,10 @@ android {
         applicationId "com.wa2c.android.medoly.plugin.action.tweet"
         minSdkVersion 19
         targetSdkVersion 30
-        versionCode 16
-        versionName "2.5.0"
+        versionCode 17
+        versionName "2.5.1"
+
+        archivesBaseName = "MedolyTwitterPlugin_${versionName}"
 
         buildConfigField("String", "K1", "\"\"")
         buildConfigField("String", "K2", "\"\"")
