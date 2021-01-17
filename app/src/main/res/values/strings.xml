@@ -2,11 +2,13 @@
 <resources>
 
     <!-- Package -->
-    <string name="app_version_url">https://www.wa2c.com/documents/dokuwiki/doku.php?id=en:medoly_twitter_plugin:history</string>
     <string name="app_description">Post messages to Twitter from Medoly.</string>
     <string name="label_event_tweet">Tweet</string>
     <string name="label_execute_tweet">Send to external apps</string>
     <string name="label_execute_site">Twitter</string>
+    <string name="app_manual_url">https://github.com/wa2c/medoly-twitter-plugin/wiki/Home</string>
+    <string name="app_version_url">https://github.com/wa2c/medoly-twitter-plugin/wiki/History</string>
+    <string name="app_privacy_policy_url">https://github.com/wa2c/medoly-twitter-plugin/wiki/Privacy-Policy</string>
 
     <!-- Screen -->
     <string name="title_screen_edit">Message Edit</string>
@@ -78,6 +80,8 @@
     <string name="pref_summary_info_app_version" />
     <string name="pref_title_info_author">Author</string>
     <string name="pref_summary_info_author">@string/app_author</string>
+    <string name="pref_title_info_manual">Manual</string>
+    <string name="pref_summary_info_manual">Show manual</string>
     <string name="pref_title_info_app_license">License</string>
     <string name="pref_summary_info_app_license">@string/app_license</string>
     <string name="pref_title_info_library_license">Open Source License</string>

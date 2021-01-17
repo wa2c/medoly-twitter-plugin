@@ -2,11 +2,13 @@
 <resources>
 
     <!-- Package -->
-    <string name="app_version_url">https://www.wa2c.com/documents/dokuwiki/doku.php?id=ja:medoly_twitter_plugin:history</string>
     <string name="app_description">MedolyからTwitterにメッセージを送信します。</string>
     <string name="label_event_tweet">ツイート</string>
     <string name="label_execute_tweet">外部アプリで送信</string>
     <string name="label_execute_site">Twitterを開く</string>
+    <string name="app_manual_url">https://github.com/wa2c/medoly-twitter-plugin/wiki/Home-ja</string>
+    <string name="app_version_url">https://github.com/wa2c/medoly-twitter-plugin/wiki/History-ja</string>
+    <string name="app_privacy_policy_url">https://github.com/wa2c/medoly-twitter-plugin/wiki/Privacy-Policy-ja</string>
 
     <!-- Activity -->
     <string name="title_screen_edit">メッセージ編集</string>
@@ -79,6 +81,8 @@
     <string name="pref_summary_info_app_version" />
     <string name="pref_title_info_author">開発者</string>
     <string name="pref_summary_info_author">@string/app_author</string>
+    <string name="pref_title_info_manual">マニュアル</string>
+    <string name="pref_summary_info_manual">マニュアルを表示します。</string>
     <string name="pref_title_info_app_license">ライセンス</string>
     <string name="pref_summary_info_app_license">@string/app_license</string>
     <string name="pref_title_info_library_license">オープンソースライセンス</string>

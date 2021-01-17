@@ -9,7 +9,6 @@
     <string name="app_license">MIT License</string>
     <string name="app_license_url">https://github.com/wa2c/medoly-twitter-plugin/blob/master/LICENSE</string>
     <string name="app_store_url">https://play.google.com/store/apps/details?id=com.wa2c.android.medoly.plugin.action.tweet</string>
-    <string name="app_privacy_policy_url">https://www.wa2c.com/documents/dokuwiki/doku.php?id=ja:medoly_twitter_plugin:privacy_policy</string>
 
     <!-- Twitter -->
     <string name="twitter_callback_url">medoly-twitter-plugin://</string>
@@ -34,6 +33,7 @@
     <!-- Preferences - About -->
     <string name="prefkey_info_app_version">prefkey_info_app_version</string>
     <string name="prefkey_info_author">prefkey_info_author</string>
+    <string name="prefkey_info_manual">prefkey_info_manual</string>
     <string name="prefkey_info_app_license">prefkey_info_app_license</string>
     <string name="prefkey_info_library_license">prefkey_info_library_license</string>
     <string name="prefkey_info_privacy_policy">prefkey_info_privacy_policy</string>

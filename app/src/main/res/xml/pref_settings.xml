@@ -71,6 +71,11 @@
             android:title="@string/pref_title_info_author" />
 
         <Preference
+            android:key="@string/prefkey_info_manual"
+            android:summary="@string/pref_summary_info_manual"
+            android:title="@string/pref_title_info_manual" />
+
+        <Preference
             android:key="@string/prefkey_info_app_license"
             android:summary="@string/pref_summary_info_app_license"
             android:title="@string/pref_title_info_app_license" />

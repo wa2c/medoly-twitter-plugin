@@ -86,6 +86,13 @@ class SettingsFragment : PreferenceFragmentCompat() {
             startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(getString(R.string.app_author_url))))
         }
 
+        // Manual
+        setListener(R.string.prefkey_info_manual) {
+            Intent(Intent.ACTION_VIEW, Uri.parse(getString(R.string.app_manual_url))).let {
+                startActivity(it)
+            }
+        }
+
         // License
         setListener(R.string.prefkey_info_app_license) {
             startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(getString(R.string.app_license_url))))
