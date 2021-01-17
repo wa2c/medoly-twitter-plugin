@@ -64,22 +64,15 @@ class InsertPropertyDialogFragment : AbstractDialogFragment() {
     private inner class PropertyListAdapter(context: Context, itemList: ArrayList<PropertyItem>) : ArrayAdapter<PropertyItem>(context, android.R.layout.simple_list_item_1, itemList) {
 
         override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
-            var view = convertView
-            val holder: ListItemViewHolder
-
-            if (view == null) {
-                view = View.inflate(context, android.R.layout.simple_list_item_1, null)
-                holder = ListItemViewHolder()
-                holder.titleTextView = view!!.findViewById(android.R.id.text1) as TextView
-                view.tag = holder
-            } else {
-                holder = view.tag as ListItemViewHolder
+            val view = convertView ?: View.inflate(context, android.R.layout.simple_list_item_1, null)
+            val holder: ListItemViewHolder = (view.tag as? ListItemViewHolder) ?: let {
+                ListItemViewHolder().also {
+                    it.titleTextView = view.findViewById(android.R.id.text1) as TextView
+                    view.tag = it
+                }
             }
 
-            val item = getItem(position)
-            if (item != null) {
-                holder.titleTextView!!.text = item.propertyName
-            }
+            holder.titleTextView?.text = getItem(position)?.propertyName
 
             return view
         }

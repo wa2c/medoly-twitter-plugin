@@ -1,6 +1,5 @@
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
-apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
 apply plugin: 'com.google.gms.google-services'
 apply plugin: 'com.google.firebase.crashlytics'
@@ -11,7 +10,7 @@ if (file('./token.gradle').exists()) {
 }
 
 android {
-    compileSdkVersion 29
+    compileSdkVersion 30
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
@@ -20,7 +19,7 @@ android {
     defaultConfig {
         applicationId "com.wa2c.android.medoly.plugin.action.tweet"
         minSdkVersion 19
-        targetSdkVersion 29
+        targetSdkVersion 30
         versionCode 16
         versionName "2.5.0"
 
@@ -117,15 +116,17 @@ dependencies {
     implementation 'androidx.appcompat:appcompat:1.2.0'
     implementation 'androidx.preference:preference-ktx:1.1.1'
     implementation 'androidx.multidex:multidex:2.0.1'
+    implementation 'androidx.legacy:legacy-support-v4:1.0.0'
     implementation "com.google.android.material:material:1.2.1"
 
     // Kotlin
-    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.3.7'
-    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.3.7'
+    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.4.1'
+    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.4.1'
 
     // Firebase
-    implementation 'com.google.firebase:firebase-core:17.5.1'
-    implementation 'com.google.firebase:firebase-crashlytics:17.2.2'
+    implementation platform('com.google.firebase:firebase-bom:25.12.0')
+    implementation 'com.google.firebase:firebase-core'
+    implementation 'com.google.firebase:firebase-crashlytics'
 
     api 'org.twitter4j:twitter4j-core:4.0.7'
     implementation 'com.twitter.twittertext:twitter-text:3.0.1'
@@ -136,6 +137,5 @@ dependencies {
     implementation 'com.pranavpandey.android:dynamic-toasts:3.2.0'
     implementation 'com.thelittlefireman:AppKillerManager:2.1.1'
     implementation "com.mikepenz:aboutlibraries:${about_libs_version}"
-    implementation 'androidx.legacy:legacy-support-v4:1.0.0'
 }
 

@@ -1,7 +1,6 @@
 package com.wa2c.android.medoly.plugin.action.tweet.dialog
 
 import android.app.Dialog
-import android.content.Context
 import android.content.DialogInterface
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -15,8 +14,8 @@ import com.mobeta.android.dslv.DragSortListView
 import com.wa2c.android.medoly.plugin.action.tweet.R
 import com.wa2c.android.medoly.plugin.action.tweet.activity.PropertyItem
 import com.wa2c.android.medoly.plugin.action.tweet.databinding.DialogPropertyPriorityBinding
+import com.wa2c.android.medoly.plugin.action.tweet.databinding.LayoutPropertyPriorityItemBinding
 import com.wa2c.android.medoly.plugin.action.tweet.util.toast
-import kotlinx.android.synthetic.main.layout_property_priority_item.view.*
 import java.util.*
 
 
@@ -49,29 +48,24 @@ class PropertyPriorityDialogFragment : AbstractDialogFragment() {
             }
 
             override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
-                val holder = if (convertView == null) {
-                    ListItemViewHolder(parent.context)
+                val binding = if (convertView == null) {
+                    DataBindingUtil.inflate<LayoutPropertyPriorityItemBinding>(LayoutInflater.from(context), R.layout.layout_property_priority_item, parent,false).also {
+                        it.root.tag = it
+                    }
+
                 } else {
-                    convertView.tag as ListItemViewHolder
-                }
-                holder.bind(getItem(position)!!)
-                return holder.itemView
-            }
-
-            /** List item view holder  */
-            private inner class ListItemViewHolder(context: Context) {
-                val itemView = View.inflate(context, R.layout.layout_property_priority_item, null)!!
-                init {
-                    itemView.tag = this
+                    convertView.tag as LayoutPropertyPriorityItemBinding
                 }
 
-                fun bind(item: PropertyItem) {
-                    itemView.propertyItemTitle.text = item.propertyName
-                    itemView.propertyItemCheckBox.setOnCheckedChangeListener { _, isChecked ->
+                getItem(position)?.let { item ->
+                    binding.propertyItemTitle.text = item.propertyName
+                    binding.propertyItemCheckBox.setOnCheckedChangeListener { _, isChecked ->
                         item.shorten = isChecked
                     }
-                    itemView.propertyItemCheckBox.isChecked = item.shorten
+                    binding.propertyItemCheckBox.isChecked = item.shorten
                 }
+
+                return binding.root
             }
         }
 
