@@ -28,7 +28,6 @@
     <string name="prefkey_send_album_art">send_album_art</string>
     <string name="prefkey_tweet_success_message_show">tweet_success_message_show</string>
     <string name="prefkey_tweet_failure_message_show">tweet_failure_message_show</string>
-    <string name="prefkey_device_auto_start">device_auto_start</string>
 
     <!-- Preferences - About -->
     <string name="prefkey_info_app_version">prefkey_info_app_version</string>

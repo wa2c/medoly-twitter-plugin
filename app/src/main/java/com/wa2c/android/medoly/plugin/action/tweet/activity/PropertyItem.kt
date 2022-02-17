@@ -4,7 +4,6 @@ import android.content.Context
 import com.wa2c.android.medoly.library.*
 import com.wa2c.android.medoly.plugin.action.tweet.R
 import com.wa2c.android.prefs.Prefs
-import java.util.*
 
 /**
  * Property Item.

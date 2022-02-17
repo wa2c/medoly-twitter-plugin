@@ -55,12 +55,12 @@ fun PreferenceFragmentCompat.updatePrefSummary(prefKey: String, force: Boolean =
         }
         is ListPreference -> {
             // ListPreference
-            p.value = p.sharedPreferences.getString(p.key, "")
+            p.value = p.sharedPreferences?.getString(p.key, "")
             p.setSummaryValue(p.entry)
         }
         is MultiSelectListPreference -> {
             // MultiSelectListPreference
-            val stringSet = p.sharedPreferences.getStringSet(p.key, null)
+            val stringSet = p.sharedPreferences?.getStringSet(p.key, null)
             var text = ""
             if (stringSet != null && stringSet.size > 0) {
                 p.values = stringSet // update value once
@@ -76,13 +76,13 @@ fun PreferenceFragmentCompat.updatePrefSummary(prefKey: String, force: Boolean =
         }
         is EditTextPreference -> {
             // EditTextPreference
-            val text = p.sharedPreferences.getString(p.key, "")
+            val text = p.sharedPreferences?.getString(p.key, "")
             p.text = text // update once
             p.setSummaryValue(text)
         }
         else -> {
             if (force) {
-                val text = p.sharedPreferences.getString(p.key, "")
+                val text = p.sharedPreferences?.getString(p.key, "")
                 p.setSummaryValue(text)
             }
         }
@@ -99,7 +99,7 @@ private fun Preference.setSummaryValue(value: CharSequence?) {
         val from = Regex("(?!\\\\)(\\W)").replace(it, "\\\\\$1") // NOTE: Escape regex characters
         from.replace(escapeMask, ".*")
     }
-    val plainSummary = Regex("\n$literal$").replace(this.summary, "")
+    val plainSummary = Regex("\n$literal$").replace(this.summary ?: "", "")
     val valueSummary = this.context.getString(R.string.settings_summary_current_value, value ?: "")
     this.summary = plainSummary + "\n" + valueSummary
 }

@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="com.wa2c.android.medoly.plugin.action.tweet">
 
     <uses-permission android:name="android.permission.INTERNET" />
@@ -19,7 +20,8 @@
 
         <activity
             android:name=".activity.MainActivity"
-            android:launchMode="singleTask">
+            android:launchMode="singleTask"
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <action android:name="android.intent.action.VIEW" />
@@ -59,7 +61,8 @@
             android:name=".service.PluginReceivers$EventPostTweetReceiver"
             android:exported="true"
             android:icon="@drawable/ic_post"
-            android:label="@string/label_event_tweet">
+            android:label="@string/label_event_tweet"
+            tools:ignore="ExportedReceiver">
 
             <!-- Tweet -->
             <intent-filter android:priority="110">

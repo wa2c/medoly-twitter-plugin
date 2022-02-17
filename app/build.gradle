@@ -97,18 +97,16 @@ dependencies {
     implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.0'
 
     // Firebase
-    implementation platform('com.google.firebase:firebase-bom:25.12.0')
+    implementation platform('com.google.firebase:firebase-bom:29.0.4')
     implementation 'com.google.firebase:firebase-core'
     implementation 'com.google.firebase:firebase-crashlytics'
 
     api 'org.twitter4j:twitter4j-core:4.0.7'
-    implementation 'com.twitter.twittertext:twitter-text:3.0.1'
+    implementation 'com.twitter.twittertext:twitter-text:3.1.0'
     implementation ('asia.ivity.android:drag-sort-listview:1.0') {
         exclude module: 'support-v4'
     }
     implementation 'com.jakewharton.timber:timber:4.7.1'
-    implementation 'com.pranavpandey.android:dynamic-toasts:3.2.0'
-    implementation 'com.thelittlefireman:AppKillerManager:2.1.1'
     implementation "com.mikepenz:aboutlibraries:${about_libs_version}"
 }
 

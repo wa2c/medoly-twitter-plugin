@@ -10,7 +10,6 @@ import com.wa2c.android.prefs.Prefs
 import twitter4j.Twitter
 import twitter4j.TwitterFactory
 import twitter4j.auth.AccessToken
-import java.util.*
 import java.util.regex.Pattern
 
 /**

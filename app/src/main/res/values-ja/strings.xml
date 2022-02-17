@@ -73,8 +73,6 @@
     <string name="pref_summary_post_success_message_show">ツイートに成功した際にメッセージを表示します。</string>
     <string name="pref_title_post_failure_message_show">失敗メッセージ表示</string>
     <string name="pref_summary_post_failure_message_show">ツイートに失敗した際にメッセージを表示します。</string>
-    <string name="pref_title_device_auto_start">自動起動管理</string>
-    <string name="pref_summary_device_auto_start">デバイスの自動起動マネージャを起動します。一部のデバイスではプラグインの起動に設定が必要です。</string>
 
     <!-- Preferences - About -->
     <string name="pref_title_info_app_version">アプリバージョン</string>

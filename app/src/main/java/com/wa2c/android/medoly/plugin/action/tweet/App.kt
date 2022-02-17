@@ -1,5 +1,6 @@
 package com.wa2c.android.medoly.plugin.action.tweet
 
+import android.app.Application
 import androidx.multidex.MultiDexApplication
 import com.wa2c.android.medoly.plugin.action.tweet.service.AbstractPluginService
 import timber.log.Timber
@@ -7,7 +8,7 @@ import timber.log.Timber
 /**
  * App
  */
-class App : MultiDexApplication() {
+class App : Application() {
 
     override fun onCreate() {
         super.onCreate()

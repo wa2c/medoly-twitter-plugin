@@ -16,7 +16,6 @@ import com.wa2c.android.medoly.plugin.action.tweet.activity.PropertyItem
 import com.wa2c.android.medoly.plugin.action.tweet.databinding.DialogPropertyPriorityBinding
 import com.wa2c.android.medoly.plugin.action.tweet.databinding.LayoutPropertyPriorityItemBinding
 import com.wa2c.android.medoly.plugin.action.tweet.util.toast
-import java.util.*
 
 
 /**
