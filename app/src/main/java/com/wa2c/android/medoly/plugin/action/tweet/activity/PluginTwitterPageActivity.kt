@@ -9,9 +9,6 @@ import com.wa2c.android.medoly.library.PluginBroadcastResult
 import com.wa2c.android.medoly.plugin.action.tweet.R
 import com.wa2c.android.medoly.plugin.action.tweet.util.logD
 import com.wa2c.android.medoly.plugin.action.tweet.util.toast
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.runBlocking
 
 /**
  * Track page open activity

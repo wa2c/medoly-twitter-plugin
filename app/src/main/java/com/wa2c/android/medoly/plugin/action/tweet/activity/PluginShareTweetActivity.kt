@@ -2,7 +2,6 @@ package com.wa2c.android.medoly.plugin.action.tweet.activity
 
 import android.content.ContentResolver
 import android.content.Intent
-import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
@@ -14,8 +13,6 @@ import com.wa2c.android.medoly.plugin.action.tweet.R
 import com.wa2c.android.medoly.plugin.action.tweet.util.TwitterUtils
 import com.wa2c.android.medoly.plugin.action.tweet.util.logE
 import com.wa2c.android.medoly.plugin.action.tweet.util.toast
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 
 /**
@@ -83,12 +80,6 @@ class PluginShareTweetActivity : AppCompatActivity(R.layout.layout_loading) {
                             twitterIntent.data = albumArtUri
                             twitterIntent.type = propertyData.getFirst(AlbumArtProperty.MIME_TYPE)
                             twitterIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
-
-                            val resolveInfoList = packageManager.queryIntentActivities(twitterIntent, PackageManager.MATCH_DEFAULT_ONLY or PackageManager.GET_RESOLVED_FILTER)
-                            for (resolveInfo in resolveInfoList) {
-                                val packageName = resolveInfo.activityInfo.packageName
-                                applicationContext.grantUriPermission(packageName, albumArtUri, Intent.FLAG_GRANT_READ_URI_PERMISSION)
-                            }
                         }
                     }
 
