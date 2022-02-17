@@ -10,16 +10,16 @@ if (file('./token.gradle').exists()) {
 }
 
 android {
-    compileSdkVersion 30
+    compileSdk 31
     compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_8
-        targetCompatibility JavaVersion.VERSION_1_8
+        sourceCompatibility JavaVersion.VERSION_11
+        targetCompatibility JavaVersion.VERSION_11
     }
 
     defaultConfig {
         applicationId "com.wa2c.android.medoly.plugin.action.tweet"
         minSdkVersion 19
-        targetSdkVersion 30
+        targetSdkVersion 31
         versionCode 17
         versionName "2.5.1"
 
@@ -47,15 +47,6 @@ android {
         }
     }
 
-    buildFeatures {
-        dataBinding = true
-        viewBinding = true
-    }
-
-    dexOptions {
-        javaMaxHeapSize "2g"
-    }
-
     gradle.projectsEvaluated {
         tasks.withType(JavaCompile) {
             options.compilerArgs << "-Xlint:deprecation"
@@ -76,34 +67,15 @@ android {
         lintConfig file('lint.xml')
     }
 
-    // output file
-    applicationVariants.all { variant ->
-        if (variant.buildType.name == "release") {
-            def newName = "MedolyTwitterPlugin ${defaultConfig.versionName}"
-            variant.outputs.all {
-                // filename
-                outputFileName = "${newName}.apk"
-                // mapping
-                variant.assembleProvider.get().doLast {
-                    if ( variant.mappingFile != null && variant.mappingFile.exists() ) {
-                        copy {
-                            from variant.mappingFile
-                            into outputFile.parent
-                            rename { String fileName ->
-                                "${newName} mapping.txt"
-                            }
-                        }
-                    }
-                }
-            }
-        }
+    buildFeatures {
+        dataBinding = true
     }
 
 }
 
 repositories {
     google()
-    jcenter()
+    mavenCentral()
     maven { url 'https://github.com/wa2c/medoly-library/raw/master/repository/' }
     maven { url 'https://github.com/wa2c/prefs/raw/master/repository/' }
 }
@@ -115,15 +87,14 @@ dependencies {
     implementation 'com.wa2c.android:prefs:0.1.2'
 
     // Support Library
-    implementation 'androidx.appcompat:appcompat:1.2.0'
-    implementation 'androidx.preference:preference-ktx:1.1.1'
-    implementation 'androidx.multidex:multidex:2.0.1'
+    implementation 'androidx.appcompat:appcompat:1.4.1'
+    implementation 'androidx.preference:preference-ktx:1.2.0'
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
-    implementation "com.google.android.material:material:1.2.1"
+    implementation "com.google.android.material:material:1.5.0"
 
     // Kotlin
-    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.4.1'
-    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.4.1'
+    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.0'
+    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.0'
 
     // Firebase
     implementation platform('com.google.firebase:firebase-bom:25.12.0')
