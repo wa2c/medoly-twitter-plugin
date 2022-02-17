@@ -33,23 +33,18 @@ class PluginTwitterPageActivity : AppCompatActivity(R.layout.layout_loading) {
      * Open Twitter page.
      */
     private fun openTwitterPage() {
-        runBlocking {
-            GlobalScope.launch {
-                val result = try {
-                    val uri = Uri.parse(getString(R.string.twitter_uri))
-                    val launchIntent = Intent(Intent.ACTION_VIEW, uri)
-                    startActivity(launchIntent)
-                    PluginBroadcastResult.COMPLETE
-                } catch (e: ActivityNotFoundException) {
-                    logD(e)
-                    toast(R.string.message_page_failure)
-                    PluginBroadcastResult.CANCEL
-                }
-
-                setResult(result.resultCode)
-            }
+        val result = try {
+            val uri = Uri.parse(getString(R.string.twitter_uri))
+            val launchIntent = Intent(Intent.ACTION_VIEW, uri)
+            startActivity(launchIntent)
+            PluginBroadcastResult.COMPLETE
+        } catch (e: ActivityNotFoundException) {
+            logD(e)
+            toast(R.string.message_page_failure)
+            PluginBroadcastResult.CANCEL
         }
 
+        setResult(result.resultCode)
         moveTaskToBack(true)
         finish()
     }

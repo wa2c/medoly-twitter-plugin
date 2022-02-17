@@ -12,10 +12,7 @@ import com.wa2c.android.medoly.plugin.action.tweet.databinding.FragmentMainBindi
 import com.wa2c.android.medoly.plugin.action.tweet.util.TwitterUtils
 import com.wa2c.android.medoly.plugin.action.tweet.util.logE
 import com.wa2c.android.medoly.plugin.action.tweet.util.toast
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.async
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.*
 import twitter4j.Twitter
 import twitter4j.auth.RequestToken
 
@@ -91,7 +88,7 @@ class MainFragment : Fragment(R.layout.fragment_main) {
      * Start OAuth.
      */
     private fun startAuthorize() {
-        GlobalScope.launch(Dispatchers.Main) {
+        CoroutineScope(Dispatchers.Main + Job()).launch {
             val url = async(Dispatchers.Default) {
                 try {
                     val t = twitter ?: return@async null
@@ -126,7 +123,7 @@ class MainFragment : Fragment(R.layout.fragment_main) {
         // Get auth verifier
         val verifier = intent.data!!.getQueryParameter("oauth_verifier")
 
-        GlobalScope.launch(Dispatchers.Main) {
+        CoroutineScope(Dispatchers.Main + Job()).launch {
             val token = async(Dispatchers.Default) {
                 return@async try {
                     twitter?.getOAuthAccessToken(requestToken, verifier)
