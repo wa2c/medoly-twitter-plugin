@@ -12,10 +12,7 @@ import com.wa2c.android.medoly.plugin.action.tweet.databinding.ActivityMainBindi
 /**
  * Main activity
  */
-class MainActivity : AppCompatActivity() {
-
-    /** Binding */
-    private lateinit var binding: ActivityMainBinding
+class MainActivity : AppCompatActivity(R.layout.activity_main) {
 
     /**
      * Back stack change listener
@@ -37,7 +34,6 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
 
         // ActionBar
         supportActionBar?.apply {
@@ -82,4 +78,5 @@ class MainActivity : AppCompatActivity() {
         super.onStop()
         supportFragmentManager.removeOnBackStackChangedListener(backStackChangedListener)
     }
+
 }

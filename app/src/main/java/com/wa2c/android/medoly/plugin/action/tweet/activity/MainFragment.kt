@@ -22,7 +22,7 @@ import twitter4j.auth.RequestToken
 class MainFragment : Fragment(R.layout.fragment_main) {
 
     /** Binding */
-    private val binding: FragmentMainBinding by viewBinding()
+    private val binding: FragmentMainBinding? by viewBinding()
     /** Callback URL. */
     private val callbackURL: String by lazy { getString(R.string.twitter_callback_url) }
     /** Twitter. */
@@ -35,35 +35,37 @@ class MainFragment : Fragment(R.layout.fragment_main) {
         super.onViewCreated(view, savedInstanceState)
         activity?.setTitle(R.string.app_name)
 
-        // Twitter Auth
-        binding.twitterOAuthButton.setOnClickListener {
-            startAuthorize()
-        }
+        binding?.let { binding ->
+            // Twitter Auth
+            binding.twitterOAuthButton.setOnClickListener {
+                startAuthorize()
+            }
 
-        // Edit
-        binding.editButton.setOnClickListener {
-            parentFragmentManager.beginTransaction()
+            // Edit
+            binding.editButton.setOnClickListener {
+                parentFragmentManager.beginTransaction()
                     .replace(R.id.fragment_container, EditFragment())
                     .addToBackStack(null)
                     .commit()
-        }
+            }
 
-        // Settings
-        binding.settingsButton.setOnClickListener {
-            parentFragmentManager.beginTransaction()
+            // Settings
+            binding.settingsButton.setOnClickListener {
+                parentFragmentManager.beginTransaction()
                     .replace(R.id.fragment_container, SettingsFragment())
                     .addToBackStack(null)
                     .commit()
-        }
-
-        // Launch Medoly
-        binding.launchMedolyButton.setOnClickListener {
-            val intent = requireContext().packageManager.getLaunchIntentForPackage(MedolyEnvironment.MEDOLY_PACKAGE)
-            if (intent == null) {
-                toast(R.string.message_no_medoly)
-                return@setOnClickListener
             }
-            startActivity(intent)
+
+            // Launch Medoly
+            binding.launchMedolyButton.setOnClickListener {
+                val intent = requireContext().packageManager.getLaunchIntentForPackage(MedolyEnvironment.MEDOLY_PACKAGE)
+                if (intent == null) {
+                    toast(R.string.message_no_medoly)
+                    return@setOnClickListener
+                }
+                startActivity(intent)
+            }
         }
     }
 
@@ -77,10 +79,10 @@ class MainFragment : Fragment(R.layout.fragment_main) {
      */
     private fun updateAuthMessage() {
         val token = TwitterUtils.loadAccessToken(requireContext())
-        if (token != null) {
-            binding.twitterAuthTextView.text = getString(R.string.message_account_auth)
+        binding?.twitterAuthTextView?.text = if (token != null) {
+           getString(R.string.message_account_auth)
         } else {
-            binding.twitterAuthTextView.text = getString(R.string.message_account_not_auth)
+           getString(R.string.message_account_not_auth)
         }
     }
 
