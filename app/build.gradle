@@ -58,17 +58,18 @@ android {
             storeFile file("../debug.keystore")
         }
     }
-
     packagingOptions {
-        exclude 'META-INF/LICENSE'
+        resources {
+            excludes += ['META-INF/LICENSE']
+        }
     }
 
-    lintOptions {
-        lintConfig file('lint.xml')
-    }
 
     buildFeatures {
         dataBinding = true
+    }
+    lint {
+        lintConfig file('lint.xml')
     }
 
 }
