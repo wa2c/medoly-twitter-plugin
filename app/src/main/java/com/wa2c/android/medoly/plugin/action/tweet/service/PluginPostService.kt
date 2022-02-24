@@ -3,7 +3,7 @@ package com.wa2c.android.medoly.plugin.action.tweet.service
 import android.content.ContentResolver
 import android.content.Intent
 import com.wa2c.android.medoly.plugin.action.tweet.R
-import com.wa2c.android.medoly.plugin.action.tweet.util.TwitterUtils
+import com.wa2c.android.medoly.plugin.action.tweet.util.hasAccessToken
 import com.wa2c.android.medoly.plugin.action.tweet.util.logE
 import twitter4j.StatusUpdate
 import twitter4j.Twitter
@@ -21,10 +21,10 @@ class PluginPostService : AbstractPluginService(PluginPostService::class.java.si
         try {
             super.onHandleIntent(intent)
 
-            if (receivedClassName == PluginReceivers.EventPostTweetReceiver::class.java.name) {
-                twitter = TwitterUtils.getTwitterInstance(context)
-                tweet()
-            }
+//            if (receivedClassName == PluginReceivers.EventPostTweetReceiver::class.java.name) {
+//                twitter = TwitterUtils.getTwitterInstance(context)
+//                tweet()
+//            }
         } catch (e: Exception) {
             logE(e)
         }
@@ -37,17 +37,18 @@ class PluginPostService : AbstractPluginService(PluginPostService::class.java.si
     private fun tweet() {
         var result: CommandResult = CommandResult.IGNORE
         try {
-            if (!TwitterUtils.hasAccessToken(context)) {
+            if (!hasAccessToken(context)) {
                 result = CommandResult.AUTH_FAILED
                 return
             }
 
             // Get message
-            val message = TwitterUtils.getTweetMessage(context, propertyData)
-            if (message.isEmpty()) {
-                result = CommandResult.IGNORE
-                return
-            }
+//            val message = TwitterUtils.getTweetMessage(context, propertyData)
+//            if (message.isEmpty()) {
+//                result = CommandResult.IGNORE
+//                return
+//            }
+            val message = ""
 
             // Get album art uri
             if (prefs.getBoolean(R.string.prefkey_send_album_art, true)) {

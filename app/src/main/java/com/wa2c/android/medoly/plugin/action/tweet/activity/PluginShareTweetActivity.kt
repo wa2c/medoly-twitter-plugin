@@ -10,7 +10,7 @@ import com.wa2c.android.medoly.library.MediaPluginIntent
 import com.wa2c.android.medoly.library.PluginBroadcastResult
 import com.wa2c.android.medoly.library.PropertyData
 import com.wa2c.android.medoly.plugin.action.tweet.R
-import com.wa2c.android.medoly.plugin.action.tweet.util.TwitterUtils
+import com.wa2c.android.medoly.plugin.action.tweet.util.getTweetMessage
 import com.wa2c.android.medoly.plugin.action.tweet.util.logE
 import com.wa2c.android.medoly.plugin.action.tweet.util.toast
 import kotlinx.coroutines.runBlocking
@@ -54,7 +54,8 @@ class PluginShareTweetActivity : AppCompatActivity(R.layout.layout_loading) {
                     }
 
                     // Get message
-                    val message = TwitterUtils.getTweetMessage(this@PluginShareTweetActivity , propertyData)
+                    val map = propertyData.mapNotNull { (it.key ?: return@mapNotNull null) to (it.value?.firstOrNull() ?: return@mapNotNull null) }.toMap()
+                    val message = getTweetMessage(this@PluginShareTweetActivity , map)
                     if (message.isEmpty()) {
                         return@result PluginBroadcastResult.IGNORE
                     }

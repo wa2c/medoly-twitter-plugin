@@ -9,9 +9,7 @@ import com.wa2c.android.medoly.library.MedolyEnvironment
 import com.wa2c.android.medoly.plugin.action.tweet.R
 import com.wa2c.android.medoly.plugin.action.tweet.activity.component.viewBinding
 import com.wa2c.android.medoly.plugin.action.tweet.databinding.FragmentMainBinding
-import com.wa2c.android.medoly.plugin.action.tweet.util.TwitterUtils
-import com.wa2c.android.medoly.plugin.action.tweet.util.logE
-import com.wa2c.android.medoly.plugin.action.tweet.util.toast
+import com.wa2c.android.medoly.plugin.action.tweet.util.*
 import kotlinx.coroutines.*
 import twitter4j.Twitter
 import twitter4j.auth.RequestToken
@@ -26,7 +24,7 @@ class MainFragment : Fragment(R.layout.fragment_main) {
     /** Callback URL. */
     private val callbackURL: String by lazy { getString(R.string.twitter_callback_url) }
     /** Twitter. */
-    private val twitter: Twitter? by lazy { TwitterUtils.getTwitterInstance(requireContext()) }
+    private val twitter: Twitter by lazy { getTwitterInstance(requireContext())!! }
 
     /** Request token. */
     private var requestToken: RequestToken? = null
@@ -78,7 +76,7 @@ class MainFragment : Fragment(R.layout.fragment_main) {
      * Update authentication message
      */
     private fun updateAuthMessage() {
-        val token = TwitterUtils.loadAccessToken(requireContext())
+        val token = loadAccessToken(requireContext())
         binding?.twitterAuthTextView?.text = if (token != null) {
            getString(R.string.message_account_auth)
         } else {
@@ -93,7 +91,7 @@ class MainFragment : Fragment(R.layout.fragment_main) {
         CoroutineScope(Dispatchers.Main + Job()).launch {
             val url = async(Dispatchers.Default) {
                 try {
-                    val t = twitter ?: return@async null
+                    val t = twitter
                     t.oAuthAccessToken = null // リセット
                     requestToken = t.getOAuthRequestToken(callbackURL)
                     return@async requestToken?.authorizationURL
@@ -128,7 +126,7 @@ class MainFragment : Fragment(R.layout.fragment_main) {
         CoroutineScope(Dispatchers.Main + Job()).launch {
             val token = async(Dispatchers.Default) {
                 return@async try {
-                    twitter?.getOAuthAccessToken(requestToken, verifier)
+                    twitter.getOAuthAccessToken(requestToken, verifier)
                 } catch (e: Exception) {
                     logE(e)
                     null
@@ -139,17 +137,17 @@ class MainFragment : Fragment(R.layout.fragment_main) {
                 token != null -> {
                     // Auth succeeded
                     toast(R.string.message_auth_success)
-                    TwitterUtils.storeAccessToken(requireContext(), token)
+                    storeAccessToken(requireContext(), token)
                 }
                 verifier == null -> {
                     // Auth canceled
                     toast(R.string.message_account_clear)
-                    TwitterUtils.storeAccessToken(requireContext(), null)
+                    storeAccessToken(requireContext(), null)
                 }
                 else -> {
                     // Auth failed
                     toast(R.string.message_auth_failure)
-                    TwitterUtils.storeAccessToken(requireContext(), null)
+                    storeAccessToken(requireContext(), null)
                 }
             }
             updateAuthMessage()

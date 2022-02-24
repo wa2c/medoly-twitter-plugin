@@ -58,7 +58,7 @@
         <!-- Plugin event action -->
 
         <receiver
-            android:name=".service.PluginReceivers$EventPostTweetReceiver"
+            android:name=".service.EventPostTweetReceiver"
             android:exported="true"
             android:icon="@drawable/ic_post"
             android:label="@string/label_event_tweet"
