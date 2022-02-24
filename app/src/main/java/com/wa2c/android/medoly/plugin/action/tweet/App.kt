@@ -1,7 +1,6 @@
 package com.wa2c.android.medoly.plugin.action.tweet
 
 import android.app.Application
-import com.wa2c.android.medoly.plugin.action.tweet.service.AbstractPluginService
 import timber.log.Timber
 
 /**
@@ -19,8 +18,6 @@ class App : Application() {
             Timber.plant(CrashlyticsTree())
         }
 
-        // Create channel
-        AbstractPluginService.createChannel(this)
         // Migrator
         Migrator(this).versionUp()
     }
